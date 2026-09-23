@@ -22,7 +22,7 @@ export function Hero({ role, location, tagline, contactLabel, servicesLabel }: P
       <p className="max-w-prose text-lg text-pretty">{tagline}</p>
       <div className="mt-2 flex flex-wrap gap-3">
         <Button href={`mailto:${site.email}`}>{contactLabel}</Button>
-        <Button href="#services" variant="outline">
+        <Button href="#pricing" variant="outline">
           {servicesLabel}
         </Button>
       </div>

@@ -49,6 +49,22 @@ const en = {
     'Functional and technical Odoo implementation in Python, XML and JavaScript, plus Softland support on SQL Server and PostgreSQL.',
   'experience.freelance.summary': 'React, Node and Express, WordPress and Retool.',
 
+  'pricing.eyebrow': 'Rates',
+  'pricing.title': 'What things cost',
+  'pricing.from': 'from',
+  'pricing.perHour': 'per hour',
+  'pricing.website.title': 'B2C or B2B website',
+  'pricing.website.body':
+    'Design through deploy: responsive from 360 px, technical SEO, and the analytics to know whether it works. The final number moves with design complexity, how many pages, and whether it needs a shopping cart.',
+  'pricing.tooling.title': 'Internal tooling',
+  'pricing.tooling.body':
+    'Dashboards and internal apps that replace a manual process, built in Retool, WeWeb or Bubble when that is faster, and in code when it is not.',
+  'pricing.consulting.title': 'Consulting',
+  'pricing.consulting.body':
+    'Architecture, the data layer, code review, technical SEO. Billed by the hour, with no minimum.',
+  'pricing.note':
+    'Prices in US dollars, as a starting point rather than a quote. Tell me what you need and I will put a number to it.',
+
   'about.eyebrow': 'About',
   'about.title': 'Who is behind this',
   'about.body':
@@ -111,6 +127,22 @@ const es: Record<TranslationKey, string> = {
   'experience.activa.summary':
     'Implementación funcional y técnica de Odoo en Python, XML y JavaScript, más soporte de Softland con SQL Server y PostgreSQL.',
   'experience.freelance.summary': 'React, Node y Express, WordPress y Retool.',
+
+  'pricing.eyebrow': 'Precios',
+  'pricing.title': 'Cuánto sale cada cosa',
+  'pricing.from': 'desde',
+  'pricing.perHour': 'por hora',
+  'pricing.website.title': 'Sitio web B2C o B2B',
+  'pricing.website.body':
+    'Del diseño al deploy: responsive desde 360 px, SEO técnico, y la analítica para saber si funciona. El número final se mueve según la complejidad del diseño, cuántas páginas y si lleva carrito de compras.',
+  'pricing.tooling.title': 'Herramientas internas',
+  'pricing.tooling.body':
+    'Dashboards y apps internas que reemplazan un proceso manual, en Retool, WeWeb o Bubble cuando es más rápido, y en código cuando no.',
+  'pricing.consulting.title': 'Consultoría',
+  'pricing.consulting.body':
+    'Arquitectura, capa de datos, code review, SEO técnico. Por hora, sin mínimo.',
+  'pricing.note':
+    'Precios en dólares, como punto de partida y no como presupuesto cerrado. Contame qué necesitás y le pongo un número.',
 
   'about.eyebrow': 'Sobre mí',
   'about.title': 'Quién está atrás de esto',
