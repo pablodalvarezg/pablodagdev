@@ -38,6 +38,17 @@ const en = {
   'services.ai.body':
     'LLM integrations inside production apps, and technical SEO worked against Search Console data.',
 
+  'experience.eyebrow': 'Experience',
+  'experience.title': 'Where the data layer came from',
+  'experience.present': 'present',
+  'experience.assisted-living.summary':
+    'Features built from Figma, performance work, technical SEO and data pipelines.',
+  'experience.sidetool.summary':
+    'Full applications from scratch, custom APIs, AI integration and SQL/NoSQL database work.',
+  'experience.activa.summary':
+    'Functional and technical Odoo implementation in Python, XML and JavaScript, plus Softland support on SQL Server and PostgreSQL.',
+  'experience.freelance.summary': 'React, Node and Express, WordPress and Retool.',
+
   'about.eyebrow': 'About',
   'about.title': 'Who is behind this',
   'about.body':
@@ -89,6 +100,17 @@ const es: Record<TranslationKey, string> = {
   'services.ai.title': 'IA aplicada y SEO técnico',
   'services.ai.body':
     'Integración de LLMs en apps en producción, y SEO técnico trabajado contra datos de Search Console.',
+
+  'experience.eyebrow': 'Experiencia',
+  'experience.title': 'De dónde salió la capa de datos',
+  'experience.present': 'hoy',
+  'experience.assisted-living.summary':
+    'Features desde Figma, performance, SEO técnico y pipelines de datos.',
+  'experience.sidetool.summary':
+    'Apps completas desde cero, APIs a medida, integración de IA y gestión de bases SQL/NoSQL.',
+  'experience.activa.summary':
+    'Implementación funcional y técnica de Odoo en Python, XML y JavaScript, más soporte de Softland con SQL Server y PostgreSQL.',
+  'experience.freelance.summary': 'React, Node y Express, WordPress y Retool.',
 
   'about.eyebrow': 'Sobre mí',
   'about.title': 'Quién está atrás de esto',
