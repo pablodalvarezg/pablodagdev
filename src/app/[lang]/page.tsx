@@ -1,3 +1,4 @@
+import { About, Contact, Hero, SiteHeader, WhatIDo } from '@modules/hub';
 import { assertLocale, getTranslations } from '@modules/i18n';
 
 export default async function HubPage({ params }: PageProps<'/[lang]'>) {
@@ -5,12 +6,26 @@ export default async function HubPage({ params }: PageProps<'/[lang]'>) {
   const t = getTranslations(locale);
 
   return (
-    <main>
-      <h1>Pablo Álvarez Graña</h1>
-      <p>
-        {t('hero.role')} — {t('hero.location')}
-      </p>
-      <p>{t('hero.tagline')}</p>
-    </main>
+    <>
+      <SiteHeader
+        locale={locale}
+        languageLabel={t('nav.language')}
+        themeLabel={t('theme.toggle')}
+        names={{ en: t('language.en'), es: t('language.es') }}
+      />
+
+      <main className="flex-1">
+        <Hero
+          role={t('hero.role')}
+          location={t('hero.location')}
+          tagline={t('hero.tagline')}
+          contactLabel={t('hero.cta.contact')}
+          servicesLabel={t('hero.cta.services')}
+        />
+        <WhatIDo locale={locale} />
+        <About locale={locale} />
+        <Contact locale={locale} />
+      </main>
+    </>
   );
 }
