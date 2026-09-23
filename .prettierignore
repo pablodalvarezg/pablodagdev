@@ -1,0 +1,11 @@
+.next/
+out/
+node_modules/
+package-lock.json
+
+# Hand-maintained prose: reformatting only churns the tables and reflows the
+# paragraphs someone wrote on purpose.
+CLAUDE.md
+AGENTS.md
+PORTFOLIO_BRIEF.md
+src/content/
