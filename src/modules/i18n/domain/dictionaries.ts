@@ -12,6 +12,7 @@ const en = {
   'meta.home.description':
     'Portfolio of Pablo Álvarez Graña, full-stack and low/no-code developer based in Buenos Aires.',
   'nav.language': 'Language',
+  'theme.toggle': 'Switch between light and dark',
   'language.en': 'English',
   'language.es': 'Español',
 } as const;
@@ -26,6 +27,7 @@ const es: Record<TranslationKey, string> = {
   'meta.home.description':
     'Portfolio de Pablo Álvarez Graña, desarrollador full-stack y low/no-code en Buenos Aires.',
   'nav.language': 'Idioma',
+  'theme.toggle': 'Cambiar entre claro y oscuro',
   'language.en': 'English',
   'language.es': 'Español',
 };

@@ -1,1 +1,98 @@
 @import 'tailwindcss';
+
+/*
+ * Semantic tokens. Components reference these and never a raw color, so a world
+ * restyles the whole page by redefining them under its own [data-theme] block.
+ * light-dark() keeps one declaration per token instead of a duplicated dark set.
+ *
+ * The greens carry the identity: lime leads in dark, where it reaches 12.8:1,
+ * and drops to a deep green in light, where lime itself is 1.5:1 and unusable
+ * for text. Same story for the pastel blue. Every pair here clears AA in both.
+ */
+@theme {
+  --color-bg: light-dark(#f8faf8, #0a0f0b);
+  --color-fg: light-dark(#0d1710, #e4eee6);
+  --color-muted: light-dark(#526257, #8fa596);
+  --color-border: light-dark(#dce5de, #1f2c23);
+  --color-accent: light-dark(#2c6a17, #a3e635);
+  --color-secondary: light-dark(#2f5f7d, #a8c8e8);
+
+  /*
+   * Text that sits ON an accent fill. It is not the inverse of --color-fg:
+   * in dark, fg is light and so is the lime behind it, which reads at 1.3:1.
+   * Always pair a fill of --color-accent with this, never with --color-fg.
+   */
+  --color-accent-fg: light-dark(#ffffff, #0a0f0b);
+
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, 'Cascadia Code', monospace;
+
+  --radius-base: 0.25rem;
+}
+
+@layer base {
+  :root {
+    color-scheme: light dark;
+  }
+
+  /* Manual override of the OS preference, set by the scheme toggle. */
+  :root[data-scheme='light'] {
+    color-scheme: only light;
+  }
+
+  :root[data-scheme='dark'] {
+    color-scheme: only dark;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  /*
+   * Which toggle icon shows is a pure function of the scheme in effect, so it is
+   * decided here rather than by script: no flash of the wrong icon on load.
+   */
+  .scheme-toggle [data-icon='dark'] {
+    display: none;
+  }
+
+  :root[data-scheme='dark'] .scheme-toggle [data-icon='dark'] {
+    display: block;
+  }
+
+  :root[data-scheme='dark'] .scheme-toggle [data-icon='light'] {
+    display: none;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-scheme='light']) .scheme-toggle [data-icon='dark'] {
+      display: block;
+    }
+
+    :root:not([data-scheme='light']) .scheme-toggle [data-icon='light'] {
+      display: none;
+    }
+  }
+
+  /* Entrances are opt-in per element and never hide content from a reader who
+     asked for less motion, or from a crawler: the resting state is visible. */
+  @media (prefers-reduced-motion: no-preference) {
+    .rise {
+      animation: rise 0.5s cubic-bezier(0.2, 0.6, 0.2, 1) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(0.75rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
