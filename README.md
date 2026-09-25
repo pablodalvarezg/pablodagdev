@@ -21,15 +21,15 @@ npm install     # first time, and whenever dependencies change
 npm run dev     # http://localhost:3000
 ```
 
-| Command | What it does |
-| --- | --- |
-| `npm run dev` | Local server on :3000, with hot reload |
-| `npm run build` | Static export into `out/` |
-| `npm run preview` | Serves `out/` the way a host will |
-| `npm run check` | `next typegen` then `tsc --noEmit` |
-| `npm run lint` | ESLint, including the module boundary rules |
-| `npm run format` | Prettier |
-| `npm test` | Vitest |
+| Command           | What it does                                |
+| ----------------- | ------------------------------------------- |
+| `npm run dev`     | Local server on :3000, with hot reload      |
+| `npm run build`   | Static export into `out/`                   |
+| `npm run preview` | Serves `out/` the way a host will           |
+| `npm run check`   | `next typegen` then `tsc --noEmit`          |
+| `npm run lint`    | ESLint, including the module boundary rules |
+| `npm run format`  | Prettier                                    |
+| `npm test`        | Vitest                                      |
 
 Before calling anything done: `npm run check && npm run lint && npm test`.
 
@@ -51,8 +51,11 @@ src/
 │  ├─ experience/          domain · data · ui — the work timeline
 │  ├─ hub/                 The neutral sections: hero, what I do, about, contact
 │  ├─ i18n/                Locales, dictionaries, localized paths
-│  └─ theming/             Theme registry and the light/dark toggle
+│  ├─ projects/            domain · data · ui — case studies and the work grid
+│  └─ theming/             Theme registry, the worlds, the light/dark toggle
+├─ content/projects/       The case studies as MDX, one folder per locale
 ├─ shared/                 ui primitives and config. Never imports a module.
+├─ mdx-components.tsx      How a case study body maps to elements
 └─ app/globals.css         Tailwind entry and the semantic token contract
 ```
 
@@ -84,10 +87,8 @@ Watch the bundle size `next build` prints. If it grows, someone added a
 
 ## Adding a case study
 
-> **Not wired yet.** The content collection, the schema and the project route are
-> still to be built. This is the procedure they are being built to support.
-
-A case study is the page of a side project. There is no separate collection.
+A case study is the page of a project. There is no separate collection: a
+project's page is its case study.
 
 1. Write `src/content/projects/en/<slug>.mdx` and its Spanish twin in
    `src/content/projects/es/<slug>.mdx`. Both need the same slug; that is what
@@ -99,12 +100,17 @@ A case study is the page of a side project. There is no separate collection.
 4. Leave `draft: true` until it is finished. Drafts render while developing and
    are absent from a production build, so nothing half-written ships.
 
-Never invent a number. An empty result section beats an estimated one.
+Never invent a number. An empty result section beats an estimated one, and
+`period` is optional precisely so a missing date does not become a guess.
+
+One constraint that only shows up at the edge: `output: 'export'` requires every
+dynamic route to generate at least one page, so the build fails outright if every
+case study is a draft. With one published, drafting the rest works normally.
 
 ## Creating a theme
 
-> **One theme exists so far**, the neutral `base` used by the hub. A world gets
-> its token file when its project does.
+Two worlds exist: the neutral `base` the hub uses, and `markets` for financial
+and market-data work. A world gets its token file when its project does.
 
 A theme is a world: its own palette, type and radii, applied by changing one
 frontmatter field.
@@ -113,6 +119,9 @@ frontmatter field.
    block that redefines the semantic tokens.
 2. Import it from `src/app/globals.css`, next to the other worlds. Tailwind
    needs a single CSS entry, which is why the import points into the module.
+   Keep it unlayered: Tailwind emits its own tokens inside `@layer theme`, and
+   unlayered rules win over layered ones, which is what lets a world override
+   them from a wrapper element rather than from `:root`.
 3. Register the name in `THEME_NAMES` in
    `src/modules/theming/domain/theme-registry.ts`. That array is the single
    source of valid names and the content schema reads it, so an unregistered
