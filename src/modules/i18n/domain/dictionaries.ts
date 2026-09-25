@@ -54,6 +54,17 @@ const en = {
   'about.body':
     'Full-stack developer in Buenos Aires. I trained at Coderhouse and work in English at a C1 level. Away from the keyboard I play padel and collect board games, and I keep a long-running interest in Japanese and cyberpunk aesthetics and in sports cars, which is where most of my side projects start.',
 
+  'work.eyebrow': 'Work',
+  'work.title': 'What I have shipped',
+  'work.soon': 'Coming soon',
+
+  'project.role': 'Role',
+  'project.period': 'Period',
+  'project.client': 'Client',
+  'project.stack': 'Stack',
+  'project.visit': 'Visit the site',
+  'project.back': 'Back to the hub',
+
   'contact.eyebrow': 'Contact',
   'contact.title': 'Tell me what you need',
   'contact.body': 'Email is the quickest way to reach me.',
@@ -116,6 +127,17 @@ const es: Record<TranslationKey, string> = {
   'about.title': 'Quién está atrás de esto',
   'about.body':
     'Desarrollador full-stack en Buenos Aires. Me formé en Coderhouse y trabajo en inglés a nivel C1. Lejos del teclado juego al pádel y colecciono juegos de mesa, y me interesan hace años la estética japonesa, la cyberpunk y los autos deportivos, de donde sale casi todo lo que termina siendo un side project.',
+
+  'work.eyebrow': 'Trabajo',
+  'work.title': 'Lo que llevo construido',
+  'work.soon': 'Próximamente',
+
+  'project.role': 'Rol',
+  'project.period': 'Período',
+  'project.client': 'Cliente',
+  'project.stack': 'Stack',
+  'project.visit': 'Ver el sitio',
+  'project.back': 'Volver al hub',
 
   'contact.eyebrow': 'Contacto',
   'contact.title': 'Contame qué necesitás',

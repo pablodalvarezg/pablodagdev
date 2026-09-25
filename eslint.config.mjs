@@ -15,6 +15,7 @@ const elements = [
   { type: 'module', pattern: 'src/modules/*', capture: ['module'] },
   { type: 'app', pattern: 'src/app' },
   { type: 'shared', pattern: 'src/shared' },
+  { type: 'content', pattern: 'src/content' },
 ];
 
 const to = (type, extra) => ({ to: { element: { type, ...extra } } });
@@ -61,11 +62,16 @@ export default defineConfig([
               allow: [ownLayer('module-domain'), publicApi, to('shared')],
             },
             {
+              // data is the layer that reads the outside world, so it is also the
+              // layer that validates it: the content schema checks a theme name
+              // against the theming module's registry.
               from: { element: { type: 'module-data' } },
-              allow: [ownLayer('module-domain'), to('shared')],
+              allow: [ownLayer('module-domain'), publicApi, to('shared'), to('content')],
             },
-            // domain is pure: it may lean on shared utilities and nothing else.
-            { from: { element: { type: 'module-domain' } }, allow: [to('shared')] },
+            // domain carries no I/O and no framework. It may still name another
+            // module's types, which is what CLAUDE.md allows any module to do:
+            // through the public API, never a deep import.
+            { from: { element: { type: 'module-domain' } }, allow: [publicApi, to('shared')] },
             { from: { element: { type: 'shared' } }, allow: [to('shared')] },
           ],
         },

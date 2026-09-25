@@ -2,7 +2,7 @@
  * Single source of valid theme names. Adding a world means adding its token file
  * under themes/ and its name here; no component changes.
  */
-export const THEME_NAMES = ['base'] as const;
+export const THEME_NAMES = ['base', 'markets'] as const;
 
 export type ThemeName = (typeof THEME_NAMES)[number];
 

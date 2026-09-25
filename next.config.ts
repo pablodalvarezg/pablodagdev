@@ -1,3 +1,5 @@
+import createMDX from '@next/mdx';
+
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
@@ -11,4 +13,13 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
 };
 
-export default nextConfig;
+const withMDX = createMDX({
+  options: {
+    // Named as strings on purpose. Turbopack compiles MDX in Rust and a JavaScript
+    // function cannot cross that boundary, so importing the plugins here builds
+    // under webpack and fails under Turbopack, which is the default in Next 16.
+    remarkPlugins: ['remark-frontmatter', ['remark-mdx-frontmatter', { name: 'frontmatter' }]],
+  },
+});
+
+export default withMDX(nextConfig);
