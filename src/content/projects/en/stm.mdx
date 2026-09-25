@@ -1,0 +1,77 @@
+---
+title: Security Token Markets
+summary: A public catalogue of tokenized real-world assets, taken from nothing to a live beta in four weeks.
+role: Sole full-stack developer, end to end
+client: Security Token Markets
+stack:
+  - React
+  - Vite
+  - TypeScript
+  - Express
+  - Node.js
+skills:
+  - fullstack
+  - data
+theme: markets
+links:
+  demo: https://stm.co
+featured: true
+draft: false
+---
+
+## The problem
+
+Tokenized real-world assets are scattered across the platforms that issue them.
+Someone looking for a specific asset has to know which issuer holds it before
+they can look at it at all, and there is no neutral place to see them side by
+side.
+
+Security Token Markets wanted that place: a public catalogue of the assets it
+tracks, where the listing is the product and every asset page ends by pointing
+at the venue that actually issues it.
+
+## Constraints
+
+- **Four weeks**, from empty repository to a site that could be shown.
+- **One developer.** No back-end team to hand the data layer to, no designer to
+  hand the components to.
+- **Over 600 assets from several issuers**, each publishing a different shape,
+  which meant the catalogue could not assume a single source.
+
+## The solution
+
+A React front end over an Express API, both in TypeScript, with the API as the
+only thing that talks to the issuers. The front end never sees an issuer's
+response: it asks for an asset and receives the same shape every time, whichever
+platform that asset came from.
+
+That boundary is what made four weeks possible. Normalizing on the server meant
+each new issuer was one adapter and no component changes, and it meant the parts
+that differ between issuers — missing fields, different units, names for the same
+thing — were solved once instead of in every view.
+
+## Stack
+
+- **React + Vite** for the front end. Vite for the speed of the feedback loop,
+  which matters more than it sounds when one person is building every screen.
+- **Express** for the API, kept thin: fetch, normalize, serve.
+- **TypeScript on both sides**, with the asset type shared between them, so a
+  change to the shape of an asset breaks the build rather than a page.
+
+## Result
+
+- **600+ real-world assets** in the catalogue.
+- **Four weeks** from start to a live beta, built end to end by one person.
+- The site is **in beta**: it is online and usable, and it is not finished.
+
+## What I would improve
+
+The honest one, and the reason Atlas exists in this portfolio: the
+catalogue renders in the browser. The HTML that arrives holds the page shell and
+the assets arrive afterwards, which is the right trade for shipping in four weeks
+and the wrong one for a catalogue whose whole job is to be found.
+
+Atlas is that decision made the other way — the same problem with the data
+already inside the HTML and a performance budget that fails the build — so the
+comparison between the two is a real one rather than a claim.
+

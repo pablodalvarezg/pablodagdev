@@ -1,0 +1,80 @@
+---
+title: Security Token Markets
+summary: Un catálogo público de activos del mundo real tokenizados, de cero a una beta en línea en cuatro semanas.
+role: Único desarrollador full-stack, de punta a punta
+client: Security Token Markets
+stack:
+  - React
+  - Vite
+  - TypeScript
+  - Express
+  - Node.js
+skills:
+  - fullstack
+  - data
+theme: markets
+links:
+  demo: https://stm.co
+featured: true
+draft: false
+---
+
+## El problema
+
+Los activos del mundo real tokenizados están repartidos entre las plataformas
+que los emiten. Quien busca uno en particular tiene que saber de antemano qué
+emisor lo tiene para siquiera poder mirarlo, y no hay un lugar neutral donde
+verlos uno al lado del otro.
+
+Security Token Markets quería ese lugar: un catálogo público de los activos que
+sigue, donde el listado es el producto y cada ficha termina señalando el venue
+que realmente lo emite.
+
+## Restricciones
+
+- **Cuatro semanas**, de repositorio vacío a un sitio que se pudiera mostrar.
+- **Un solo desarrollador.** Sin equipo de back-end a quien delegar la capa de
+  datos, sin diseñador a quien delegar los componentes.
+- **Más de 600 activos de varios emisores**, cada uno publicando una forma
+  distinta, así que el catálogo no podía suponer una única fuente.
+
+## La solución
+
+Un front end en React sobre una API en Express, los dos en TypeScript, con la
+API como lo único que habla con los emisores. El front end nunca ve la respuesta
+de un emisor: pide un activo y recibe siempre la misma forma, venga de la
+plataforma que venga.
+
+Ese límite es lo que hizo posibles las cuatro semanas. Normalizar en el servidor
+significó que cada emisor nuevo fuera un adaptador y ningún cambio de
+componente, y que lo que difiere entre emisores — campos ausentes, unidades
+distintas, nombres distintos para lo mismo — se resolviera una vez y no en cada
+vista.
+
+## Stack
+
+- **React + Vite** en el front end. Vite por la velocidad del ciclo de feedback,
+  que pesa más de lo que parece cuando una sola persona construye cada pantalla.
+- **Express** para la API, deliberadamente delgada: traer, normalizar, servir.
+- **TypeScript de los dos lados**, con el tipo del activo compartido entre
+  ambos, para que un cambio en su forma rompa el build y no una página.
+
+## Resultado
+
+- **Más de 600 activos del mundo real** en el catálogo.
+- **Cuatro semanas** desde el inicio hasta una beta en línea, de punta a punta y
+  hecha por una sola persona.
+- El sitio está **en beta**: está online y se usa, y no está terminado.
+
+## Qué mejoraría
+
+La honesta, y la razón por la que Atlas existe en este portfolio: el
+catálogo se renderiza en el navegador. El HTML que llega trae el cascarón de la
+página y los activos aparecen después, que es el canje correcto para salir en
+cuatro semanas y el equivocado para un catálogo cuyo trabajo entero es que lo
+encuentren.
+
+Atlas es esa misma decisión tomada al revés — el mismo problema con los datos ya
+adentro del HTML y un presupuesto de performance que rompe el build — así que la
+comparación entre los dos es real y no una afirmación.
+

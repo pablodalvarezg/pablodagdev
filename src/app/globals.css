@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+/* The worlds. Tailwind takes a single CSS entry, which is why these imports
+   reach into the theming module instead of the module importing itself. */
+@import '../modules/theming/themes/markets.css';
+
 /*
  * Semantic tokens. Components reference these and never a raw color, so a world
  * restyles the whole page by redefining them under its own [data-theme] block.

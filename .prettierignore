@@ -8,4 +8,5 @@ package-lock.json
 CLAUDE.md
 AGENTS.md
 PORTFOLIO_BRIEF.md
+.claude/
 src/content/

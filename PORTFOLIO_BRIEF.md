@@ -10,7 +10,7 @@
 - Trabajar por fases. **No empezar side projects hasta cerrar la Fase 1.**
 - Commits pequeños y descriptivos, con los tags `[ADD]`, `[UPD]`, `[FIX]` y `[PAT]` (ver CLAUDE.md). README actualizado en cada fase.
 - No inventar métricas ni datos de clientes: usar placeholders marcados `TODO(pablo):` donde falte información.
-- Todo el contenido del portfolio son side projects propios. No hay trabajo de clientes que anonimizar.
+- El portfolio mezcla **trabajo profesional** y **side projects propios**. El trabajo profesional se publica solo con lo que el cliente permite decir; si no hay permiso explícito, se anonimiza.
 - No usar logos, arte ni assets oficiales de marcas de terceros (Pokémon, fabricantes de autos, BoardGameGeek, etc.). Todo el arte debe ser original.
 
 ---
@@ -99,6 +99,7 @@ slug: string
 summary: string            # 1–2 líneas
 role: string
 period: string
+client?: string            # solo en trabajo profesional, y solo con permiso para nombrarlo
 stack: string[]
 skills: ["fullstack" | "data" | "lowcode" | "erp" | "ai" | "seo" | "design"]
 theme: string              # nombre del archivo en /themes
@@ -121,25 +122,27 @@ draft: boolean
 
 ## 4. Fase 1 — El hub (ALCANCE ACTUAL)
 
-> **Cambio de alcance.** Esta fase pedía tres case studies derivados de trabajo de clientes. Pablo no tiene trabajo de clientes para mostrar acá, así que **todo el contenido del portfolio son sus side projects**: no se distingue entre "cliente" y "proyecto personal", y el campo `type` del frontmatter desaparece. Como ningún side project está construido todavía, no hay case study que publicar, y la Fase 1 pasa a ser **el hub terminado más la maquinaria de case studies lista para el primero**.
+> **Cambio de alcance, segunda corrección.** La fase arrancó pidiendo tres case studies de trabajo de clientes, se redujo a "el hub más la maquinaria lista para el primero" bajo la premisa de que no había trabajo de clientes que mostrar, y esa premisa era falsa: **Security Token Markets (stm.co) es trabajo profesional, nombrable y con números reales**. Así que la Fase 1 cierra con **el hub terminado más un case study publicado**, que es lo que prueba la maquinaria de verdad.
+>
+> Lo que sí se mantiene de la corrección anterior: el campo `type` no vuelve. Un case study es un case study. Lo que distingue el trabajo profesional del side project es el campo `client` del frontmatter: si está, la página dice para quién se hizo; si no está, es un proyecto propio.
 
 ### Páginas / secciones
 
 1. **Hero** — nombre, propuesta de valor en una línea, CTA a contacto.
 2. **Qué hago** — 5 bloques: Full-Stack (MERN) · Data & SQL · Low/No-Code & Automatización · ERP (Odoo) · IA aplicada y SEO técnico.
 3. **Experiencia** — línea de tiempo con la tabla de la sección 1.
-4. **Side projects** — una sola grilla con los mundos de la sección 5. Cada card queda en "Próximamente" hasta que el proyecto exista; cuando existe, enlaza a su case study.
+4. **Trabajo** — una sola grilla. Arriba lo que ya existe y tiene case study, empezando por STM; después los mundos de la sección 5, cada uno en "Próximamente" hasta que el proyecto exista.
 5. **Sobre mí** — breve, con intereses personales.
 6. **Contacto** — email, LinkedIn y GitHub. **Sin CV descargable:** el portfolio cumple esa función, y un PDF aparte es una copia más que se desactualiza.
 
-No hay dos grillas separadas: un case study es el artículo sobre un side project, no una categoría aparte.
+No hay dos grillas separadas: un case study es el artículo sobre un proyecto, no una categoría aparte.
 
 ### Criterios de aceptación de la Fase 1
 
 - [ ] ES/EN funcionando con hreflang correcto.
 - [ ] Sistema de temas operativo: cambiar `theme` en el frontmatter cambia la estética sin tocar componentes.
 - [ ] Modo claro/oscuro en el hub.
-- [ ] Colección de contenido con schema Zod, layout de case study y rutas bilingües, verificadas con una plantilla.
+- [ ] Colección de contenido con schema Zod, layout de case study y rutas bilingües, verificadas **con el case study de STM**, no con una plantilla.
 - [ ] JSON-LD `Person` válido y meta tags de Open Graph por página.
 - [ ] Responsive real desde 360 px.
 - [ ] README con cómo correr, cómo agregar un case study y cómo crear un tema nuevo.
@@ -150,13 +153,15 @@ No hay dos grillas separadas: un case study es el artículo sobre un side projec
 - **Deploy con dominio.** `TODO(pablo):` sigue sin dominio definido.
 - **Preview de tema en hover/focus.** Necesita al menos dos mundos con contenido real para que se note.
 - **Lighthouse ≥ 90 y Playwright.** Se miden contra un sitio desplegado.
-- **Case studies publicados.** El primero llega con el primer side project construido.
+- **Case studies de los side projects.** Cada uno llega con su proyecto construido. El de STM no espera a nadie: el trabajo ya existe.
 
 ---
 
 ## 5. Backlog — Side projects (fases siguientes)
 
 Cada side project es un **repo independiente** con demo en vivo, y tiene su case study en el portfolio usando su tema. El slug del proyecto es el mismo en el repo, en la colección de contenido y en la card del hub.
+
+Esta sección es solo de side projects. El trabajo profesional no tiene backlog: se documenta cuando existe y cuando hay permiso para contarlo.
 
 > **Lineup revisado.** Este backlog pasó de nueve proyectos a siete, con tres criterios: que cada uno tenga al menos un problema difícil que no sea de interfaz, que se pueda presentar sin explicar por qué existe, y que su fuente de datos sea documentada y estable. Al final de la sección está lo que se cayó y por qué.
 
@@ -175,6 +180,7 @@ Cada side project es un **repo independiente** con demo en vivo, y tiene su case
 - **Wow:** la métrica reportada no es "se siente rápido", es el peso del HTML de una página de token y el LCP en red lenta, medidos antes y después.
 - **Extra:** el enlace de salida pasa por un endpoint propio de redirección, para contar clics sin meter un tracker de terceros en una página con presupuesto de performance.
 - **Estética:** clara y densa, tabular. `font-variant-numeric: tabular-nums` en toda columna de números.
+- **Precedente:** STM (sección 4) es este mismo problema resuelto contra un plazo de cuatro semanas. Atlas es la versión con presupuesto de performance, y el case study de STM nombra esa diferencia en vez de esconderla.
 
 ### 💰 Umbral — gastos, límites y pronóstico
 
