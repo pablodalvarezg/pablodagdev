@@ -7,10 +7,10 @@ interface Props {
   location: string;
   tagline: string;
   contactLabel: string;
-  servicesLabel: string;
+  workLabel: string;
 }
 
-export function Hero({ role, location, tagline, contactLabel, servicesLabel }: Props) {
+export function Hero({ role, location, tagline, contactLabel, workLabel }: Props) {
   return (
     <Container className="flex flex-col gap-6 py-20 sm:py-28">
       <p className="text-accent font-mono text-xs tracking-[0.15em] uppercase">
@@ -22,8 +22,8 @@ export function Hero({ role, location, tagline, contactLabel, servicesLabel }: P
       <p className="max-w-prose text-lg text-pretty">{tagline}</p>
       <div className="mt-2 flex flex-wrap gap-3">
         <Button href={`mailto:${site.email}`}>{contactLabel}</Button>
-        <Button href="#pricing" variant="outline">
-          {servicesLabel}
+        <Button href="#experience" variant="outline">
+          {workLabel}
         </Button>
       </div>
     </Container>

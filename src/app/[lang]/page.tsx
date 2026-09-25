@@ -1,5 +1,5 @@
 import { currentMonth, getRoles, Timeline } from '@modules/experience';
-import { About, Contact, Hero, Pricing, SiteHeader, WhatIDo } from '@modules/hub';
+import { About, Contact, Hero, SiteHeader, WhatIDo } from '@modules/hub';
 import { assertLocale, getTranslations } from '@modules/i18n';
 import { Section } from '@shared/ui/Section';
 
@@ -28,7 +28,7 @@ export default async function HubPage({ params }: PageProps<'/[lang]'>) {
           location={t('hero.location')}
           tagline={t('hero.tagline')}
           contactLabel={t('hero.cta.contact')}
-          servicesLabel={t('hero.cta.services')}
+          workLabel={t('hero.cta.work')}
         />
         <WhatIDo locale={locale} />
 
@@ -41,7 +41,6 @@ export default async function HubPage({ params }: PageProps<'/[lang]'>) {
           />
         </Section>
 
-        <Pricing locale={locale} />
         <About locale={locale} />
         <Contact locale={locale} />
       </main>
