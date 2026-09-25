@@ -103,7 +103,7 @@ Never invent a number. An empty result section beats an estimated one.
 
 ## Creating a theme
 
-> **One theme exists so far**, the neutral  used by the hub. A world gets
+> **One theme exists so far**, the neutral `base` used by the hub. A world gets
 > its token file when its project does.
 
 A theme is a world: its own palette, type and radii, applied by changing one
