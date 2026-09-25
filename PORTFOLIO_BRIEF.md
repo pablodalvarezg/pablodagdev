@@ -137,16 +137,42 @@ draft: boolean
 
 No hay dos grillas separadas: un case study es el artículo sobre un proyecto, no una categoría aparte.
 
+### Estado al 2026-09-25
+
+Lo que existe hoy en `main`, para no tener que deducirlo del código:
+
+**Páginas construidas** (4, todas estáticas): `/en/` y `/es/` (el hub), `/en/projects/stm/` y `/es/projects/stm/`. `/` redirige a `/en/` con un meta refresh en `public/index.html`, porque un export estático no admite redirects de servidor.
+
+**El hub** tiene hero, "qué hago" (5 bloques), la línea de tiempo de experiencia con barras proporcionales, la grilla de trabajo, sobre mí y contacto. Falta la grilla de los 7 side projects en "Próximamente".
+
+**Módulos**: `experience`, `hub`, `i18n`, `projects`, `theming`. Los límites los hace cumplir `eslint-plugin-boundaries`, verificado con fixtures.
+
+**Temas**: dos mundos, `base` (hub) y `markets` (STM). Ambos clarean AA en claro y oscuro.
+
+**Contenido**: un case study, STM, en los dos idiomas. `TODO(pablo):` le faltan las fechas del `period`, y tres párrafos son inferencias mías sin confirmar (el problema, el rol de Express y el renderizado en el navegador).
+
+**Verificación**: 34 tests unitarios, `check` y `lint` en verde. No hay e2e ni Lighthouse.
+
+**Deploy**: ninguno. No hay dominio.
+
 ### Criterios de aceptación de la Fase 1
 
-- [ ] ES/EN funcionando con hreflang correcto.
-- [ ] Sistema de temas operativo: cambiar `theme` en el frontmatter cambia la estética sin tocar componentes.
-- [ ] Modo claro/oscuro en el hub.
-- [ ] Colección de contenido con schema Zod, layout de case study y rutas bilingües, verificadas **con el case study de STM**, no con una plantilla.
-- [ ] JSON-LD `Person` válido y meta tags de Open Graph por página.
-- [ ] Responsive real desde 360 px.
-- [ ] README con cómo correr, cómo agregar un case study y cómo crear un tema nuevo.
-- [ ] ADR 0001 documentando la elección de monolito modular.
+- [x] ES/EN funcionando. **Sin hreflang**: el switcher deriva la ruta traducida, pero no se emite `<link rel="alternate">`. Depende del módulo `seo`.
+- [x] Sistema de temas operativo: cambiar `theme` en el frontmatter cambia la estética sin tocar componentes. Probado con `markets` en STM.
+- [x] Modo claro/oscuro en el hub.
+- [x] Colección de contenido con schema Zod, layout de case study y rutas bilingües, verificadas **con el case study de STM**, no con una plantilla.
+- [ ] JSON-LD `Person` válido y meta tags de Open Graph por página. **Nada de esto existe**: hoy cada página emite solo título y descripción.
+- [ ] Responsive real desde 360 px. Sin verificar.
+- [x] README con cómo correr, cómo agregar un case study y cómo crear un tema nuevo.
+- [ ] ADR 0001 documentando la elección de monolito modular. La carpeta `docs/adr/` no existe.
+
+### Lo que sigue, en orden
+
+1. **ADR 0001** (monolito modular) y **0002** (migración de Astro a Next). Es criterio de aceptación y la 0002 ya está referenciada desde `CLAUDE.md` sin existir.
+2. **Módulo `seo`**: canonical, hreflang, sitemap, JSON-LD `Person` y `CreativeWork`. Necesita que se decida el dominio primero, porque todo sale de `SITE_URL`.
+3. **Grilla de side projects** en el hub, con los 7 mundos de la sección 5 en "Próximamente".
+4. **Responsive a 360 px** y **Playwright + Lighthouse CI**. Lighthouse se mide contra un sitio desplegado, así que va después del deploy.
+5. **Completar STM**: fechas y revisión de las tres inferencias.
 
 ### Movido fuera de la Fase 1
 
