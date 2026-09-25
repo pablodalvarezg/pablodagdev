@@ -56,7 +56,6 @@ const en = {
 
   'work.eyebrow': 'Work',
   'work.title': 'What I have shipped',
-  'work.soon': 'Coming soon',
 
   'project.role': 'Role',
   'project.period': 'Period',
@@ -130,7 +129,6 @@ const es: Record<TranslationKey, string> = {
 
   'work.eyebrow': 'Trabajo',
   'work.title': 'Lo que llevo construido',
-  'work.soon': 'Próximamente',
 
   'project.role': 'Rol',
   'project.period': 'Período',

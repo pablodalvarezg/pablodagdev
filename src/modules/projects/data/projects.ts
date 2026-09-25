@@ -63,8 +63,6 @@ async function read(locale: Locale, slug: string): Promise<CaseStudy> {
 
 /** A single case study, or null when it is a draft in a production build. */
 export async function getCaseStudy(locale: Locale, slug: string): Promise<CaseStudy | null> {
-  if (!allSlugs().includes(slug)) return null;
-
   const caseStudy = await read(locale, slug);
   return caseStudy.project.draft && isProduction ? null : caseStudy;
 }

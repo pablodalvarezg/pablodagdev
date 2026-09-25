@@ -4,15 +4,7 @@ import type { Project } from '../domain/project';
  * A project in the hub grid. Keeps the hub's neutral tokens rather than the
  * project's world: the grid is a list, not a preview of each theme.
  */
-export function ProjectCard({
-  project,
-  href,
-  clientLabel,
-}: {
-  project: Project;
-  href: string;
-  clientLabel?: string;
-}) {
+export function ProjectCard({ project, href }: { project: Project; href: string }) {
   return (
     <li className="rise">
       <a
@@ -28,8 +20,10 @@ export function ProjectCard({
           ) : null}
         </div>
 
-        {clientLabel ? (
-          <p className="text-accent font-mono text-xs tracking-[0.15em] uppercase">{clientLabel}</p>
+        {project.client ? (
+          <p className="text-accent font-mono text-xs tracking-[0.15em] uppercase">
+            {project.client}
+          </p>
         ) : null}
 
         <p className="text-muted text-pretty">{project.summary}</p>

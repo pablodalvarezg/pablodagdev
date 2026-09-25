@@ -35,7 +35,7 @@ export function CaseStudyLayout({
   ];
 
   return (
-    <article data-theme={project.theme} className="bg-bg text-fg flex-1">
+    <article className="flex-1">
       <Container className="py-16">
         <a
           href={backHref}
@@ -50,6 +50,11 @@ export function CaseStudyLayout({
           </h1>
           <p className="text-muted mt-4 max-w-prose text-lg text-pretty">{project.summary}</p>
 
+          {/*
+            The stack belongs in the same list as the other facts. As a heading it
+            competed with the body's own "Stack" section: two h2s with one label,
+            leading anyone navigating by heading to the wrong one.
+          */}
           <dl className="mt-8 grid gap-6 sm:grid-cols-3">
             {facts.map((fact) => (
               <div key={fact.label}>
@@ -59,23 +64,25 @@ export function CaseStudyLayout({
                 <dd className="mt-1.5">{fact.value}</dd>
               </div>
             ))}
-          </dl>
 
-          <div className="mt-8">
-            <h2 className="text-muted font-mono text-xs tracking-[0.15em] uppercase">
-              {labels.stack}
-            </h2>
-            <ul className="mt-3 flex flex-wrap gap-2">
-              {project.stack.map((item) => (
-                <li
-                  key={item}
-                  className="border-border rounded-base border px-2.5 py-1 font-mono text-xs"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
+            <div className="sm:col-span-3">
+              <dt className="text-muted font-mono text-xs tracking-[0.15em] uppercase">
+                {labels.stack}
+              </dt>
+              <dd className="mt-3">
+                <ul className="flex flex-wrap gap-2">
+                  {project.stack.map((item) => (
+                    <li
+                      key={item}
+                      className="border-border rounded-base border px-2.5 py-1 font-mono text-xs"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          </dl>
 
           {project.links.demo ? (
             <a

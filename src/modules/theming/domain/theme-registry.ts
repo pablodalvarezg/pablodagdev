@@ -8,7 +8,3 @@ export type ThemeName = (typeof THEME_NAMES)[number];
 
 /** The neutral hub identity, used by every page that is not a world. */
 export const DEFAULT_THEME: ThemeName = 'base';
-
-export function isThemeName(value: unknown): value is ThemeName {
-  return typeof value === 'string' && (THEME_NAMES as readonly string[]).includes(value);
-}

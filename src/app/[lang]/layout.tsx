@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 
 import { assertLocale, LOCALES } from '@modules/i18n';
+import { DEFAULT_THEME } from '@modules/theming';
 
 import '../globals.css';
 
@@ -33,7 +34,17 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[la
   const locale = assertLocale((await params).lang);
 
   return (
-    <html lang={locale} data-theme="base" className={`${sans.variable} ${mono.variable}`}>
+    <html
+      lang={locale}
+      data-theme={DEFAULT_THEME}
+      className={`${sans.variable} ${mono.variable}`}
+      // The inline script below sets data-scheme before React hydrates, so the
+      // DOM legitimately differs from what the server rendered. Next's own guide
+      // prescribes this for the pattern; without it React treats the difference
+      // as a hydration error and recovers by re-rendering, which is exactly the
+      // flash the script exists to prevent.
+      suppressHydrationWarning
+    >
       <body className="bg-bg text-fg flex min-h-dvh flex-col font-sans antialiased">
         <script dangerouslySetInnerHTML={{ __html: noFlash }} />
         {children}

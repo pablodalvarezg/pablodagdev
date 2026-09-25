@@ -4,6 +4,14 @@ import { assertLocale, getTranslations, localeUrl } from '@modules/i18n';
 import { getProjects, ProjectCard } from '@modules/projects';
 import { Section } from '@shared/ui/Section';
 
+import type { Metadata } from 'next';
+
+export async function generateMetadata({ params }: PageProps<'/[lang]'>): Promise<Metadata> {
+  const t = getTranslations(assertLocale((await params).lang));
+
+  return { description: t('meta.home.description') };
+}
+
 export default async function HubPage({ params }: PageProps<'/[lang]'>) {
   const locale = assertLocale((await params).lang);
   const t = getTranslations(locale);
@@ -51,7 +59,6 @@ export default async function HubPage({ params }: PageProps<'/[lang]'>) {
                   key={project.slug}
                   project={project}
                   href={localeUrl(locale, `projects/${project.slug}`)}
-                  clientLabel={project.client}
                 />
               ))}
             </ul>

@@ -45,7 +45,13 @@ export default async function CaseStudyPage({ params }: PageProps<'/[lang]/proje
   const { project, Body } = caseStudy;
 
   return (
-    <>
+    /*
+      The world wraps the whole route, chrome included, rather than just the
+      article: a nested page cannot reach <html>, and leaving the header outside
+      left it on the hub's tokens. Invisible between these two palettes and not
+      between the next two.
+    */
+    <div data-theme={project.theme} className="bg-bg text-fg flex flex-1 flex-col">
       <SiteHeader
         locale={locale}
         languageLabel={t('nav.language')}
@@ -69,6 +75,6 @@ export default async function CaseStudyPage({ params }: PageProps<'/[lang]/proje
           <Body />
         </CaseStudyLayout>
       </main>
-    </>
+    </div>
   );
 }
