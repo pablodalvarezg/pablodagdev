@@ -50,7 +50,7 @@ src/
 │     ├─ page.tsx          # el hub
 │     └─ projects/[slug]/page.tsx
 ├─ modules/                # Un módulo por dominio. Cada uno expone una API pública en index.ts.
-│  ├─ projects/            # Side projects. Su página ES su case study: no hay colección aparte.
+│  ├─ projects/            # Case studies. La página de un proyecto ES su case study.
 │  │  ├─ domain/           # Tipos, reglas y funciones puras (filtros, orden). Sin imports de Next/React.
 │  │  ├─ data/             # Repositorio: único lugar que lee el filesystem para este dominio.
 │  │  ├─ ui/               # Componentes de presentación del dominio. Reciben props, no buscan datos.
@@ -59,14 +59,15 @@ src/
 │  ├─ experience/          # Línea de tiempo laboral.
 │  ├─ theming/             # Registro de temas, tokens por "mundo", toggle claro/oscuro.
 │  ├─ i18n/                # Diccionarios, helpers de idioma y rutas localizadas.
-│  └─ seo/                 # Canonical, hreflang, Open Graph, JSON-LD.
+│  └─ seo/                 # (TODAVÍA NO) Canonical, hreflang, Open Graph, JSON-LD.
 ├─ shared/                 # Código sin dominio, reutilizable por cualquier módulo.
-│  ├─ ui/                  # Primitivas del design system: Button, Card, Tag, Section, Container.
-│  ├─ lib/                 # Utilidades puras genéricas.
-│  └─ config/              # Configuración del sitio (site.ts) y env validado con Zod.
-├─ content/                # MDX de case studies y proyectos, separados por idioma.
-└─ styles/                 # CSS global mínimo y tokens base.
+│  ├─ ui/                  # Primitivas del design system: Button, Section, Container.
+│  ├─ lib/                 # (TODAVÍA NO) Utilidades puras genéricas.
+│  └─ config/              # site.ts y env.ts.
+└─ content/projects/       # MDX de los case studies, una carpeta por idioma.
 ```
+
+**Este diagrama es adónde van las cosas, no lo que hay hoy.** Lo marcado `(TODAVÍA NO)` no existe: se crea cuando haga falta, no antes. Tampoco hay `src/styles/` — los tokens viven en `app/globals.css`, que es la entrada única que Tailwind pide — ni un `app/layout.tsx` raíz, porque con el idioma como primer segmento el layout de `[lang]` **es** el layout raíz y es quien posee el `<html>`. El README tiene el árbol real.
 
 Si un módulo es muy chico, puede no tener todas las capas, pero **no mezcles capas dentro de un mismo archivo**.
 
@@ -178,7 +179,7 @@ Hallazgos verificados de la máquina de Pablo (Windows 11). Si en una sesión de
 Cosas que una review vuelve a marcar si no las lee acá. Si vas a contradecir una, que sea con una razón nueva.
 
 - **El contrato de tokens va antes que los componentes.** Un token definido sin consumidor todavía no es deuda si la primitiva que lo va a usar está en el alcance de la fase. Lo que sí es deuda es un color escrito a mano en un componente.
-- **Migramos de Astro a Next a pedido de Pablo**, con el proyecto ya construido, porque no podía leer ni defender `.astro` en una entrevista. Un portfolio que no se puede mantener falla en su único trabajo, y eso pesa más que cualquier ventaja técnica. El costo aceptado: Next manda más JavaScript por defecto, y hay que cuidar activamente que los `"use client"` no se desparramen. El detalle completo está en `docs/adr/0002`.
+- **Migramos de Astro a Next a pedido de Pablo**, con el proyecto ya construido, porque no podía leer ni defender `.astro` en una entrevista. Un portfolio que no se puede mantener falla en su único trabajo, y eso pesa más que cualquier ventaja técnica. El costo aceptado: Next manda más JavaScript por defecto, y hay que cuidar activamente que los `"use client"` no se desparramen. `TODO(pablo):` esto debería estar en `docs/adr/0002`, que todavía no existe — por ahora el único registro es este párrafo.
 - **Prettier no formatea la prosa escrita a mano** (`CLAUDE.md`, `PORTFOLIO_BRIEF.md`, `.claude/`). Solo rompe las tablas; están en `.prettierignore`.
 - **El path del switcher de idioma se deriva, nunca se pasa como prop.** Cuando fue un prop con default `''`, una página que se olvidaba de pasarlo enlazaba al home del idioma en vez de a su traducción: sin error, sin build roto, solo un link mal. `TODO(pablo):` en Next un Server Component no conoce el pathname, así que la implementación probable es `usePathname()` en un componente cliente chico. Decidirlo al construir el switcher, y que la conclusión vuelva acá.
 - **Con `output: 'export'`, una ruta dinámica tiene que generar al menos una página.** Si todos los case studies están en `draft: true`, `generateStaticParams` devuelve un array vacío y el build falla con un error explícito. Es el comportamiento correcto y no hay que rodearlo: con uno publicado, poner el resto en borrador funciona normal. Lo descubrimos publicando STM.
@@ -237,7 +238,7 @@ Cosas que una review vuelve a marcar si no las lee acá. Si vas a contradecir un
    - `CHECK` convive con `GTG` y con `FIX`.
    - `GTG` y `FIX` **nunca** aparecen juntos: si hay aunque sea un hallazgo `FIX`, el veredicto es `FIX`.
    - `FIX` como tag de review y `[FIX]` como tag de commit son cosas distintas: el primero pide un arreglo, el segundo describe un commit que ya lo hizo.
-5. **Decisiones de arquitectura** relevantes van en `docs/adr/NNNN-titulo.md` (contexto, decisión, consecuencias). La primera ADR documenta la elección de monolito modular.
+5. **Decisiones de arquitectura** relevantes van en `docs/adr/NNNN-titulo.md` (contexto, decisión, consecuencias). `TODO(pablo):` la carpeta **no existe todavía**; faltan la 0001 (monolito modular) y la 0002 (migración de Astro a Next), y la 0001 es criterio de aceptación de la Fase 1.
 6. Mantené el `README.md` al día: cómo correr el proyecto, cómo agregar un case study, cómo crear un tema nuevo.
 7. Si detectás deuda técnica que no corresponde a la tarea actual, anotala como `TODO` o en un issue; no la resuelvas de paso.
 

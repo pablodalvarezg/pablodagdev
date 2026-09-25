@@ -2,12 +2,16 @@
 
 Portfolio of Pablo Álvarez Graña, full-stack and low/no-code developer in Buenos
 Aires. A Next.js site in English and Spanish, built as a static export: every
-page is plain HTML with the content already in it, and each side project gets a
-page that doubles as its case study, styled by its own theme.
+page is plain HTML with the content already in it, and each project gets a page
+that doubles as its case study, styled by its own theme.
 
 Working agreements live in [CLAUDE.md](CLAUDE.md); scope and phases in
 [PORTFOLIO_BRIEF.md](PORTFOLIO_BRIEF.md). [AGENTS.md](AGENTS.md) is written by
 `next dev` and points at the docs bundled with the installed Next version.
+
+**What exists today, and what comes next, is in `PORTFOLIO_BRIEF.md` under
+"Estado" and "Lo que sigue".** That is the one place kept current; this file
+describes how the project works, not how far along it is.
 
 ## Requirements
 
