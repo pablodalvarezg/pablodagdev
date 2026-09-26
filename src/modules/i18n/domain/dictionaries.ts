@@ -38,6 +38,8 @@ const en = {
   'services.ai.body':
     'LLM integrations inside production apps, and technical SEO worked against Search Console data.',
 
+  'tech.label': 'Technologies I work with',
+
   'experience.eyebrow': 'Experience',
   'experience.title': 'Where the data layer came from',
   'experience.present': 'present',
@@ -118,6 +120,8 @@ const es: Record<TranslationKey, string> = {
   'services.ai.title': 'IA aplicada y SEO técnico',
   'services.ai.body':
     'Integración de LLMs en apps en producción, y SEO técnico trabajado contra datos de Search Console.',
+
+  'tech.label': 'Tecnologías con las que trabajo',
 
   'experience.eyebrow': 'Experiencia',
   'experience.title': 'De dónde salió la capa de datos',

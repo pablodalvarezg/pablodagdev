@@ -89,6 +89,53 @@
     }
   }
 
+  /*
+     The marquee. The track holds the same row twice, so sliding it half its own
+     width lands exactly where it started and the seam never shows.
+
+     The pause lives on the band, not on the row: hover or focus anywhere stops
+     both rows, so they cannot drift apart while someone reads one of them.
+     :focus-within is not decoration — a keyboard user needs the same stop a
+     mouse user gets, and WCAG 2.2.2 asks for it on anything that moves on its
+     own for more than five seconds.
+  */
+  @media (prefers-reduced-motion: no-preference) {
+    .marquee-track {
+      animation: marquee 45s linear infinite;
+    }
+
+    .marquee-track[data-direction='reverse'] {
+      animation-direction: reverse;
+    }
+
+    .marquee:hover .marquee-track,
+    .marquee:focus-within .marquee-track {
+      animation-play-state: paused;
+    }
+  }
+
+  /*
+     Asking for less motion should not cost you the content. The duplicate copy
+     goes away and the row wraps, so every logo is still there, standing still.
+  */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .marquee-track [data-duplicate] {
+      display: none;
+    }
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
   @keyframes rise {
     from {
       opacity: 0;
