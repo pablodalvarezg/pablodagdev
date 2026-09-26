@@ -15,14 +15,6 @@ export interface Technology {
    */
   width: number;
   height: number;
-  /**
-   * Whether the dark background swallows this one. None of these files use
-   * currentColor, so their colours cannot be inherited and the fix is a filter:
-   * grayscale first, then invert. Grayscale is what keeps a two-tone mark from
-   * turning a strange colour, since inverting alone would leave the Supabase
-   * bolt magenta.
-   */
-  invertOnDark?: boolean;
 }
 
 /**
@@ -33,30 +25,30 @@ export interface Technology {
  */
 export const TECHNOLOGY_ROWS: readonly (readonly Technology[])[] = [
   [
-    { file: 'logo-react', name: 'React', width: 44, height: 40, invertOnDark: true },
-    { file: 'textlogo-nodejs', name: 'Node.js', width: 65, height: 40, invertOnDark: true },
-    { file: 'textlogo-expressjs', name: 'Express', width: 109, height: 29, invertOnDark: true },
-    { file: 'textlogo-nextjs', name: 'Next.js', width: 110, height: 22, invertOnDark: true },
-    { file: 'textlogo-nestjs', name: 'NestJS', width: 110, height: 39, invertOnDark: true },
-    { file: 'logo-javascript', name: 'JavaScript', width: 40, height: 40, invertOnDark: true },
+    { file: 'logo-react', name: 'React', width: 44, height: 40 },
+    { file: 'textlogo-nodejs', name: 'Node.js', width: 65, height: 40 },
+    { file: 'textlogo-expressjs', name: 'Express', width: 109, height: 29 },
+    { file: 'textlogo-nextjs', name: 'Next.js', width: 110, height: 22 },
+    { file: 'textlogo-nestjs', name: 'NestJS', width: 110, height: 39 },
+    { file: 'logo-javascript', name: 'JavaScript', width: 40, height: 40 },
     { file: 'logo-python', name: 'Python', width: 40, height: 40 },
-    { file: 'textlogo-php', name: 'PHP', width: 80, height: 40, invertOnDark: true },
-    { file: 'logo-html5', name: 'HTML5', width: 40, height: 40, invertOnDark: true },
-    { file: 'logo-css3', name: 'CSS3', width: 28, height: 40, invertOnDark: true },
-    { file: 'textlogo-bubble', name: 'Bubble', width: 109, height: 25, invertOnDark: true },
-    { file: 'textlogo-retool', name: 'Retool', width: 113, height: 22, invertOnDark: true },
+    { file: 'textlogo-php', name: 'PHP', width: 80, height: 40 },
+    { file: 'logo-html5', name: 'HTML5', width: 40, height: 40 },
+    { file: 'logo-css3', name: 'CSS3', width: 28, height: 40 },
+    { file: 'textlogo-bubble', name: 'Bubble', width: 109, height: 25 },
+    { file: 'textlogo-retool', name: 'Retool', width: 113, height: 22 },
   ],
   [
-    { file: 'textlogo-postgresql', name: 'PostgreSQL', width: 87, height: 40, invertOnDark: true },
-    { file: 'textlogo-mysql', name: 'MySQL', width: 67, height: 40, invertOnDark: true },
+    { file: 'textlogo-postgresql', name: 'PostgreSQL', width: 87, height: 40 },
+    { file: 'textlogo-mysql', name: 'MySQL', width: 67, height: 40 },
     { file: 'logo-mssql', name: 'SQL Server', width: 40, height: 40 },
-    { file: 'textlogo-mariadb', name: 'MariaDB', width: 109, height: 31, invertOnDark: true },
-    { file: 'textlogo-mongodb', name: 'MongoDB', width: 111, height: 28, invertOnDark: true },
-    { file: 'textlogo-supabase', name: 'Supabase', width: 113, height: 22, invertOnDark: true },
+    { file: 'textlogo-mariadb', name: 'MariaDB', width: 109, height: 31 },
+    { file: 'textlogo-mongodb', name: 'MongoDB', width: 111, height: 28 },
+    { file: 'textlogo-supabase', name: 'Supabase', width: 113, height: 22 },
     { file: 'textlogo-wordpress', name: 'WordPress', width: 108, height: 22 },
     { file: 'textlogo-odoo', name: 'Odoo', width: 110, height: 35 },
-    { file: 'textlogo-make', name: 'Make', width: 110, height: 23, invertOnDark: true },
-    { file: 'textlogo-n8n', name: 'n8n', width: 100, height: 40, invertOnDark: true },
+    { file: 'textlogo-make', name: 'Make', width: 110, height: 23 },
+    { file: 'textlogo-n8n', name: 'n8n', width: 100, height: 40 },
     { file: 'textlogo-docker', name: 'Docker', width: 110, height: 25 },
   ],
 ];

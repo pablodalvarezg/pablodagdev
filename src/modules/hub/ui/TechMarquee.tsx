@@ -33,7 +33,6 @@ function Row({ items, duplicate = false }: { items: readonly Technology[]; dupli
             loading="lazy"
             decoding="async"
             className="max-w-none"
-            data-invert-on-dark={tech.invertOnDark || undefined}
           />
         </li>
       ))}
@@ -52,17 +51,19 @@ function Row({ items, duplicate = false }: { items: readonly Technology[]; dupli
  * point: an infinite marquee is exactly the kind of decoration that quietly
  * turns into a client bundle.
  */
-export function TechMarquee({ title }: { title: string }) {
+export function TechMarquee({ eyebrow, title }: { eyebrow: string; title: string }) {
   const headingId = 'tech-stack-heading';
 
   return (
-    <section aria-labelledby={headingId} className="border-border border-y py-10">
-      {/* The heading is contained like every other section; only the band bleeds. */}
-      <Container>
-        <h2
-          id={headingId}
-          className="text-muted mb-8 font-mono text-xs tracking-[0.15em] uppercase"
-        >
+    <section aria-labelledby={headingId} className="py-16">
+      {/*
+        Heading and band are separated on purpose: the heading is contained and
+        sits above the rules, matching every other section, while only the band
+        bleeds to the full width and carries the borders.
+      */}
+      <Container className="mb-8 flex flex-col gap-2">
+        <p className="text-muted font-mono text-xs tracking-[0.15em] uppercase">{eyebrow}</p>
+        <h2 id={headingId} className="text-2xl font-semibold text-balance">
           {title}
         </h2>
       </Container>
@@ -72,7 +73,7 @@ export function TechMarquee({ title }: { title: string }) {
         to match the background, and there are two schemes and a theme per world
         to match. A mask hides the pixels instead, so it is right in all of them.
       */}
-      <div className="marquee flex flex-col gap-8 overflow-hidden">
+      <div className="marquee border-border flex flex-col gap-8 overflow-hidden border-y py-10">
         {TECHNOLOGY_ROWS.map((row, index) => (
           <div
             key={index}

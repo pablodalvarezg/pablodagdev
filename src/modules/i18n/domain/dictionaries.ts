@@ -38,7 +38,8 @@ const en = {
   'services.ai.body':
     'LLM integrations inside production apps, and technical SEO worked against Search Console data.',
 
-  'tech.title': 'Tech Stack',
+  'tech.eyebrow': 'Tech Stack',
+  'tech.title': 'Technologies that I work with',
 
   'experience.eyebrow': 'Experience',
   'experience.title': 'Where the data layer came from',
@@ -55,7 +56,7 @@ const en = {
   'about.eyebrow': 'About',
   'about.title': 'Who is behind this',
   'about.body':
-    'Full-stack developer in Buenos Aires. I trained at Coderhouse and work in English at a C1 level. Away from the keyboard I play padel, collect trading cards, and keep a long-running interest in Japanese culture, cyberpunk aesthetics, board games and sports cars. It\'s very likely that you\'ll find some (if not most) of these themes present in my side projects!',
+    "Full-stack developer in Buenos Aires. I trained at Coderhouse and work in English at a C1 level. Away from the keyboard I play padel, collect trading cards, and keep a long-running interest in Japanese culture, cyberpunk aesthetics, board games and sports cars. It's very likely that you'll find some (if not most) of these themes present in my side projects!",
 
   'work.eyebrow': 'Work',
   'work.title': 'What I have shipped',
@@ -122,7 +123,8 @@ const es: Record<TranslationKey, string> = {
   'services.ai.body':
     'Integración de LLMs en apps en producción, y SEO técnico trabajado contra datos de Search Console.',
 
-  'tech.title': 'Tech Stack',
+  'tech.eyebrow': 'Tech Stack',
+  'tech.title': 'Tecnologías con las que trabajo',
 
   'experience.eyebrow': 'Experiencia',
   'experience.title': 'De dónde salió la capa de datos',

@@ -51,38 +51,31 @@
   }
 
   /*
-     Two rules, because the logos fail in two different ways on a dark ground.
+     Every logo goes pure white on a dark ground.
 
-     Every logo is flattened to grey, so a band of two dozen brands reads as one
-     thing rather than a ransom note: without this the handful that carry colour
-     keep it while the rest go monochrome.
+     brightness(0) crushes all three channels to zero while leaving alpha alone,
+     so any colour, any mid grey and any near-black all become the same black
+     shape; invert(1) then lifts that shape to white. Two dozen brands end up one
+     weight, and nothing is left dark enough to lose against the background.
 
-     The ones that are black or nearly black are flipped as well, or they vanish
-     outright. Grayscale runs before invert on purpose: inverting alone turns a
-     coloured element into its opposite, which is how Supabase ends up a magenta
-     bolt beside white text. Flattening first means only lightness moves.
+     The cost, accepted: a logo becomes a flat silhouette, so internal detail
+     goes. It is why Odoo needed real evenodd holes rather than white circles
+     laid on top — a white overlay would silhouette along with everything else
+     and fill the counters solid.
 
-     The second rule follows the first in source order, so it wins for logos that
-     match both, which is the whole point of the pair.
+     This replaced a per-logo invert flag. Measuring which files were dark enough
+     to need flipping stopped mattering once every file gets the same treatment.
 
      Written out twice because a filter cannot go through light-dark(): once for
      the explicit toggle, once for the OS preference when nothing overrode it.
   */
   :root[data-scheme='dark'] .marquee img {
-    filter: grayscale(1);
-  }
-
-  :root[data-scheme='dark'] [data-invert-on-dark] {
-    filter: grayscale(1) invert(1);
+    filter: brightness(0) invert(1);
   }
 
   @media (prefers-color-scheme: dark) {
     :root:not([data-scheme='light']) .marquee img {
-      filter: grayscale(1);
-    }
-
-    :root:not([data-scheme='light']) [data-invert-on-dark] {
-      filter: grayscale(1) invert(1);
+      filter: brightness(0) invert(1);
     }
   }
 

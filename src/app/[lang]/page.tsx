@@ -60,7 +60,7 @@ export default async function HubPage({ params }: PageProps<'/[lang]'>) {
           workLabel={t('hero.cta.work')}
         />
         <WhatIDo locale={locale} />
-        <TechMarquee title={t('tech.title')} />
+        <TechMarquee eyebrow={t('tech.eyebrow')} title={t('tech.title')} />
 
         <Section id="experience" eyebrow={t('experience.eyebrow')} title={t('experience.title')}>
           <Timeline
