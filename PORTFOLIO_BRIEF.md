@@ -32,7 +32,7 @@
 
 | Período | Empresa / Rol | Puntos a destacar |
 |---|---|---|
-| 07/2025 – hoy | Assisted Living Magazine — Full-Stack & WordPress Developer | Features desde Figma, performance, SEO técnico, pipelines de datos |
+| 07/2025 – hoy | Assisted Living Magazine — Tech Lead & Full-Stack Developer | Ascendido a Tech Lead en 06/2026 sin dejar de desarrollar. **Duplicó el tráfico del sitio en tres meses** mejorando la calidad de los datos y generando perfiles de forma algorítmica. Features desde Figma, herramientas internas, SEO técnico, pipelines de datos |
 | 10/2024 – 07/2025 | Sidetool — Full-Stack & Low/No-Code Developer | Apps completas desde cero, APIs a medida, integración de IA, gestión de bases SQL/NoSQL |
 | 07/2023 – 10/2024 | Activa Soluciones IT — Consultor Odoo | Implementación funcional y técnica de Odoo (Python, XML, JS); soporte Softland con SQL Server y PostgreSQL |
 | 01/2022 – hoy | Freelance — Web Developer | React, Node/Express, WordPress, Retool |

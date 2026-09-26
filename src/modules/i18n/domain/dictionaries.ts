@@ -44,12 +44,13 @@ const en = {
   'experience.title': 'Where the data layer came from',
   'experience.present': 'present',
   'experience.assisted-living.summary':
-    'Features built from Figma, performance work, technical SEO and data pipelines.',
+    'Promoted to Tech Lead in June 2026, leading the engineering team without leaving the code. Doubled site traffic in three months by improving data quality and generating profiles algorithmically. Builds features from Figma designs, writes the internal tools and scripts that enrich the database for lead generation and targeting, and keeps the live site fast and without downtime.',
   'experience.sidetool.summary':
-    'Full applications from scratch, custom APIs, AI integration and SQL/NoSQL database work.',
+    'Built applications from scratch, sized to what each problem actually needed, from a single feature to a whole product: custom APIs, AI integrated into apps already in production, and the SQL and NoSQL databases underneath. Also took over projects already live, where the work is database management rather than new features.',
   'experience.activa.summary':
-    'Functional and technical Odoo implementation in Python, XML and JavaScript, plus Softland support on SQL Server and PostgreSQL.',
-  'experience.freelance.summary': 'React, Node and Express, WordPress and Retool.',
+    'Implemented and supported the Odoo ERP end to end, functional and technical, in Python, XML, JavaScript and CSS. Also supported Softland in VBScript, SQL and the proprietary language of the platform, with database maintenance across SQL Server and PostgreSQL.',
+  'experience.freelance.summary':
+    'Web applications end to end for direct clients: React front ends over Node and Express, WordPress and PHP where the content came first, and internal tools in Retool.',
 
   'about.eyebrow': 'About',
   'about.title': 'Who is behind this',
@@ -127,12 +128,13 @@ const es: Record<TranslationKey, string> = {
   'experience.title': 'De dónde salió la capa de datos',
   'experience.present': 'hoy',
   'experience.assisted-living.summary':
-    'Features desde Figma, performance, SEO técnico y pipelines de datos.',
+    'Ascendido a Tech Lead en junio de 2026, liderando el equipo de ingeniería sin soltar el código. Duplicó el tráfico del sitio en tres meses mejorando la calidad de los datos y generando perfiles de forma algorítmica. Construye features a partir de diseños de Figma, escribe las herramientas internas y los scripts que enriquecen la base para generación de leads, y sostiene el sitio en vivo sin caídas.',
   'experience.sidetool.summary':
-    'Apps completas desde cero, APIs a medida, integración de IA y gestión de bases SQL/NoSQL.',
+    'Construyó aplicaciones desde cero, del tamaño que cada problema pedía, desde una feature suelta hasta un producto entero: APIs a medida, IA integrada en apps ya en producción y las bases SQL y NoSQL que las sostienen. También se hizo cargo de proyectos ya en vivo, donde el trabajo es gestión de datos antes que features nuevas.',
   'experience.activa.summary':
-    'Implementación funcional y técnica de Odoo en Python, XML y JavaScript, más soporte de Softland con SQL Server y PostgreSQL.',
-  'experience.freelance.summary': 'React, Node y Express, WordPress y Retool.',
+    'Implementó y sostuvo el ERP Odoo de punta a punta, funcional y técnico, en Python, XML, JavaScript y CSS. También dio soporte a Softland en VBScript, SQL y el lenguaje propietario de la plataforma, con mantenimiento de bases en SQL Server y PostgreSQL.',
+  'experience.freelance.summary':
+    'Aplicaciones web de punta a punta para clientes directos: front ends en React sobre Node y Express, WordPress y PHP donde el contenido mandaba, y herramientas internas en Retool.',
 
   'about.eyebrow': 'Sobre mí',
   'about.title': 'Quién está atrás de esto',
