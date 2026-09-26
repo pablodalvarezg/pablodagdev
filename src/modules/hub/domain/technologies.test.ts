@@ -23,10 +23,16 @@ describe('marqueeSeconds', () => {
     expect(manySmall).toBeGreaterThan(oneBig);
   });
 
-  it('keeps the two real rows within a second of each other', () => {
-    const [first, second] = TECHNOLOGY_ROWS.map(marqueeSeconds);
+  it('moves the two real rows at the same speed, whatever they weigh', () => {
+    // Not the same duration: the rows hold different logos and come out
+    // different widths, so equal durations would mean the wider one runs
+    // faster. Pixels per second is the thing that has to match.
+    const speeds = TECHNOLOGY_ROWS.map((row) => {
+      const width = row.reduce((total, tech) => total + tech.width + 40, 0);
+      return width / marqueeSeconds(row);
+    });
 
-    expect(Math.abs(first - second)).toBeLessThanOrEqual(2);
+    expect(Math.abs(speeds[0] - speeds[1])).toBeLessThan(0.5);
   });
 });
 

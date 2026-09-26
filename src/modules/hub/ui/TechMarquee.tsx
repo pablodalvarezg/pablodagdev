@@ -1,3 +1,5 @@
+import { Container } from '@shared/ui/Container';
+
 import { marqueeSeconds, TECHNOLOGY_ROWS, type Technology } from '../domain/technologies';
 
 import type { CSSProperties } from 'react';
@@ -50,10 +52,27 @@ function Row({ items, duplicate = false }: { items: readonly Technology[]; dupli
  * point: an infinite marquee is exactly the kind of decoration that quietly
  * turns into a client bundle.
  */
-export function TechMarquee({ label }: { label: string }) {
+export function TechMarquee({ title }: { title: string }) {
+  const headingId = 'tech-stack-heading';
+
   return (
-    <section aria-label={label} className="marquee border-border overflow-hidden border-y py-8">
-      <div className="flex flex-col gap-6">
+    <section aria-labelledby={headingId} className="border-border border-y py-10">
+      {/* The heading is contained like every other section; only the band bleeds. */}
+      <Container>
+        <h2
+          id={headingId}
+          className="text-muted mb-8 font-mono text-xs tracking-[0.15em] uppercase"
+        >
+          {title}
+        </h2>
+      </Container>
+
+      {/*
+        The fade is a mask rather than a gradient overlay: an overlay would have
+        to match the background, and there are two schemes and a theme per world
+        to match. A mask hides the pixels instead, so it is right in all of them.
+      */}
+      <div className="marquee flex flex-col gap-8 overflow-hidden">
         {TECHNOLOGY_ROWS.map((row, index) => (
           <div
             key={index}

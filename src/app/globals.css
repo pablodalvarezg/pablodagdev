@@ -51,20 +51,36 @@
   }
 
   /*
-     Logos that are black or nearly black vanish on the dark background, and
-     none of the files use currentColor, so their colour cannot be inherited.
-     Grayscale runs before invert on purpose: inverting alone turns a coloured
-     element into its opposite, which is how Supabase ends up a magenta bolt
-     beside white text. Flattening first means only lightness flips.
+     Two rules, because the logos fail in two different ways on a dark ground.
+
+     Every logo is flattened to grey, so a band of two dozen brands reads as one
+     thing rather than a ransom note: without this the handful that carry colour
+     keep it while the rest go monochrome.
+
+     The ones that are black or nearly black are flipped as well, or they vanish
+     outright. Grayscale runs before invert on purpose: inverting alone turns a
+     coloured element into its opposite, which is how Supabase ends up a magenta
+     bolt beside white text. Flattening first means only lightness moves.
+
+     The second rule follows the first in source order, so it wins for logos that
+     match both, which is the whole point of the pair.
 
      Written out twice because a filter cannot go through light-dark(): once for
      the explicit toggle, once for the OS preference when nothing overrode it.
   */
+  :root[data-scheme='dark'] .marquee img {
+    filter: grayscale(1);
+  }
+
   :root[data-scheme='dark'] [data-invert-on-dark] {
     filter: grayscale(1) invert(1);
   }
 
   @media (prefers-color-scheme: dark) {
+    :root:not([data-scheme='light']) .marquee img {
+      filter: grayscale(1);
+    }
+
     :root:not([data-scheme='light']) [data-invert-on-dark] {
       filter: grayscale(1) invert(1);
     }
@@ -122,6 +138,24 @@
      Nothing pauses it, by request. The one stop left is the reduced-motion rule
      below, which is what carries the accommodation now.
   */
+  /*
+     Both edges fade out, so a wide viewport shows logos entering and leaving
+     rather than a hard cut with the loop seam visible beside it.
+
+     A mask and not a gradient overlay: an overlay has to be painted the colour
+     of whatever is behind it, and behind it are two schemes and a theme per
+     world. Masking removes the pixels instead, which is correct in all of them.
+  */
+  .marquee {
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      black var(--marquee-fade, 6rem),
+      black calc(100% - var(--marquee-fade, 6rem)),
+      transparent 100%
+    );
+  }
+
   @media (prefers-reduced-motion: no-preference) {
     .marquee-track {
       animation: marquee var(--marquee-seconds, 45s) linear infinite;
