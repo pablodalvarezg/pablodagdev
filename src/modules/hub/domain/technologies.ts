@@ -15,6 +15,17 @@ export interface Technology {
    * reading as bigger.
    */
   height: number;
+  /**
+   * Whether the dark background swallows this one. None of these files use
+   * currentColor, so their colours cannot be inherited and the fix is a filter:
+   * grayscale first, then invert. Grayscale is what keeps a two-tone mark from
+   * turning a strange colour — Supabase is a green bolt beside black text, and
+   * inverting alone would leave the bolt magenta.
+   *
+   * Set from measuring the fills in each file, including shapes with no fill of
+   * their own, which paint black. Worth an eye before trusting any single one.
+   */
+  invertOnDark?: boolean;
 }
 
 /**
@@ -23,30 +34,30 @@ export interface Technology {
  */
 export const TECHNOLOGY_ROWS: readonly (readonly Technology[])[] = [
   [
-    { file: 'logo-react', name: 'React', height: 32 },
-    { file: 'textlogo-nodejs', name: 'Node.js', height: 32 },
-    { file: 'textlogo-nextjs', name: 'Next.js', height: 18 },
-    { file: 'textlogo-nestjs', name: 'NestJS', height: 31 },
-    { file: 'logo-javascript', name: 'JavaScript', height: 32 },
+    { file: 'logo-react', name: 'React', height: 32, invertOnDark: true },
+    { file: 'textlogo-nodejs', name: 'Node.js', height: 32, invertOnDark: true },
+    { file: 'textlogo-nextjs', name: 'Next.js', height: 18, invertOnDark: true },
+    { file: 'textlogo-nestjs', name: 'NestJS', height: 31, invertOnDark: true },
+    { file: 'logo-javascript', name: 'JavaScript', height: 32, invertOnDark: true },
     { file: 'logo-python', name: 'Python', height: 32 },
-    { file: 'textlogo-php', name: 'PHP', height: 32 },
-    { file: 'logo-html5', name: 'HTML5', height: 32 },
-    { file: 'logo-css3', name: 'CSS3', height: 32 },
-    { file: 'textlogo-sass', name: 'Sass', height: 32 },
+    { file: 'textlogo-php', name: 'PHP', height: 32, invertOnDark: true },
+    { file: 'logo-html5', name: 'HTML5', height: 32, invertOnDark: true },
+    { file: 'logo-css3', name: 'CSS3', height: 32, invertOnDark: true },
+    { file: 'textlogo-sass', name: 'Sass', height: 32, invertOnDark: true },
   ],
   [
-    { file: 'textlogo-postgresql', name: 'PostgreSQL', height: 32 },
+    { file: 'textlogo-postgresql', name: 'PostgreSQL', height: 32, invertOnDark: true },
     { file: 'logo-mssql', name: 'SQL Server', height: 32 },
-    { file: 'textlogo-mariadb', name: 'MariaDB', height: 25 },
-    { file: 'textlogo-mongodb', name: 'MongoDB', height: 22 },
-    { file: 'textlogo-supabase', name: 'Supabase', height: 18 },
+    { file: 'textlogo-mariadb', name: 'MariaDB', height: 25, invertOnDark: true },
+    { file: 'textlogo-mongodb', name: 'MongoDB', height: 22, invertOnDark: true },
+    { file: 'textlogo-supabase', name: 'Supabase', height: 18, invertOnDark: true },
     { file: 'textlogo-wordpress', name: 'WordPress', height: 18 },
-    { file: 'textlogo-bubble', name: 'Bubble', height: 32 },
-    { file: 'textlogo-retool', name: 'Retool', height: 32 },
-    { file: 'textlogo-make', name: 'Make', height: 18 },
-    { file: 'textlogo-n8n', name: 'n8n', height: 32 },
+    { file: 'textlogo-bubble', name: 'Bubble', height: 32, invertOnDark: true },
+    { file: 'textlogo-retool', name: 'Retool', height: 32, invertOnDark: true },
+    { file: 'textlogo-make', name: 'Make', height: 18, invertOnDark: true },
+    { file: 'textlogo-n8n', name: 'n8n', height: 32, invertOnDark: true },
     { file: 'textlogo-docker', name: 'Docker', height: 20 },
-    { file: 'textlogo-git', name: 'Git', height: 32 },
-    { file: 'logo-github', name: 'GitHub', height: 32 },
+    { file: 'textlogo-git', name: 'Git', height: 32, invertOnDark: true },
+    { file: 'logo-github', name: 'GitHub', height: 32, invertOnDark: true },
   ],
 ];

@@ -48,6 +48,26 @@
     color-scheme: only dark;
   }
 
+  /*
+     Logos that are black or nearly black vanish on the dark background, and
+     none of the files use currentColor, so their colour cannot be inherited.
+     Grayscale runs before invert on purpose: inverting alone turns a coloured
+     element into its opposite, which is how Supabase ends up a magenta bolt
+     beside white text. Flattening first means only lightness flips.
+
+     Written out twice because a filter cannot go through light-dark(): once for
+     the explicit toggle, once for the OS preference when nothing overrode it.
+  */
+  :root[data-scheme='dark'] [data-invert-on-dark] {
+    filter: grayscale(1) invert(1);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-scheme='light']) [data-invert-on-dark] {
+      filter: grayscale(1) invert(1);
+    }
+  }
+
   :focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;

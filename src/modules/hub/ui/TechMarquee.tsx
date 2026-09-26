@@ -28,6 +28,7 @@ function Row({ items, duplicate = false }: { items: readonly Technology[]; dupli
             decoding="async"
             style={{ height: `${tech.height}px` }}
             className="w-auto max-w-none"
+            data-invert-on-dark={tech.invertOnDark || undefined}
           />
         </li>
       ))}
