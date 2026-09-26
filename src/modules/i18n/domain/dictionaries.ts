@@ -57,6 +57,14 @@ const en = {
   'work.eyebrow': 'Work',
   'work.title': 'What I have shipped',
 
+  'upcoming.label': 'Coming soon',
+  'upcoming.atlas.title': 'Atlas',
+  'upcoming.atlas.summary':
+    'A token catalogue built against a performance budget, where the HTML arrives with the data already in it instead of a skeleton that fetches everything.',
+  'upcoming.type-matrix.title': 'Type Matrix',
+  'upcoming.type-matrix.summary':
+    'A game room over creature data: team building, a daily puzzle and a combat calculator, with every answer checked on the server so the client never holds it.',
+
   'project.role': 'Role',
   'project.period': 'Period',
   'project.client': 'Client',
@@ -129,6 +137,14 @@ const es: Record<TranslationKey, string> = {
 
   'work.eyebrow': 'Trabajo',
   'work.title': 'Lo que llevo construido',
+
+  'upcoming.label': 'Próximamente',
+  'upcoming.atlas.title': 'Atlas',
+  'upcoming.atlas.summary':
+    'Un catálogo de tokens con presupuesto de performance, donde el HTML llega con los datos adentro en vez de un esqueleto que pide todo por fetch.',
+  'upcoming.type-matrix.title': 'Type Matrix',
+  'upcoming.type-matrix.summary':
+    'Una sala de juegos sobre datos de criaturas: armado de equipos, puzzle diario y calculadora de combate, con toda respuesta validada en el servidor para que el cliente nunca la tenga.',
 
   'project.role': 'Rol',
   'project.period': 'Período',
