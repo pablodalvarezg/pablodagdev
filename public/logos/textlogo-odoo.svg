@@ -1,17 +1,27 @@
-<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
- "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
- width="623.000000pt" height="199.000000pt" viewBox="0 0 623.000000 199.000000"
- preserveAspectRatio="xMidYMid meet">
-
-<g transform="translate(0.000000,199.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
-<path d="M620 1485 c-287 -62 -514 -272 -587 -545 -22 -80 -24 -289 -5 -370 8
--30 37 -102 65 -160 42 -86 64 -118 127 -181 86 -87 180 -146 295 -185 103
--35 309 -45 417 -20 267 62 483 276 554 546 26 97 24 273 -4 373 -40 143 -115
-262 -229 366 -81 75 -234 154 -338 176 -87 18 -209 18 -295 0z m228 -300 c188
--44 323 -193 353 -386 13 -82 0 -154 -42 -245 -30 -62 -125 -163 -186 -196
--260 -141 -572 -3 -648 287 -61 234 85 474 328 540 68 18 118 18 195 0z"/>
-</g>
+<!--
+  Rings are drawn as one path each, outer and inner subpath together, with
+  fill-rule="evenodd" so the counter is a real hole. The source built them as a
+  white circle laid over a coloured one, which only looks right on white.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="191" viewBox="0 0 600 191">
+  <path
+    fill="#888"
+    fill-rule="evenodd"
+    d="M455.1 118.4a72.4 72.4 0 1 0 144.8 0 72.4 72.4 0 1 0-144.8 0ZM484.8 118.4a42.7 42.7 0 1 0 85.4 0 42.7 42.7 0 1 0-85.4 0Z"
+  />
+  <path
+    fill="#888"
+    fill-rule="evenodd"
+    d="M301.6 118.4a72.4 72.4 0 1 0 144.8 0 72.4 72.4 0 1 0-144.8 0ZM331.3 118.4a42.7 42.7 0 1 0 85.4 0 42.7 42.7 0 1 0-85.4 0Z"
+  />
+  <path
+    fill="#888"
+    fill-rule="evenodd"
+    d="M294.9 117.8v.6c0 40-32.4 72.4-72.4 72.4s-72.4-32.4-72.4-72.4S182.5 46 222.5 46c16.4 0 31.5 5.5 43.7 14.6V14.4A14.34 14.34 0 0 1 280.6 0c7.9 0 14.4 6.5 14.4 14.4v102.7c0 .2 0 .5-.1.7ZM179.8 118.4a42.7 42.7 0 1 0 85.4 0 42.7 42.7 0 1 0-85.4 0Z"
+  />
+  <path
+    fill="#9c5789"
+    fill-rule="evenodd"
+    d="M0 118.2a72.4 72.4 0 1 0 144.8 0 72.4 72.4 0 1 0-144.8 0ZM29 118.5a42.7 42.7 0 1 0 85.4 0 42.7 42.7 0 1 0-85.4 0Z"
+  />
 </svg>

@@ -51,22 +51,31 @@
   }
 
   /*
-     Logos that are black or nearly black vanish on the dark background, and
-     none of the files use currentColor, so their colour cannot be inherited.
-     Grayscale runs before invert on purpose: inverting alone turns a coloured
-     element into its opposite, which is how Supabase ends up a magenta bolt
-     beside white text. Flattening first means only lightness flips.
+     Every logo goes pure white on a dark ground.
+
+     brightness(0) crushes all three channels to zero while leaving alpha alone,
+     so any colour, any mid grey and any near-black all become the same black
+     shape; invert(1) then lifts that shape to white. Two dozen brands end up one
+     weight, and nothing is left dark enough to lose against the background.
+
+     The cost, accepted: a logo becomes a flat silhouette, so internal detail
+     goes. It is why Odoo needed real evenodd holes rather than white circles
+     laid on top — a white overlay would silhouette along with everything else
+     and fill the counters solid.
+
+     This replaced a per-logo invert flag. Measuring which files were dark enough
+     to need flipping stopped mattering once every file gets the same treatment.
 
      Written out twice because a filter cannot go through light-dark(): once for
      the explicit toggle, once for the OS preference when nothing overrode it.
   */
-  :root[data-scheme='dark'] [data-invert-on-dark] {
-    filter: grayscale(1) invert(1);
+  :root[data-scheme='dark'] .marquee img {
+    filter: brightness(0) invert(1);
   }
 
   @media (prefers-color-scheme: dark) {
-    :root:not([data-scheme='light']) [data-invert-on-dark] {
-      filter: grayscale(1) invert(1);
+    :root:not([data-scheme='light']) .marquee img {
+      filter: brightness(0) invert(1);
     }
   }
 
@@ -127,24 +136,38 @@
      The marquee. The track holds the same row twice, so sliding it half its own
      width lands exactly where it started and the seam never shows.
 
-     The pause lives on the band, not on the row: hover or focus anywhere stops
-     both rows, so they cannot drift apart while someone reads one of them.
-     :focus-within is not decoration — a keyboard user needs the same stop a
-     mouse user gets, and WCAG 2.2.2 asks for it on anything that moves on its
-     own for more than five seconds.
+     The duration comes from the component, one value per row, because a shared
+     duration is not a shared speed: the wider row would cover more pixels in the
+     same time and pull ahead. It is derived from the measured widths.
+
+     Nothing pauses it, by request. The one stop left is the reduced-motion rule
+     below, which is what carries the accommodation now.
   */
+  /*
+     Both edges fade out, so a wide viewport shows logos entering and leaving
+     rather than a hard cut with the loop seam visible beside it.
+
+     A mask and not a gradient overlay: an overlay has to be painted the colour
+     of whatever is behind it, and behind it are two schemes and a theme per
+     world. Masking removes the pixels instead, which is correct in all of them.
+  */
+  .marquee {
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      black var(--marquee-fade, 6rem),
+      black calc(100% - var(--marquee-fade, 6rem)),
+      transparent 100%
+    );
+  }
+
   @media (prefers-reduced-motion: no-preference) {
     .marquee-track {
-      animation: marquee 45s linear infinite;
+      animation: marquee var(--marquee-seconds, 45s) linear infinite;
     }
 
     .marquee-track[data-direction='reverse'] {
       animation-direction: reverse;
-    }
-
-    .marquee:hover .marquee-track,
-    .marquee:focus-within .marquee-track {
-      animation-play-state: paused;
     }
   }
 
