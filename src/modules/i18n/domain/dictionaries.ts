@@ -55,7 +55,7 @@ const en = {
   'about.eyebrow': 'About',
   'about.title': 'Who is behind this',
   'about.body':
-    'Full-stack developer in Buenos Aires. I trained at Coderhouse and work in English at a C1 level. Away from the keyboard I play padel and collect board games, and I keep a long-running interest in Japanese and cyberpunk aesthetics and in sports cars, which is where most of my side projects start.',
+    'Full-stack developer in Buenos Aires. I trained at Coderhouse and work in English at a C1 level. Away from the keyboard I play padel, collect trading cards, and keep a long-running interest in Japanese culture, cyberpunk aesthetics, board games and sports cars. It\'s very likely that you\'ll find some (if not most) of these themes present in my side projects!',
 
   'work.eyebrow': 'Work',
   'work.title': 'What I have shipped',
