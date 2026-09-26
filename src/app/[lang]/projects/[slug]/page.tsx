@@ -30,14 +30,20 @@ export async function generateMetadata({
 
   if (!caseStudy) return {};
 
-  const title = `${caseStudy.project.title} — ${site.name}`;
   const description = caseStudy.project.summary;
 
   return {
-    title,
+    // The suffix belongs in <title>, where the name gives a bare tab its owner.
+    title: `${caseStudy.project.title} — ${site.name}`,
     description,
     openGraph: {
-      ...openGraphBase({ title, description, locale: assertLocale(lang) }),
+      // og:title drops it: og:site_name already carries the name, and a share
+      // preview has one line to spend on what this page actually is.
+      ...openGraphBase({
+        title: caseStudy.project.title,
+        description,
+        locale: assertLocale(lang),
+      }),
       type: 'article',
     },
   };

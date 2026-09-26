@@ -105,6 +105,9 @@ project's page is its case study.
    what you would improve.
 4. Leave `draft: true` until it is finished. Drafts render while developing and
    are absent from a production build, so nothing half-written ships.
+5. Flip `draft` in **both** locales together. The build fails if they disagree,
+   because publishing one translation and not the other ships a page in one
+   language while the switcher on it points at a 404 in the other.
 
 Never invent a number. An empty result section beats an estimated one, and
 `period` is optional precisely so a missing date does not become a guess.

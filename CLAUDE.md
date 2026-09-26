@@ -195,12 +195,13 @@ Cosas que una review vuelve a marcar si no las lee acá. Si vas a contradecir un
 - **Todos los side projects tienen que caber en planes gratis.** El techo aceptado es el dominio (~$1/mes). Consecuencias concretas: el cron de Vercel en Hobby corre **una vez por día** como máximo, así que un scheduler de verdad va en GitHub Actions; los Postgres gratis duermen (Neon a los 5 minutos, Supabase pausa el proyecto tras una semana sin actividad, y el de Render **expira**), así que la opción por defecto es Neon; y el único proyecto con costo variable es Game Night Agent, que necesita tope de gasto y rate limit por usuario desde el primer día, no después.
 - **Ningún proyecto alquila un proceso siempre despierto.** Bandeja era el único que lo pedía, por Socket.io, y el socket pasó a sostenerlo Supabase Realtime. La regla general: si algo necesita una conexión persistente, el proveedor la aguanta, no un server que se paga por mes. Socket.io propio vuelve solo con una razón nueva.
 
+- **`allSlugs()` lee el frontmatter de todos los idiomas, y eso no es derroche.** Un `draft` que no coincide entre idiomas deja un idioma sin la página: el switcher enlaza a un 404 y el hub de ese idioma no lista nada, con el build en verde. Es la misma falla silenciosa que la paridad de archivos ya prevenía, así que la regla es una sola y vive en `projects/domain/parity.ts`, pura y testeada. El costo de leer dos veces es cero: los `import()` de módulos están cacheados, así que la segunda lectura pega en el mismo módulo.
+
 ### Pendientes conocidos
 
 - `TODO(pablo):` Playwright y Lighthouse CI. Hasta que existan, no hay `npm run test:e2e`, y el responsive a 360 px no está verificado.
 - `TODO(pablo):` dominio. El módulo `seo` ya existe con lo que no depende de él: JSON-LD `Person` en el hub y Open Graph por página. **Faltan canonical, hreflang, sitemap, `og:url` y JSON-LD `CreativeWork`**, que salen todos de `SITE_URL`, y `SITE_URL` no existe todavía; nombrarlo antes de que exista fue lo que hizo que el README afirmara una función ausente.
 - `TODO(pablo):` `og:image`. La etiqueta se omite a propósito mientras no haya archivo.
-- `TODO(pablo):` **`allSlugs()` compara qué archivos existen, nunca el campo `draft`.** Con `en/stm.mdx` publicado y `es/stm.mdx` en borrador el build pasa igual, y queda un idioma sin la página: el switcher enlaza a un 404 y el hub de ese idioma no muestra ningún proyecto publicado. Es el mismo tipo de falla silenciosa que la función ya previene para los slugs, así que la paridad de `draft` debería romper el build por el mismo motivo. Detectado revisando otra cosa; no se arregló de paso.
 
 ## Forma de trabajo
 
