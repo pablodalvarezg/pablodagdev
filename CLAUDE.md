@@ -59,7 +59,7 @@ src/
 │  ├─ experience/          # Línea de tiempo laboral.
 │  ├─ theming/             # Registro de temas, tokens por "mundo", toggle claro/oscuro.
 │  ├─ i18n/                # Diccionarios, helpers de idioma y rutas localizadas.
-│  └─ seo/                 # (TODAVÍA NO) Canonical, hreflang, Open Graph, JSON-LD.
+│  └─ seo/                 # Open Graph y JSON-LD. Canonical y hreflang esperan SITE_URL.
 ├─ shared/                 # Código sin dominio, reutilizable por cualquier módulo.
 │  ├─ ui/                  # Primitivas del design system: Button, Section, Container.
 │  ├─ lib/                 # (TODAVÍA NO) Utilidades puras genéricas.
@@ -196,7 +196,7 @@ Cosas que una review vuelve a marcar si no las lee acá. Si vas a contradecir un
 ### Pendientes conocidos
 
 - `TODO(pablo):` Playwright y Lighthouse CI. Hasta que existan, no hay `npm run test:e2e`, y el responsive a 360 px no está verificado.
-- `TODO(pablo):` dominio, y con él el módulo `seo`. Hoy **no hay canonical ni hreflang**: cada página emite título y descripción y nada más. `SITE_URL` no existe todavía; nombrarlo antes de que exista fue lo que hizo que el README afirmara una función ausente.
+- `TODO(pablo):` dominio. El módulo `seo` ya existe con lo que no depende de él: JSON-LD `Person` en el hub y Open Graph por página. **Faltan canonical, hreflang, sitemap, `og:url` y JSON-LD `CreativeWork`**, que salen todos de `SITE_URL`, y `SITE_URL` no existe todavía; nombrarlo antes de que exista fue lo que hizo que el README afirmara una función ausente.
 - `TODO(pablo):` `og:image`. La etiqueta se omite a propósito mientras no haya archivo.
 
 ## Forma de trabajo

@@ -4,4 +4,7 @@ export const site = {
   email: 'pablo.alvarez4284@gmail.com',
   linkedin: 'https://www.linkedin.com/in/pablodalvarezg',
   github: 'https://github.com/pablodalvarezg',
+
+  /** Where he works from. Structured because JSON-LD wants the parts separately. */
+  location: { city: 'Buenos Aires', country: 'AR' },
 } as const;

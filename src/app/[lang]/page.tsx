@@ -2,14 +2,24 @@ import { currentMonth, getRoles, Timeline } from '@modules/experience';
 import { About, Contact, Hero, SiteHeader, WhatIDo } from '@modules/hub';
 import { assertLocale, getTranslations, localeUrl } from '@modules/i18n';
 import { getProjects, ProjectCard } from '@modules/projects';
+import { JsonLd, openGraphBase, personSchema } from '@modules/seo';
+import { site } from '@shared/config/site';
 import { Section } from '@shared/ui/Section';
 
 import type { Metadata } from 'next';
 
 export async function generateMetadata({ params }: PageProps<'/[lang]'>): Promise<Metadata> {
-  const t = getTranslations(assertLocale((await params).lang));
+  const locale = assertLocale((await params).lang);
+  const t = getTranslations(locale);
+  const description = t('meta.home.description');
 
-  return { description: t('meta.home.description') };
+  return {
+    description,
+    openGraph: {
+      ...openGraphBase({ title: site.name, description, locale }),
+      type: 'website',
+    },
+  };
 }
 
 export default async function HubPage({ params }: PageProps<'/[lang]'>) {
@@ -25,6 +35,15 @@ export default async function HubPage({ params }: PageProps<'/[lang]'>) {
 
   return (
     <>
+      {/* The hub is the page about him, so the Person block lives here and not
+          on every page, where duplicate entities only compete with each other. */}
+      <JsonLd
+        schema={personSchema({
+          jobTitle: t('hero.role'),
+          description: t('meta.home.description'),
+        })}
+      />
+
       <SiteHeader
         locale={locale}
         languageLabel={t('nav.language')}

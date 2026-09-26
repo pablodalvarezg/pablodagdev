@@ -161,7 +161,7 @@ Lo que existe hoy en `main`, para no tener que deducirlo del código:
 - [x] Sistema de temas operativo: cambiar `theme` en el frontmatter cambia la estética sin tocar componentes. Probado con `markets` en STM.
 - [x] Modo claro/oscuro en el hub.
 - [x] Colección de contenido con schema Zod, layout de case study y rutas bilingües, verificadas **con el case study de STM**, no con una plantilla.
-- [ ] JSON-LD `Person` válido y meta tags de Open Graph por página. **Nada de esto existe**: hoy cada página emite solo título y descripción.
+- [x] JSON-LD `Person` válido en el hub, y Open Graph por página: `title`, `description`, `site_name`, `locale`, `locale:alternate` y `type`. **Sin `og:url` ni `og:image`**: los dos necesitan el dominio, y una URL inventada es peor que una ausente. Canonical, hreflang y sitemap siguen pendientes por lo mismo.
 - [ ] Responsive real desde 360 px. Sin verificar.
 - [x] README con cómo correr, cómo agregar un case study y cómo crear un tema nuevo.
 - [x] ADR 0001 documentando la elección de monolito modular, en `docs/adr/`. Va con la 0002, que registra la migración de Astro a Next.
