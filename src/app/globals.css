@@ -48,6 +48,26 @@
     color-scheme: only dark;
   }
 
+  /*
+     Logos that are black or nearly black vanish on the dark background, and
+     none of the files use currentColor, so their colour cannot be inherited.
+     Grayscale runs before invert on purpose: inverting alone turns a coloured
+     element into its opposite, which is how Supabase ends up a magenta bolt
+     beside white text. Flattening first means only lightness flips.
+
+     Written out twice because a filter cannot go through light-dark(): once for
+     the explicit toggle, once for the OS preference when nothing overrode it.
+  */
+  :root[data-scheme='dark'] [data-invert-on-dark] {
+    filter: grayscale(1) invert(1);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-scheme='light']) [data-invert-on-dark] {
+      filter: grayscale(1) invert(1);
+    }
+  }
+
   :focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
@@ -86,6 +106,53 @@
       animation: rise 0.5s cubic-bezier(0.2, 0.6, 0.2, 1) both;
       animation-timeline: view();
       animation-range: entry 0% entry 40%;
+    }
+  }
+
+  /*
+     The marquee. The track holds the same row twice, so sliding it half its own
+     width lands exactly where it started and the seam never shows.
+
+     The pause lives on the band, not on the row: hover or focus anywhere stops
+     both rows, so they cannot drift apart while someone reads one of them.
+     :focus-within is not decoration — a keyboard user needs the same stop a
+     mouse user gets, and WCAG 2.2.2 asks for it on anything that moves on its
+     own for more than five seconds.
+  */
+  @media (prefers-reduced-motion: no-preference) {
+    .marquee-track {
+      animation: marquee 45s linear infinite;
+    }
+
+    .marquee-track[data-direction='reverse'] {
+      animation-direction: reverse;
+    }
+
+    .marquee:hover .marquee-track,
+    .marquee:focus-within .marquee-track {
+      animation-play-state: paused;
+    }
+  }
+
+  /*
+     Asking for less motion should not cost you the content. The duplicate copy
+     goes away and the row wraps, so every logo is still there, standing still.
+  */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .marquee-track [data-duplicate] {
+      display: none;
+    }
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
     }
   }
 
