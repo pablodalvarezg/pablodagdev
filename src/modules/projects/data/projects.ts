@@ -4,6 +4,7 @@ import path from 'node:path';
 import { LOCALES, type Locale } from '@modules/i18n';
 import { isProduction } from '@shared/config/env';
 
+import { parityError } from '../domain/parity';
 import { publishedProjects, sortProjects, type Project } from '../domain/project';
 import { frontmatterSchema } from './schema';
 
@@ -30,28 +31,32 @@ function slugsIn(locale: Locale): string[] {
     .sort();
 }
 
+/** Each slug in a locale with its draft flag, which only the frontmatter knows. */
+async function draftsIn(locale: Locale): Promise<Record<string, boolean>> {
+  const entries = await Promise.all(
+    slugsIn(locale).map(async (slug) => [slug, (await read(locale, slug)).project.draft] as const),
+  );
+
+  return Object.fromEntries(entries);
+}
+
 /**
- * Every slug, checked to exist in all locales. A slug is what pairs the two
- * translations for hreflang, so a missing one is a broken alternate link rather
- * than a missing page, and that fails quietly. Better to fail the build.
+ * Every slug, checked to ship the same pages in every locale. Reading the
+ * frontmatter costs nothing extra: module imports are cached, so the load below
+ * hits the same modules again.
  */
-export function allSlugs(): string[] {
-  const [reference, ...rest] = LOCALES.map((locale) => ({ locale, slugs: slugsIn(locale) }));
+async function allSlugs(): Promise<string[]> {
+  const perLocale = await Promise.all(
+    LOCALES.map(async (locale) => ({ locale, drafts: await draftsIn(locale) })),
+  );
 
-  for (const { locale, slugs } of rest) {
-    const missing = reference.slugs.filter((slug) => !slugs.includes(slug));
-    const extra = slugs.filter((slug) => !reference.slugs.includes(slug));
+  const error = parityError(perLocale);
 
-    if (missing.length > 0 || extra.length > 0) {
-      throw new Error(
-        `Case studies must exist in every locale. ` +
-          `'${locale}' is missing [${missing.join(', ')}] and has extra [${extra.join(', ')}] ` +
-          `compared to '${reference.locale}'.`,
-      );
-    }
-  }
+  if (error) throw new Error(error);
 
-  return reference.slugs;
+  const [reference] = perLocale;
+
+  return Object.keys(reference.drafts);
 }
 
 async function read(locale: Locale, slug: string): Promise<CaseStudy> {
@@ -69,7 +74,7 @@ export async function getCaseStudy(locale: Locale, slug: string): Promise<CaseSt
 
 /** Every project that should be listed, already ordered for the hub grid. */
 export async function getProjects(locale: Locale): Promise<Project[]> {
-  const loaded = await Promise.all(allSlugs().map((slug) => read(locale, slug)));
+  const loaded = await Promise.all((await allSlugs()).map((slug) => read(locale, slug)));
 
   return sortProjects(
     publishedProjects(

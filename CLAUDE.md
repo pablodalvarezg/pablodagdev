@@ -59,7 +59,7 @@ src/
 │  ├─ experience/          # Línea de tiempo laboral.
 │  ├─ theming/             # Registro de temas, tokens por "mundo", toggle claro/oscuro.
 │  ├─ i18n/                # Diccionarios, helpers de idioma y rutas localizadas.
-│  └─ seo/                 # (TODAVÍA NO) Canonical, hreflang, Open Graph, JSON-LD.
+│  └─ seo/                 # Open Graph y JSON-LD. Canonical y hreflang esperan SITE_URL.
 ├─ shared/                 # Código sin dominio, reutilizable por cualquier módulo.
 │  ├─ ui/                  # Primitivas del design system: Button, Section, Container.
 │  ├─ lib/                 # (TODAVÍA NO) Utilidades puras genéricas.
@@ -174,12 +174,14 @@ Hallazgos verificados de la máquina de Pablo (Windows 11). Si en una sesión de
 - **npm aplana `node_modules`:** un `import` de un paquete no declarado en `package.json` funciona igual en local y explota en el deploy. Declará toda dependencia que importes, aunque ya esté instalada como transitiva (pasó con `@eslint/js`).
 - **npm 11 bloquea los scripts de instalación** salvo los aprobados en el campo `allowScripts` de `package.json`. Importa más de lo que parece: `unrs-resolver` es el resolver nativo de `eslint-import-resolver-typescript`, y sin su postinstall las reglas de boundaries **pasan en verde sin comprobar nada** en un clone limpio. Está aprobado junto a `esbuild`. Si agregás una dependencia con postinstall, decidí a propósito si la aprobás.
 
+- **Los heredocs de esta terminal se comen un nivel de backslash, incluso citados.** Un `cat > file <<'EOF'` con `'\\u003c'` adentro escribe `'<'`, que en JavaScript **es** el carácter `<`: el escape queda convertido en un no-op que se lee igual de bien. Ya rompió el escapado de `</script>` del JSON-LD, y no lo agarró nada porque vivía en un `.tsx`, que el `include` de Vitest no ve. Dos reglas que salen de ahí: **cualquier archivo con secuencias de escape se escribe con la herramienta de edición, no por heredoc**, y **la lógica que puede estar mal va en un `.ts` de `domain/`**, no al lado del componente.
+
 ## Decisiones ya tomadas
 
 Cosas que una review vuelve a marcar si no las lee acá. Si vas a contradecir una, que sea con una razón nueva.
 
 - **El contrato de tokens va antes que los componentes.** Un token definido sin consumidor todavía no es deuda si la primitiva que lo va a usar está en el alcance de la fase. Lo que sí es deuda es un color escrito a mano en un componente.
-- **Migramos de Astro a Next a pedido de Pablo**, con el proyecto ya construido, porque no podía leer ni defender `.astro` en una entrevista. Un portfolio que no se puede mantener falla en su único trabajo, y eso pesa más que cualquier ventaja técnica. El costo aceptado: Next manda más JavaScript por defecto, y hay que cuidar activamente que los `"use client"` no se desparramen. `TODO(pablo):` esto debería estar en `docs/adr/0002`, que todavía no existe — por ahora el único registro es este párrafo.
+- **Migramos de Astro a Next a pedido de Pablo**, con el proyecto ya construido, porque no podía leer ni defender `.astro` en una entrevista. Un portfolio que no se puede mantener falla en su único trabajo, y eso pesa más que cualquier ventaja técnica. El costo aceptado: Next manda más JavaScript por defecto, y hay que cuidar activamente que los `"use client"` no se desparramen. Está registrado en `docs/adr/0002-astro-to-next-migration.md`.
 - **Prettier no formatea la prosa escrita a mano** (`CLAUDE.md`, `PORTFOLIO_BRIEF.md`, `.claude/`). Solo rompe las tablas; están en `.prettierignore`.
 - **El path del switcher de idioma se deriva, nunca se pasa como prop.** Cuando fue un prop con default `''`, una página que se olvidaba de pasarlo enlazaba al home del idioma en vez de a su traducción: sin error, sin build roto, solo un link mal. `TODO(pablo):` en Next un Server Component no conoce el pathname, así que la implementación probable es `usePathname()` en un componente cliente chico. Decidirlo al construir el switcher, y que la conclusión vuelva acá.
 - **Con `output: 'export'`, una ruta dinámica tiene que generar al menos una página.** Si todos los case studies están en `draft: true`, `generateStaticParams` devuelve un array vacío y el build falla con un error explícito. Es el comportamiento correcto y no hay que rodearlo: con uno publicado, poner el resto en borrador funciona normal. Lo descubrimos publicando STM.
@@ -189,10 +191,16 @@ Cosas que una review vuelve a marcar si no las lee acá. Si vas a contradecir un
 - **Si alguna vez hace falta formatear números o fechas, el tag necesita región.** `es` a secas formatea 1200 como `1200 US$`, sin separador de miles; `es-AR` da `US$ 1.200`. Hubo un `FORMATTING_LOCALES` con ese mapeo y se borró por no tener llamador: el dato queda acá, el código vuelve cuando haya quien lo use.
 - **La lista de locales vive en un solo lugar**, `modules/i18n`. En Astro estaba duplicada en su config porque no acepta importar TypeScript; `generateStaticParams` sí puede importarla, así que esa duplicación desapareció con la migración.
 
+- **El deploy es Vercel Hobby, y el dominio no bloquea nada.** `SITE_URL` arranca apuntando al subdominio `.vercel.app` y el dominio propio se enchufa después: es un cambio de un valor, siempre que canonical, hreflang y sitemap salgan de ahí y nadie escriba el dominio a mano en una página. El subdominio de Vercel queda vivo sirviendo el mismo contenido cuando llegue el dominio propio, y lo que resuelve ese duplicado es justamente que el canonical apunte a `SITE_URL`. Render gana donde Vercel no juega —procesos siempre despiertos— y no hay motivo para consolidar en un solo proveedor.
+- **Todos los side projects tienen que caber en planes gratis.** El techo aceptado es el dominio (~$1/mes). Consecuencias concretas: el cron de Vercel en Hobby corre **una vez por día** como máximo, así que un scheduler de verdad va en GitHub Actions; los Postgres gratis duermen (Neon a los 5 minutos, Supabase pausa el proyecto tras una semana sin actividad, y el de Render **expira**), así que la opción por defecto es Neon; y el único proyecto con costo variable es Game Night Agent, que necesita tope de gasto y rate limit por usuario desde el primer día, no después.
+- **Ningún proyecto alquila un proceso siempre despierto.** Bandeja era el único que lo pedía, por Socket.io, y el socket pasó a sostenerlo Supabase Realtime. La regla general: si algo necesita una conexión persistente, el proveedor la aguanta, no un server que se paga por mes. Socket.io propio vuelve solo con una razón nueva.
+
+- **`allSlugs()` lee el frontmatter de todos los idiomas, y eso no es derroche.** Un `draft` que no coincide entre idiomas deja un idioma sin la página: el switcher enlaza a un 404 y el hub de ese idioma no lista nada, con el build en verde. Es la misma falla silenciosa que la paridad de archivos ya prevenía, así que la regla es una sola y vive en `projects/domain/parity.ts`, pura y testeada. El costo de leer dos veces es cero: los `import()` de módulos están cacheados, así que la segunda lectura pega en el mismo módulo.
+
 ### Pendientes conocidos
 
 - `TODO(pablo):` Playwright y Lighthouse CI. Hasta que existan, no hay `npm run test:e2e`, y el responsive a 360 px no está verificado.
-- `TODO(pablo):` dominio, y con él el módulo `seo`. Hoy **no hay canonical ni hreflang**: cada página emite título y descripción y nada más. `SITE_URL` no existe todavía; nombrarlo antes de que exista fue lo que hizo que el README afirmara una función ausente.
+- `TODO(pablo):` dominio. El módulo `seo` ya existe con lo que no depende de él: JSON-LD `Person` en el hub y Open Graph por página. **Faltan canonical, hreflang, sitemap, `og:url` y JSON-LD `CreativeWork`**, que salen todos de `SITE_URL`, y `SITE_URL` no existe todavía; nombrarlo antes de que exista fue lo que hizo que el README afirmara una función ausente.
 - `TODO(pablo):` `og:image`. La etiqueta se omite a propósito mientras no haya archivo.
 
 ## Forma de trabajo
@@ -238,7 +246,7 @@ Cosas que una review vuelve a marcar si no las lee acá. Si vas a contradecir un
    - `CHECK` convive con `GTG` y con `FIX`.
    - `GTG` y `FIX` **nunca** aparecen juntos: si hay aunque sea un hallazgo `FIX`, el veredicto es `FIX`.
    - `FIX` como tag de review y `[FIX]` como tag de commit son cosas distintas: el primero pide un arreglo, el segundo describe un commit que ya lo hizo.
-5. **Decisiones de arquitectura** relevantes van en `docs/adr/NNNN-titulo.md` (contexto, decisión, consecuencias). `TODO(pablo):` la carpeta **no existe todavía**; faltan la 0001 (monolito modular) y la 0002 (migración de Astro a Next), y la 0001 es criterio de aceptación de la Fase 1.
+5. **Decisiones de arquitectura** relevantes van en `docs/adr/NNNN-titulo.md` (contexto, decisión, consecuencias), en inglés como el README. Existen la 0001 (monolito modular) y la 0002 (migración de Astro a Next).
 6. Mantené el `README.md` al día: cómo correr el proyecto, cómo agregar un case study, cómo crear un tema nuevo.
 7. Si detectás deuda técnica que no corresponde a la tarea actual, anotala como `TODO` o en un issue; no la resuelvas de paso.
 

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 
 import { assertLocale, LOCALES } from '@modules/i18n';
 import { DEFAULT_THEME } from '@modules/theming';
+import { site } from '@shared/config/site';
 
 import '../globals.css';
 
@@ -20,7 +21,7 @@ export function generateStaticParams() {
 export const dynamicParams = false;
 
 export const metadata: Metadata = {
-  title: 'Pablo Álvarez Graña',
+  title: site.name,
 };
 
 /** Applies a stored scheme before the document paints, so neither one flashes. */

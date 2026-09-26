@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import { assertLocale, getTranslations, localeUrl, LOCALES } from '@modules/i18n';
 import { SiteHeader } from '@modules/hub';
 import { CaseStudyLayout, getCaseStudy, getProjects } from '@modules/projects';
+import { openGraphBase } from '@modules/seo';
+import { site } from '@shared/config/site';
 
 import type { Metadata } from 'next';
 
@@ -28,9 +30,22 @@ export async function generateMetadata({
 
   if (!caseStudy) return {};
 
+  const description = caseStudy.project.summary;
+
   return {
-    title: `${caseStudy.project.title} — Pablo Álvarez Graña`,
-    description: caseStudy.project.summary,
+    // The suffix belongs in <title>, where the name gives a bare tab its owner.
+    title: `${caseStudy.project.title} — ${site.name}`,
+    description,
+    openGraph: {
+      // og:title drops it: og:site_name already carries the name, and a share
+      // preview has one line to spend on what this page actually is.
+      ...openGraphBase({
+        title: caseStudy.project.title,
+        description,
+        locale: assertLocale(lang),
+      }),
+      type: 'article',
+    },
   };
 }
 

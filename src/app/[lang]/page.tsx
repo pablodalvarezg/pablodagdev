@@ -1,15 +1,25 @@
 import { currentMonth, getRoles, Timeline } from '@modules/experience';
 import { About, Contact, Hero, SiteHeader, WhatIDo } from '@modules/hub';
 import { assertLocale, getTranslations, localeUrl } from '@modules/i18n';
-import { getProjects, ProjectCard } from '@modules/projects';
+import { getProjects, ProjectCard, UPCOMING_PROJECTS, UpcomingCard } from '@modules/projects';
+import { JsonLd, openGraphBase, personSchema } from '@modules/seo';
+import { site } from '@shared/config/site';
 import { Section } from '@shared/ui/Section';
 
 import type { Metadata } from 'next';
 
 export async function generateMetadata({ params }: PageProps<'/[lang]'>): Promise<Metadata> {
-  const t = getTranslations(assertLocale((await params).lang));
+  const locale = assertLocale((await params).lang);
+  const t = getTranslations(locale);
+  const description = t('meta.home.description');
 
-  return { description: t('meta.home.description') };
+  return {
+    description,
+    openGraph: {
+      ...openGraphBase({ title: site.name, description, locale }),
+      type: 'website',
+    },
+  };
 }
 
 export default async function HubPage({ params }: PageProps<'/[lang]'>) {
@@ -25,6 +35,15 @@ export default async function HubPage({ params }: PageProps<'/[lang]'>) {
 
   return (
     <>
+      {/* The hub is the page about him, so the Person block lives here and not
+          on every page, where duplicate entities only compete with each other. */}
+      <JsonLd
+        schema={personSchema({
+          jobTitle: t('hero.role'),
+          description: t('meta.home.description'),
+        })}
+      />
+
       <SiteHeader
         locale={locale}
         languageLabel={t('nav.language')}
@@ -51,19 +70,31 @@ export default async function HubPage({ params }: PageProps<'/[lang]'>) {
           />
         </Section>
 
-        {projects.length > 0 ? (
-          <Section id="work" eyebrow={t('work.eyebrow')} title={t('work.title')}>
-            <ul className="grid gap-4 sm:grid-cols-2">
-              {projects.map((project) => (
-                <ProjectCard
-                  key={project.slug}
-                  project={project}
-                  href={localeUrl(locale, `projects/${project.slug}`)}
-                />
-              ))}
-            </ul>
-          </Section>
-        ) : null}
+        {/*
+          One grid, not two: a case study is an article about a project, not a
+          category of its own. Shipped work first, then what is being built next.
+          Always rendered, because the upcoming cards mean it is never empty.
+        */}
+        <Section id="work" eyebrow={t('work.eyebrow')} title={t('work.title')}>
+          <ul className="grid gap-4 sm:grid-cols-2">
+            {projects.map((project) => (
+              <ProjectCard
+                key={project.slug}
+                project={project}
+                href={localeUrl(locale, `projects/${project.slug}`)}
+              />
+            ))}
+
+            {UPCOMING_PROJECTS.map((slug) => (
+              <UpcomingCard
+                key={slug}
+                title={t(`upcoming.${slug}.title`)}
+                summary={t(`upcoming.${slug}.summary`)}
+                label={t('upcoming.label')}
+              />
+            ))}
+          </ul>
+        </Section>
 
         <About locale={locale} />
         <Contact locale={locale} />

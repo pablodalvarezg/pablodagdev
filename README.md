@@ -6,7 +6,8 @@ page is plain HTML with the content already in it, and each project gets a page
 that doubles as its case study, styled by its own theme.
 
 Working agreements live in [CLAUDE.md](CLAUDE.md); scope and phases in
-[PORTFOLIO_BRIEF.md](PORTFOLIO_BRIEF.md). [AGENTS.md](AGENTS.md) is written by
+[PORTFOLIO_BRIEF.md](PORTFOLIO_BRIEF.md); the decisions behind the architecture
+in [docs/adr/](docs/adr/). [AGENTS.md](AGENTS.md) is written by
 `next dev` and points at the docs bundled with the installed Next version.
 
 **What exists today, and what comes next, is in `PORTFOLIO_BRIEF.md` under
@@ -104,6 +105,9 @@ project's page is its case study.
    what you would improve.
 4. Leave `draft: true` until it is finished. Drafts render while developing and
    are absent from a production build, so nothing half-written ships.
+5. Flip `draft` in **both** locales together. The build fails if they disagree,
+   because publishing one translation and not the other ships a page in one
+   language while the switcher on it points at a 404 in the other.
 
 Never invent a number. An empty result section beats an estimated one, and
 `period` is optional precisely so a missing date does not become a guess.
@@ -111,6 +115,27 @@ Never invent a number. An empty result section beats an estimated one, and
 One constraint that only shows up at the edge: `output: 'export'` requires every
 dynamic route to generate at least one page, so the build fails outright if every
 case study is a draft. With one published, drafting the rest works normally.
+
+## Announcing an upcoming project
+
+The hub grid also carries the projects that do not exist yet, so the same grid
+shows what shipped and what is next.
+
+1. Add the slug to `UPCOMING_PROJECTS` in
+   `src/modules/projects/domain/upcoming.ts`, in build order.
+2. Add `upcoming.<slug>.title` and `upcoming.<slug>.summary` to both
+   dictionaries. The slug is a literal type, so a missing key fails the
+   type-check rather than rendering an empty card.
+3. Remove the slug when its case study lands. A published project and an
+   announcement of the same project in one grid is a bug you only notice from
+   the outside.
+
+An entry carries nothing but a slug on purpose: a project that has not been
+built has no role, no stack and no theme to show, and a draft case study cannot
+announce it because drafts are absent from a production build.
+
+Keep the list short. Each card is a visible promise, and a wall of them reads as
+a backlog rather than as work.
 
 ## Creating a theme
 
