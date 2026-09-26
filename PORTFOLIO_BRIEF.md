@@ -24,7 +24,7 @@
 - GitHub: https://github.com/pablodalvarezg
 - Formación: Full-Stack Developer (Coderhouse). Inglés C1.
 
-**Stack:** HTML5, CSS3/SASS, Bootstrap, JavaScript, React, Node.js, Express, Python, MongoDB, PostgreSQL, SQL Server, Supabase, PHP/WordPress, Bubble, Retool, WeWeb, Make, n8n, Odoo, Softland.
+**Stack:** HTML5, CSS3/SASS, Bootstrap, JavaScript, React, Node.js, Express, Python, MongoDB, PostgreSQL, SQL Server, Supabase, PHP/WordPress, Bubble, Retool, Make, n8n, Odoo, Softland.
 
 **Intereses personales** (base de los side projects): pádel, juegos de mesa, Pokémon, estética japonesa, estética cyberpunk, autos deportivos.
 

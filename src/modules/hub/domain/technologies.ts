@@ -57,7 +57,5 @@ export const TECHNOLOGY_ROWS: readonly (readonly Technology[])[] = [
     { file: 'textlogo-make', name: 'Make', height: 18, invertOnDark: true },
     { file: 'textlogo-n8n', name: 'n8n', height: 32, invertOnDark: true },
     { file: 'textlogo-docker', name: 'Docker', height: 20 },
-    { file: 'textlogo-git', name: 'Git', height: 32, invertOnDark: true },
-    { file: 'logo-github', name: 'GitHub', height: 32, invertOnDark: true },
   ],
 ];

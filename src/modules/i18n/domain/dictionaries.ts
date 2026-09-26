@@ -30,7 +30,7 @@ const en = {
     'Modelling, migration and consolidation across SQL Server, PostgreSQL and Supabase, and the pipelines that keep them fed.',
   'services.lowcode.title': 'Low/No-Code & Automation',
   'services.lowcode.body':
-    'Internal tools and automations built in Bubble, Retool, WeWeb, Make and n8n, wired to real APIs.',
+    'Internal tools and automations built in Bubble, Retool, Make and n8n, wired to real APIs.',
   'services.erp.title': 'ERP (Odoo)',
   'services.erp.body':
     'Functional and technical Odoo work in Python, XML and JavaScript, data migration included.',
@@ -113,7 +113,7 @@ const es: Record<TranslationKey, string> = {
     'Modelado, migración y consolidación entre SQL Server, PostgreSQL y Supabase, y los pipelines que los alimentan.',
   'services.lowcode.title': 'Low/No-Code y automatización',
   'services.lowcode.body':
-    'Herramientas internas y automatizaciones en Bubble, Retool, WeWeb, Make y n8n, conectadas a APIs reales.',
+    'Herramientas internas y automatizaciones en Bubble, Retool, Make y n8n, conectadas a APIs reales.',
   'services.erp.title': 'ERP (Odoo)',
   'services.erp.body':
     'Implementación funcional y técnica de Odoo en Python, XML y JavaScript, migración de datos incluida.',
