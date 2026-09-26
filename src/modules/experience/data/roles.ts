@@ -8,7 +8,10 @@ const ROLES: readonly Role[] = [
   {
     id: 'assisted-living',
     company: 'Assisted Living Magazine',
-    title: 'Full-Stack & WordPress Developer',
+    // One tenure, not two: the Tech Lead promotion in 06/2026 added the team to
+    // the same job rather than replacing it, so it is one bar and the date lives
+    // in the summary.
+    title: 'Tech Lead & Full-Stack Developer',
     start: '2025-07',
     end: null,
   },
