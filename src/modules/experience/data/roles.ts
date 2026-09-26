@@ -22,7 +22,7 @@ const ROLES: readonly Role[] = [
   {
     id: 'activa',
     company: 'Activa Soluciones IT',
-    title: 'Odoo Consultant',
+    title: 'IT Consultant',
     start: '2023-07',
     end: '2024-10',
   },

@@ -9,16 +9,18 @@
  * restyles the whole page by redefining them under its own [data-theme] block.
  * light-dark() keeps one declaration per token instead of a duplicated dark set.
  *
- * The greens carry the identity: lime leads in dark, where it reaches 12.8:1,
- * and drops to a deep green in light, where lime itself is 1.5:1 and unusable
- * for text. Same story for the pastel blue. Every pair here clears AA in both.
+ * Each scheme leads with its own hue: lime in dark, where it reaches 12.8:1 and
+ * carries the identity, and blue in light, where lime itself is 1.5:1 and
+ * unusable for text. The blue replaces a deep green at the same weight — 6.39:1
+ * against the background where the green was 6.29:1 — so nothing else in the
+ * scale had to move. Every pair here clears AA in both schemes.
  */
 @theme {
   --color-bg: light-dark(#f8faf8, #0a0f0b);
   --color-fg: light-dark(#0d1710, #e4eee6);
   --color-muted: light-dark(#526257, #8fa596);
   --color-border: light-dark(#dce5de, #1f2c23);
-  --color-accent: light-dark(#2c6a17, #a3e635);
+  --color-accent: light-dark(#1d4ed8, #a3e635);
   --color-secondary: light-dark(#2f5f7d, #a8c8e8);
 
   /*
