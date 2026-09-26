@@ -115,24 +115,20 @@
      The marquee. The track holds the same row twice, so sliding it half its own
      width lands exactly where it started and the seam never shows.
 
-     The pause lives on the band, not on the row: hover or focus anywhere stops
-     both rows, so they cannot drift apart while someone reads one of them.
-     :focus-within is not decoration — a keyboard user needs the same stop a
-     mouse user gets, and WCAG 2.2.2 asks for it on anything that moves on its
-     own for more than five seconds.
+     The duration comes from the component, one value per row, because a shared
+     duration is not a shared speed: the wider row would cover more pixels in the
+     same time and pull ahead. It is derived from the measured widths.
+
+     Nothing pauses it, by request. The one stop left is the reduced-motion rule
+     below, which is what carries the accommodation now.
   */
   @media (prefers-reduced-motion: no-preference) {
     .marquee-track {
-      animation: marquee 45s linear infinite;
+      animation: marquee var(--marquee-seconds, 45s) linear infinite;
     }
 
     .marquee-track[data-direction='reverse'] {
       animation-direction: reverse;
-    }
-
-    .marquee:hover .marquee-track,
-    .marquee:focus-within .marquee-track {
-      animation-play-state: paused;
     }
   }
 
