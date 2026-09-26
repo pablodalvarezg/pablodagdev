@@ -36,6 +36,7 @@ export const TECHNOLOGY_ROWS: readonly (readonly Technology[])[] = [
   [
     { file: 'logo-react', name: 'React', height: 32, invertOnDark: true },
     { file: 'textlogo-nodejs', name: 'Node.js', height: 32, invertOnDark: true },
+    { file: 'textlogo-expressjs', name: 'Express', height: 23, invertOnDark: true },
     { file: 'textlogo-nextjs', name: 'Next.js', height: 18, invertOnDark: true },
     { file: 'textlogo-nestjs', name: 'NestJS', height: 31, invertOnDark: true },
     { file: 'logo-javascript', name: 'JavaScript', height: 32, invertOnDark: true },
@@ -52,6 +53,7 @@ export const TECHNOLOGY_ROWS: readonly (readonly Technology[])[] = [
     { file: 'textlogo-mongodb', name: 'MongoDB', height: 22, invertOnDark: true },
     { file: 'textlogo-supabase', name: 'Supabase', height: 18, invertOnDark: true },
     { file: 'textlogo-wordpress', name: 'WordPress', height: 18 },
+    { file: 'textlogo-odoo', name: 'Odoo', height: 28, invertOnDark: true },
     { file: 'textlogo-bubble', name: 'Bubble', height: 32, invertOnDark: true },
     { file: 'textlogo-retool', name: 'Retool', height: 32, invertOnDark: true },
     { file: 'textlogo-make', name: 'Make', height: 18, invertOnDark: true },
