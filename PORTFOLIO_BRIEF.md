@@ -57,7 +57,7 @@
 | Estilos | Tailwind CSS + tokens por tema vía CSS custom properties |
 | Contenido | MDX leído del filesystem, con frontmatter validado por Zod |
 | i18n | Segmento `[lang]` con `generateStaticParams`; rutas `/en/` y `/es/` |
-| Deploy | Vercel o Cloudflare Pages (preview por PR) |
+| Deploy | **Vercel** Hobby, con preview por PR. Arranca en el subdominio `.vercel.app` y el dominio propio se enchufa después sin tocar código: sale todo de `SITE_URL`. |
 | Calidad | ESLint, Prettier, Lighthouse CI en GitHub Actions |
 | SEO | Sitemap, `robots.txt`, canonical, hreflang, OG images generadas, JSON-LD `Person` y `CreativeWork` |
 
@@ -170,7 +170,7 @@ Lo que existe hoy en `main`, para no tener que deducirlo del código:
 
 1. **ADR 0001** (monolito modular) y **0002** (migración de Astro a Next). Es criterio de aceptación y la 0002 ya está referenciada desde `CLAUDE.md` sin existir.
 2. **Módulo `seo`**: canonical, hreflang, sitemap, JSON-LD `Person` y `CreativeWork`. Necesita que se decida el dominio primero, porque todo sale de `SITE_URL`.
-3. **Grilla de side projects** en el hub, con los 7 mundos de la sección 5 en "Próximamente".
+3. **Grilla de próximos proyectos** en el hub: solo **Atlas y Type Matrix**, los dos siguientes de la sección 5, en "Próximamente". No los siete: siete promesas visibles de cosas que no existen se leen como backlog personal y no como trabajo. Cada card aparece cuando su proyecto entra en construcción.
 4. **Responsive a 360 px** y **Playwright + Lighthouse CI**. Lighthouse se mide contra un sitio desplegado, así que va después del deploy.
 5. **Completar STM**: fechas y revisión de las tres inferencias.
 
@@ -190,15 +190,17 @@ Cada side project es un **repo independiente** con demo en vivo, y tiene su case
 Esta sección es solo de side projects. El trabajo profesional no tiene backlog: se documenta cuando existe y cuando hay permiso para contarlo.
 
 > **Lineup revisado.** Este backlog pasó de nueve proyectos a siete, con tres criterios: que cada uno tenga al menos un problema difícil que no sea de interfaz, que se pueda presentar sin explicar por qué existe, y que su fuente de datos sea documentada y estable. Al final de la sección está lo que se cayó y por qué.
+>
+> **Orden revisado (2026-09-26).** Los proyectos están numerados por orden de construcción, y el número manda: es el orden en que se abren los repos. Se balanceó rapidez contra aporte, con cuatro criterios:
+>
+> 1. **Los primeros dos son los que van a existir cuando alguien mire.** Tienen que ser los más rápidos de terminar y a la vez pesar en el portfolio, no los más ambiciosos.
+> 2. **Nada de infraestructura al principio.** Scheduler, colas y OAuth de terceros se pagan en semanas, no en líneas.
+> 3. **Variedad entre vecinos.** Dos proyectos consecutivos no pueden parecerse: perf/datos → juego → lógica de negocio → relacional/low-code → ops → tiempo real → IA.
+> 4. **Las dependencias reales mandan.** Game Night Agent sugiere juegos desde Meeple Log y llama a las APIs de los otros, así que va último por obligación, no por gusto.
+>
+> Los dos cambios grandes contra el orden anterior: **Vigil bajó de primero a quinto** —es el que más infra pide y el que menos tiene para mostrar al principio, porque un monitor con tres días de datos se ve vacío; en el puesto 5 ya tiene el portfolio y cuatro proyectos para vigilar— y **Atlas subió a primero**, porque STM ya resolvió ese problema y arranca con ventaja.
 
-### 🛰️ Vigil — monitor de uptime y SEO técnico
-
-- Sondas HTTP con timeout, reintentos y percentiles de latencia (p50, p95, p99); Core Web Vitals por URL; estado de indexación desde Search Console; diff de `robots.txt` y meta robots entre corridas; alertas con silenciamiento y escalamiento; página de estado pública.
-- **Stack:** Node o Python, jobs programados, series temporales con rollups, APIs de Google.
-- **Lo difícil:** un scheduler que no derive con el tiempo; **deduplicación de alertas** (un sitio caído treinta minutos manda una alerta, no seis); retención por resolución; concurrencia con backpressure.
-- **Estética:** oscuro sobrio, mono para los números, color semántico —verde, ámbar, rojo— reservado al estado. **Sin glitch ni efectos:** un monitor que parece un videojuego no lo mira nadie en serio.
-
-### 🧭 Atlas — catálogo de tokens enfocado en performance
+### 1. 🧭 Atlas — catálogo de tokens enfocado en performance
 
 - Listado con búsqueda, filtros y orden; página por token con precio, capitalización, suministro y rangos; **dónde comprarlo**, con enlaces a los venues oficiales; comparador lado a lado. No gestiona carteras ni calcula resultados: su trabajo es que encuentres un token y salgas hacia el lugar correcto.
 - **Stack:** render estático con revalidación programada, caché en capas, CoinGecko.
@@ -208,31 +210,7 @@ Esta sección es solo de side projects. El trabajo profesional no tiene backlog:
 - **Estética:** clara y densa, tabular. `font-variant-numeric: tabular-nums` en toda columna de números.
 - **Precedente:** STM (sección 4) es este mismo problema resuelto contra un plazo de cuatro semanas. Atlas es la versión con presupuesto de performance, y el case study de STM nombra esa diferencia en vez de esconderla.
 
-### 💰 Umbral — gastos, límites y pronóstico
-
-- Carga de gastos con categoría y porcentajes sobre el total; **límites por categoría en monto fijo o en porcentaje del ingreso**; aviso al cargar, antes de guardar, cuando el gasto excede el límite; pronóstico de ingresos y ahorro por prorrateo de los últimos seis meses; detección automática de gastos recurrentes; comparación mes contra mes.
-- **Stack:** TypeScript, PostgreSQL, decimales de precisión arbitraria.
-- **Lo difícil:** el **motor de reglas** (fijo o porcentual, mensual o móvil, varios aplicando al mismo gasto, y explicar cuál se rompió) es lógica pura y se testea sin base ni interfaz; el **prorrateo honesto** —media, mediana o media recortada, y poder defender la elección—; **detectar periodicidad** en un flujo de transacciones con montos e intervalos que varían.
-- **Detalle local:** en Argentina un presupuesto en monto fijo queda viejo en dos meses. Los límites porcentuales no son una feature más: son la única forma de que sobreviva a la inflación.
-- **Estética:** sobria y numérica, cercana a Atlas pero con su propia paleta.
-
-### 🎾 Bandeja — americanos y rankings de pádel
-
-- Torneos americano/mexicano, rotación automática de parejas, carga de resultados desde el celular, ranking tipo ELO con período provisional.
-- **Stack:** MERN, auth, Socket.io, PWA.
-- **Lo difícil:** el **emparejamiento** —con N jugadores y M canchas, que todos jueguen con todos, descansen parejo y no se repitan enfrentamientos es un problema combinatorio sin solución perfecta para muchos N, y hay que elegir qué restricción relajar—; resolución de conflictos entre dos dispositivos cargando el mismo partido; **cola offline** con claves de idempotencia.
-- **Wow:** marcador en vivo sincronizado entre dispositivos.
-- **Estética:** deportiva y limpia; verde cancha; tipografía condensada; números grandes estilo marcador.
-
-### 🎲 Meeple Log — ludoteca y análisis de partidas
-
-- Importación de la colección desde BoardGameGeek, registro de partidas, estadísticas por jugador/juego/cantidad de jugadores, recomendador "qué jugamos hoy".
-- **Stack:** PostgreSQL con modelado relacional y consultas analíticas, API XML de BoardGameGeek.
-- **Lo difícil:** la API de BGG **encola y devuelve 202**, así que la ingesta necesita reintentos con espera y ser reanudable; el esquema de una partida con N jugadores, equipos y expansiones no entra en una tabla plana; **el recomendador es una consulta SQL con restricciones, no machine learning**, y decirlo así vale más que fingir un modelo.
-- **Wow:** "Wrapped" anual de partidas.
-- **Estética:** cálida y táctil; tonos cartón/crema; iconografía propia.
-
-### ⚡ Type Matrix — sala de juegos sobre datos de criaturas
+### 2. ⚡ Type Matrix — sala de juegos sobre datos de criaturas
 
 - **No es una Pokédex.** Modos: armado de equipo de 6 con debilidades compartidas y cobertura ofensiva; ahorcado con nombres de especie; adivinanza por silueta que se despixela con cada fallo; calculadora de combate con STAB, efectividad, estadísticas y naturaleza. Puzzle diario compartido, rachas y tabla de posiciones.
 - **Stack:** PokéAPI con caché, backend con validación server-side, tests de la lógica de combate.
@@ -240,7 +218,40 @@ Esta sección es solo de side projects. El trabajo profesional no tiene backlog:
 - **Restricción, a resolver a propósito:** el modo de silueta necesita arte oficial, que el brief prohíbe. Tres salidas, de menos a más riesgo: siluetas generadas con formas propias; adivinar por **estadísticas y tipos** en vez de por imagen, que además es más difícil e interesante; o asumir fan project con aviso visible de no oficial y sin monetizar. `TODO(pablo):` elegir una antes de empezar.
 - **Estética:** handheld retro reinterpretada, sobria; grilla de píxeles sutil; paleta de 4 tonos; tipografía mono.
 
-### 🤖 Game Night Agent — asistente con IA
+### 3. 💰 Umbral — gastos, límites y pronóstico
+
+- Carga de gastos con categoría y porcentajes sobre el total; **límites por categoría en monto fijo o en porcentaje del ingreso**; aviso al cargar, antes de guardar, cuando el gasto excede el límite; pronóstico de ingresos y ahorro por prorrateo de los últimos seis meses; detección automática de gastos recurrentes; comparación mes contra mes.
+- **Stack:** TypeScript, PostgreSQL, decimales de precisión arbitraria.
+- **Lo difícil:** el **motor de reglas** (fijo o porcentual, mensual o móvil, varios aplicando al mismo gasto, y explicar cuál se rompió) es lógica pura y se testea sin base ni interfaz; el **prorrateo honesto** —media, mediana o media recortada, y poder defender la elección—; **detectar periodicidad** en un flujo de transacciones con montos e intervalos que varían.
+- **Detalle local:** en Argentina un presupuesto en monto fijo queda viejo en dos meses. Los límites porcentuales no son una feature más: son la única forma de que sobreviva a la inflación.
+- **Estética:** sobria y numérica, cercana a Atlas pero con su propia paleta.
+
+### 4. 🎲 Meeple Log — ludoteca y análisis de partidas
+
+- Importación de la colección desde BoardGameGeek, registro de partidas, estadísticas por jugador/juego/cantidad de jugadores, recomendador "qué jugamos hoy".
+- **Stack:** PostgreSQL con modelado relacional y consultas analíticas, API XML de BoardGameGeek.
+- **Lo difícil:** la API de BGG **encola y devuelve 202**, así que la ingesta necesita reintentos con espera y ser reanudable; el esquema de una partida con N jugadores, equipos y expansiones no entra en una tabla plana; **el recomendador es una consulta SQL con restricciones, no machine learning**, y decirlo así vale más que fingir un modelo.
+- **Wow:** "Wrapped" anual de partidas.
+- **Capítulo low-code:** acá vive la comparación contra una versión del mismo producto armada en Retool —tiempo de desarrollo, costos y límites—. Sin el módulo de Odoo, es lo único que respalda con trabajo propio la parte low-code de *Qué hago*, así que no es un extra opcional.
+- **Estética:** cálida y táctil; tonos cartón/crema; iconografía propia.
+
+### 5. 🛰️ Vigil — monitor de uptime y SEO técnico
+
+- Sondas HTTP con timeout, reintentos y percentiles de latencia (p50, p95, p99); Core Web Vitals por URL; estado de indexación desde Search Console; diff de `robots.txt` y meta robots entre corridas; alertas con silenciamiento y escalamiento; página de estado pública.
+- **Stack:** Node o Python, jobs programados, series temporales con rollups, APIs de Google.
+- **Lo difícil:** un scheduler que no derive con el tiempo; **deduplicación de alertas** (un sitio caído treinta minutos manda una alerta, no seis); retención por resolución; concurrencia con backpressure.
+- **Estética:** oscuro sobrio, mono para los números, color semántico —verde, ámbar, rojo— reservado al estado. **Sin glitch ni efectos:** un monitor que parece un videojuego no lo mira nadie en serio.
+
+### 6. 🎾 Bandeja — americanos y rankings de pádel
+
+- Torneos americano/mexicano, rotación automática de parejas, carga de resultados desde el celular, ranking tipo ELO con período provisional.
+- **Stack:** TypeScript, Supabase (Postgres + Auth + Realtime), PWA.
+- **Costo, decidido a propósito:** era el único proyecto que exigía un proceso siempre despierto para sostener sockets (~$7/mes). Con Realtime de Supabase el socket lo aguanta el proveedor y el proyecto baja a $0 sin perder el marcador en vivo. Express sigue corriendo como funciones serverless y Mongo Atlas M0 queda disponible si la etiqueta MERN importa: lo único que se descartó es el servidor alquilado. Alternativa con mejor historia y más curva de aprendizaje: Durable Objects de Cloudflare con WebSocket Hibernation, también en plan gratis.
+- **Lo difícil:** el **emparejamiento** —con N jugadores y M canchas, que todos jueguen con todos, descansen parejo y no se repitan enfrentamientos es un problema combinatorio sin solución perfecta para muchos N, y hay que elegir qué restricción relajar—; resolución de conflictos entre dos dispositivos cargando el mismo partido; **cola offline** con claves de idempotencia.
+- **Wow:** marcador en vivo sincronizado entre dispositivos.
+- **Estética:** deportiva y limpia; verde cancha; tipografía condensada; números grandes estilo marcador.
+
+### 7. 🤖 Game Night Agent — asistente con IA
 
 - Bot de Telegram que organiza una noche de juegos: consulta disponibilidad del grupo, propone fecha por mayor solapamiento, sugiere juego desde Meeple Log y crea el evento.
 - **Stack:** LLM con function calling, webhooks, integración con las APIs de los otros proyectos.
@@ -258,24 +269,28 @@ Esta sección es solo de side projects. El trabajo profesional no tiene backlog:
 
 | Proyecto | Full-Stack | Data / SQL | Low-Code / ERP / IA | SEO / Perf | Diseño |
 |---|:-:|:-:|:-:|:-:|:-:|
-| Vigil | ●● | ●●● | | ●●● | ●● |
-| Atlas | ●● | ●●● | | ●●● | ●● |
-| Umbral | ●●● | ●●● | | ● | ●● |
-| Bandeja | ●●● | ●● | ●● | ● | ●● |
-| Meeple Log | ●● | ●●● | | ● | ●● |
-| Type Matrix | ●●● | ●● | | ● | ●● |
-| Game Night Agent | ●● | ● | ●●● | | ●● |
+| 1. Atlas | ●● | ●●● | | ●●● | ●● |
+| 2. Type Matrix | ●●● | ●● | | ● | ●● |
+| 3. Umbral | ●●● | ●●● | | ● | ●● |
+| 4. Meeple Log | ●● | ●●● | ●● | ● | ●● |
+| 5. Vigil | ●● | ●●● | | ●●● | ●● |
+| 6. Bandeja | ●●● | ●● | | ● | ●● |
+| 7. Game Night Agent | ●● | ● | ●●● | | ●● |
 
 ## 6. Roadmap
 
 | Fase | Semanas | Entregable |
 |---|---|---|
-| 1 | 1–2 | Hub completo + maquinaria de case studies (sin contenido publicado) |
-| 2 | 3–5 | Vigil |
-| 3 | 6–8 | Atlas |
+| 1 | 1–2 | Hub completo + el case study de STM publicado |
+| 2 | 3–5 | Atlas |
+| 3 | 6–8 | Type Matrix |
 | 4 | 9–11 | Umbral |
-| 5 | 12–14 | Bandeja + panel Retool |
-| 6+ | 1 por mes | Meeple Log, Type Matrix, Game Night Agent |
+| 5 | 12–15 | Meeple Log + el capítulo low-code en Retool |
+| 6 | 16–19 | Vigil |
+| 7 | 20–23 | Bandeja |
+| 8 | 24–25 | Game Night Agent |
+
+Las semanas son estimaciones y el orden es lo que importa: si una fase se estira, la siguiente se corre, pero no se adelanta.
 
 ### Definition of Done por side project
 
