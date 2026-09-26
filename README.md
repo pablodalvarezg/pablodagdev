@@ -6,7 +6,8 @@ page is plain HTML with the content already in it, and each project gets a page
 that doubles as its case study, styled by its own theme.
 
 Working agreements live in [CLAUDE.md](CLAUDE.md); scope and phases in
-[PORTFOLIO_BRIEF.md](PORTFOLIO_BRIEF.md). [AGENTS.md](AGENTS.md) is written by
+[PORTFOLIO_BRIEF.md](PORTFOLIO_BRIEF.md); the decisions behind the architecture
+in [docs/adr/](docs/adr/). [AGENTS.md](AGENTS.md) is written by
 `next dev` and points at the docs bundled with the installed Next version.
 
 **What exists today, and what comes next, is in `PORTFOLIO_BRIEF.md` under

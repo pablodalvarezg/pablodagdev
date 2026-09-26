@@ -164,21 +164,21 @@ Lo que existe hoy en `main`, para no tener que deducirlo del código:
 - [ ] JSON-LD `Person` válido y meta tags de Open Graph por página. **Nada de esto existe**: hoy cada página emite solo título y descripción.
 - [ ] Responsive real desde 360 px. Sin verificar.
 - [x] README con cómo correr, cómo agregar un case study y cómo crear un tema nuevo.
-- [ ] ADR 0001 documentando la elección de monolito modular. La carpeta `docs/adr/` no existe.
+- [x] ADR 0001 documentando la elección de monolito modular, en `docs/adr/`. Va con la 0002, que registra la migración de Astro a Next.
 
 ### Lo que sigue, en orden
 
-1. **ADR 0001** (monolito modular) y **0002** (migración de Astro a Next). Es criterio de aceptación y la 0002 ya está referenciada desde `CLAUDE.md` sin existir.
-2. **Módulo `seo`**: canonical, hreflang, sitemap, JSON-LD `Person` y `CreativeWork`. Necesita que se decida el dominio primero, porque todo sale de `SITE_URL`.
-3. **Grilla de próximos proyectos** en el hub: solo **Atlas y Type Matrix**, los dos siguientes de la sección 5, en "Próximamente". No los siete: siete promesas visibles de cosas que no existen se leen como backlog personal y no como trabajo. Cada card aparece cuando su proyecto entra en construcción.
-4. **Responsive a 360 px** y **Playwright + Lighthouse CI**. Lighthouse se mide contra un sitio desplegado, así que va después del deploy.
-5. **Completar STM**: fechas y revisión de las tres inferencias.
+1. **Módulo `seo`**: canonical, hreflang, sitemap, JSON-LD `Person` y `CreativeWork`. **Ya no espera al dominio**: `SITE_URL` arranca apuntando al subdominio de Vercel y cambiarlo después es un valor. Solo `og:image` sigue esperando que exista el archivo.
+2. **Grilla de próximos proyectos** en el hub: solo **Atlas y Type Matrix**, los dos siguientes de la sección 5, en "Próximamente". No los siete: siete promesas visibles de cosas que no existen se leen como backlog personal y no como trabajo. Cada card aparece cuando su proyecto entra en construcción.
+3. **Responsive a 360 px.**
+4. **Deploy a Vercel**, en el subdominio `.vercel.app`. Entra acá porque ya no depende del dominio, y porque Lighthouse se mide contra un sitio servido.
+5. **Playwright + Lighthouse CI.**
+6. **Completar STM**: fechas y revisión de las tres inferencias. Es el único case study publicado, así que un párrafo que no se puede defender pesa más acá que en cualquier otro lado.
 
 ### Movido fuera de la Fase 1
 
-- **Deploy con dominio.** `TODO(pablo):` sigue sin dominio definido.
+- **Dominio propio.** `TODO(pablo):` sigue sin definirse, y ya no bloquea nada: el deploy arranca en el subdominio de Vercel y `SITE_URL` absorbe el cambio.
 - **Preview de tema en hover/focus.** Necesita al menos dos mundos con contenido real para que se note.
-- **Lighthouse ≥ 90 y Playwright.** Se miden contra un sitio desplegado.
 - **Case studies de los side projects.** Cada uno llega con su proyecto construido. El de STM no espera a nadie: el trabajo ya existe.
 
 ---

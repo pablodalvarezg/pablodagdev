@@ -10,3 +10,6 @@ AGENTS.md
 PORTFOLIO_BRIEF.md
 .claude/
 src/content/
+
+# Architecture decision records: prose, and Prettier only reflows them.
+docs/
