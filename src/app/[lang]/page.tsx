@@ -1,12 +1,7 @@
 import { currentMonth, getRoles, Timeline } from '@modules/experience';
 import { About, Contact, Hero, SiteHeader, WhatIDo } from '@modules/hub';
 import { assertLocale, getTranslations, localeUrl } from '@modules/i18n';
-import {
-  getProjects,
-  ProjectCard,
-  UPCOMING_PROJECTS,
-  UpcomingCard,
-} from '@modules/projects';
+import { getProjects, ProjectCard, UPCOMING_PROJECTS, UpcomingCard } from '@modules/projects';
 import { JsonLd, openGraphBase, personSchema } from '@modules/seo';
 import { site } from '@shared/config/site';
 import { Section } from '@shared/ui/Section';

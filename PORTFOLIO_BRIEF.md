@@ -137,23 +137,25 @@ draft: boolean
 
 No hay dos grillas separadas: un case study es el artículo sobre un proyecto, no una categoría aparte.
 
-### Estado al 2026-09-25
+### Estado al 2026-09-26
 
 Lo que existe hoy en `main`, para no tener que deducirlo del código:
 
 **Páginas construidas** (4, todas estáticas): `/en/` y `/es/` (el hub), `/en/projects/stm/` y `/es/projects/stm/`. `/` redirige a `/en/` con un meta refresh en `public/index.html`, porque un export estático no admite redirects de servidor.
 
-**El hub** tiene hero, "qué hago" (5 bloques), la línea de tiempo de experiencia con barras proporcionales, la grilla de trabajo, sobre mí y contacto. Falta la grilla de los 7 side projects en "Próximamente".
+**El hub** tiene hero, "qué hago" (5 bloques), la línea de tiempo de experiencia con barras proporcionales, la grilla de trabajo —con STM publicado y Atlas y Type Matrix en "Próximamente", en la misma grilla—, sobre mí y contacto.
 
-**Módulos**: `experience`, `hub`, `i18n`, `projects`, `theming`. Los límites los hace cumplir `eslint-plugin-boundaries`, verificado con fixtures.
+**Módulos**: `experience`, `hub`, `i18n`, `projects`, `seo`, `theming`. Los límites los hace cumplir `eslint-plugin-boundaries`, verificado con fixtures. El `seo` tiene JSON-LD `Person` y Open Graph; lo que sale de `SITE_URL` no está.
 
 **Temas**: dos mundos, `base` (hub) y `markets` (STM). Ambos clarean AA en claro y oscuro.
 
 **Contenido**: un case study, STM, en los dos idiomas. `TODO(pablo):` le faltan las fechas del `period`, y tres párrafos son inferencias mías sin confirmar (el problema, el rol de Express y el renderizado en el navegador).
 
-**Verificación**: 34 tests unitarios, `check` y `lint` en verde. No hay e2e ni Lighthouse.
+**Verificación**: 42 tests unitarios, `check` y `lint` en verde. No hay e2e ni Lighthouse.
 
-**Deploy**: ninguno. No hay dominio.
+**Deploy**: ninguno todavía. Va a Vercel Hobby en su subdominio; el dominio propio llega después y no bloquea.
+
+**Decisiones de arquitectura**: `docs/adr/0001` (monolito modular) y `0002` (migración de Astro a Next).
 
 ### Criterios de aceptación de la Fase 1
 
@@ -162,7 +164,7 @@ Lo que existe hoy en `main`, para no tener que deducirlo del código:
 - [x] Modo claro/oscuro en el hub.
 - [x] Colección de contenido con schema Zod, layout de case study y rutas bilingües, verificadas **con el case study de STM**, no con una plantilla.
 - [x] JSON-LD `Person` válido en el hub, y Open Graph por página: `title`, `description`, `site_name`, `locale`, `locale:alternate` y `type`. **Sin `og:url` ni `og:image`**: los dos necesitan el dominio, y una URL inventada es peor que una ausente. Canonical, hreflang y sitemap siguen pendientes por lo mismo.
-- [ ] Responsive real desde 360 px. Sin verificar.
+- [ ] Responsive real desde 360 px. **Auditado en código y sin hallazgos** (2026-09-26): contenedores fluidos con `px-6`, una sola columna por debajo de `sm`, ningún ancho fijo mayor a `w-20`, y la cadena más larga sin puntos de corte en todo el sitio mide 16 caracteres. Queda sin tildar a propósito: verificarlo de verdad necesita un navegador, o sea Playwright.
 - [x] README con cómo correr, cómo agregar un case study y cómo crear un tema nuevo.
 - [x] ADR 0001 documentando la elección de monolito modular, en `docs/adr/`. Va con la 0002, que registra la migración de Astro a Next.
 
