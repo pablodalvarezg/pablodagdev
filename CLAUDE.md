@@ -174,6 +174,8 @@ Hallazgos verificados de la máquina de Pablo (Windows 11). Si en una sesión de
 - **npm aplana `node_modules`:** un `import` de un paquete no declarado en `package.json` funciona igual en local y explota en el deploy. Declará toda dependencia que importes, aunque ya esté instalada como transitiva (pasó con `@eslint/js`).
 - **npm 11 bloquea los scripts de instalación** salvo los aprobados en el campo `allowScripts` de `package.json`. Importa más de lo que parece: `unrs-resolver` es el resolver nativo de `eslint-import-resolver-typescript`, y sin su postinstall las reglas de boundaries **pasan en verde sin comprobar nada** en un clone limpio. Está aprobado junto a `esbuild`. Si agregás una dependencia con postinstall, decidí a propósito si la aprobás.
 
+- **Los heredocs de esta terminal se comen un nivel de backslash, incluso citados.** Un `cat > file <<'EOF'` con `'\\u003c'` adentro escribe `'<'`, que en JavaScript **es** el carácter `<`: el escape queda convertido en un no-op que se lee igual de bien. Ya rompió el escapado de `</script>` del JSON-LD, y no lo agarró nada porque vivía en un `.tsx`, que el `include` de Vitest no ve. Dos reglas que salen de ahí: **cualquier archivo con secuencias de escape se escribe con la herramienta de edición, no por heredoc**, y **la lógica que puede estar mal va en un `.ts` de `domain/`**, no al lado del componente.
+
 ## Decisiones ya tomadas
 
 Cosas que una review vuelve a marcar si no las lee acá. Si vas a contradecir una, que sea con una razón nueva.

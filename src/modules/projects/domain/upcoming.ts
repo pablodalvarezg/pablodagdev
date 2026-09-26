@@ -10,5 +10,3 @@
  * An entry leaves this list when its case study arrives, not before.
  */
 export const UPCOMING_PROJECTS = ['atlas', 'type-matrix'] as const;
-
-export type UpcomingProject = (typeof UPCOMING_PROJECTS)[number];

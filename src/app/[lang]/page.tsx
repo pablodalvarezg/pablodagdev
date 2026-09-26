@@ -73,10 +73,7 @@ export default async function HubPage({ params }: PageProps<'/[lang]'>) {
         {/*
           One grid, not two: a case study is an article about a project, not a
           category of its own. Shipped work first, then what is being built next.
-
-          The emptiness check this replaced could never be false. With every case
-          study in draft, generateStaticParams yields nothing and the build fails
-          before this renders — so the branch only looked like a safeguard.
+          Always rendered, because the upcoming cards mean it is never empty.
         */}
         <Section id="work" eyebrow={t('work.eyebrow')} title={t('work.title')}>
           <ul className="grid gap-4 sm:grid-cols-2">
