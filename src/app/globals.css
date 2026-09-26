@@ -70,6 +70,18 @@
     }
   }
 
+  /*
+     In-page jumps glide instead of cutting, so an anchor reads as movement
+     through one page rather than as a new one. Behind the motion query for the
+     same reason everything else is: a scroll someone did not ask to animate is
+     the exact thing that setting exists to stop.
+  */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
   :focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;

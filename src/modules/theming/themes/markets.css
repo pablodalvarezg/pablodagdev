@@ -3,12 +3,19 @@
  *
  * Cool navy instead of the hub's green, with a teal that carries the signal:
  * the register a trading screen reads in, without borrowing any company's
- * palette. Measured against the same bar as the hub, in both schemes:
- * fg 17.3/15.6, muted 6.3/7.7, accent 7.0/11.1, secondary 6.7/9.9,
+ * palette.
+ *
+ * The dark background is the hub's, not a navy of its own. A world changes the
+ * ink, not the paper: moving from the hub into a case study should not look
+ * like the lights changed. Light keeps its own tint, where the difference reads
+ * as paper stock rather than as a different room.
+ *
+ * Measured against the same bar as the hub, in both schemes:
+ * fg 17.3/15.4, muted 6.3/7.7, accent 7.0/11.0, secondary 6.7/9.9,
  * and accent-fg on an accent fill 7.4/10.9. All clear AA.
  */
 [data-theme='markets'] {
-  --color-bg: light-dark(#f6f9fb, #070d14);
+  --color-bg: light-dark(#f6f9fb, #0a0f0b);
   --color-fg: light-dark(#0b1620, #dde7f0);
   --color-muted: light-dark(#4d5f6e, #8fa6b8);
   --color-border: light-dark(#ccd8e2, #1e2d3e);
