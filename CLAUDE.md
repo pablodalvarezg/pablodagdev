@@ -200,6 +200,7 @@ Cosas que una review vuelve a marcar si no las lee acá. Si vas a contradecir un
 - `TODO(pablo):` Playwright y Lighthouse CI. Hasta que existan, no hay `npm run test:e2e`, y el responsive a 360 px no está verificado.
 - `TODO(pablo):` dominio. El módulo `seo` ya existe con lo que no depende de él: JSON-LD `Person` en el hub y Open Graph por página. **Faltan canonical, hreflang, sitemap, `og:url` y JSON-LD `CreativeWork`**, que salen todos de `SITE_URL`, y `SITE_URL` no existe todavía; nombrarlo antes de que exista fue lo que hizo que el README afirmara una función ausente.
 - `TODO(pablo):` `og:image`. La etiqueta se omite a propósito mientras no haya archivo.
+- `TODO(pablo):` **`allSlugs()` compara qué archivos existen, nunca el campo `draft`.** Con `en/stm.mdx` publicado y `es/stm.mdx` en borrador el build pasa igual, y queda un idioma sin la página: el switcher enlaza a un 404 y el hub de ese idioma no muestra ningún proyecto publicado. Es el mismo tipo de falla silenciosa que la función ya previene para los slugs, así que la paridad de `draft` debería romper el build por el mismo motivo. Detectado revisando otra cosa; no se arregló de paso.
 
 ## Forma de trabajo
 
