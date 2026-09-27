@@ -1,6 +1,11 @@
 import { Container } from '@shared/ui/Container';
 
-import { marqueeSeconds, TECHNOLOGY_ROWS, type Technology } from '../domain/technologies';
+import {
+  marqueeRepeats,
+  marqueeSeconds,
+  TECHNOLOGY_ROWS,
+  type Technology,
+} from '../domain/technologies';
 
 import type { CSSProperties } from 'react';
 
@@ -101,7 +106,7 @@ export function TechMarquee({ eyebrow, title }: { eyebrow: string; title: string
         to match the background, and there are two schemes and a theme per world
         to match. A mask hides the pixels instead, so it is right in all of them.
       */}
-      <div className="marquee border-border flex flex-col gap-8 overflow-hidden border-y py-10">
+      <div className="marquee border-border mx-auto flex max-w-[1920px] flex-col gap-8 overflow-hidden border-y py-10">
         {TECHNOLOGY_ROWS.map((row, index) => (
           <div
             key={index}
@@ -109,8 +114,14 @@ export function TechMarquee({ eyebrow, title }: { eyebrow: string; title: string
             data-direction={index % 2 === 1 ? 'reverse' : undefined}
             style={{ '--marquee-seconds': `${marqueeSeconds(row)}s` } as CSSProperties}
           >
-            <Row items={row} />
-            <Row items={row} duplicate />
+            {/*
+              Two halves, each holding the row as many times as it takes to
+              cover the widest the band can get. The first pass carries the alt
+              text; every copy after it is decoration and says nothing.
+            */}
+            {Array.from({ length: marqueeRepeats(row) * 2 }, (_, copy) => (
+              <Row key={copy} items={row} duplicate={copy > 0} />
+            ))}
           </div>
         ))}
       </div>

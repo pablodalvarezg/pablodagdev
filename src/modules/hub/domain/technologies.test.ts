@@ -1,17 +1,20 @@
 import { describe, expect, it } from 'vitest';
 
-import { marqueeSeconds, TECHNOLOGY_ROWS, type Technology } from './technologies';
+import { marqueeRepeats, marqueeSeconds, TECHNOLOGY_ROWS, type Technology } from './technologies';
 
 const logo = (width: number): Technology => ({ file: 'x', name: 'X', width, height: 32 });
 
 describe('marqueeSeconds', () => {
-  it('scales with the width of the row', () => {
-    // The whole reason this function exists: a shared duration is not a shared
-    // speed. Twice the pixels in the same time is twice as fast.
-    const narrow = marqueeSeconds([logo(100)]);
-    const wide = marqueeSeconds([logo(100), logo(100), logo(100), logo(100)]);
+  it('repeats a row until one half covers the widest the band can get', () => {
+    // The blank stretch on a wide screen was a half narrower than the band: the
+    // track slid its 50% and ran out of logos before the far edge.
+    const rows = [[logo(100)], [logo(100), logo(100)], ...TECHNOLOGY_ROWS];
 
-    expect(wide).toBeGreaterThan(narrow * 3);
+    for (const row of rows) {
+      const width = row.reduce((total, tech) => total + tech.width + 40, 0);
+
+      expect(width * marqueeRepeats(row)).toBeGreaterThanOrEqual(1920);
+    }
   });
 
   it('gives rows of equal width equal time, whatever they hold', () => {
@@ -29,7 +32,8 @@ describe('marqueeSeconds', () => {
     // faster. Pixels per second is the thing that has to match.
     const speeds = TECHNOLOGY_ROWS.map((row) => {
       const width = row.reduce((total, tech) => total + tech.width + 40, 0);
-      return width / marqueeSeconds(row);
+      // The animation covers a whole half of the track, repeats included.
+      return (width * marqueeRepeats(row)) / marqueeSeconds(row);
     });
 
     expect(Math.abs(speeds[0] - speeds[1])).toBeLessThan(0.5);
