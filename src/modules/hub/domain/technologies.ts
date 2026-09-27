@@ -15,6 +15,20 @@ export interface Technology {
    */
   width: number;
   height: number;
+  /**
+   * A second file drawn for the dark scheme, shown in place of the first.
+   *
+   * Some marks cannot survive the white treatment. A square with its lettering
+   * in black, or a shield with a knocked-out numeral, flattens to a plain white
+   * block once every channel is crushed: the meaning of the mark lives inside
+   * its own outline, and the filter erases exactly that. The twin draws the
+   * shape in white with the lettering black, which is the result the filter was
+   * reaching for and could not produce.
+   *
+   * Both files share an aspect ratio, so swapping one for the other does not
+   * resize the row.
+   */
+  darkFile?: string;
 }
 
 /**
@@ -30,11 +44,17 @@ export const TECHNOLOGY_ROWS: readonly (readonly Technology[])[] = [
     { file: 'textlogo-expressjs', name: 'Express', width: 109, height: 29 },
     { file: 'textlogo-nextjs', name: 'Next.js', width: 110, height: 22 },
     { file: 'textlogo-nestjs', name: 'NestJS', width: 110, height: 39 },
-    { file: 'logo-javascript', name: 'JavaScript', width: 40, height: 40 },
+    {
+      file: 'logo-javascript',
+      name: 'JavaScript',
+      width: 40,
+      height: 40,
+      darkFile: 'logo-javascript-dark',
+    },
     { file: 'logo-python', name: 'Python', width: 40, height: 40 },
     { file: 'textlogo-php', name: 'PHP', width: 80, height: 40 },
-    { file: 'logo-html5', name: 'HTML5', width: 40, height: 40 },
-    { file: 'logo-css3', name: 'CSS3', width: 28, height: 40 },
+    { file: 'logo-html5', name: 'HTML5', width: 40, height: 40, darkFile: 'logo-html5-dark' },
+    { file: 'logo-css3', name: 'CSS3', width: 28, height: 40, darkFile: 'logo-css3-dark' },
     { file: 'textlogo-bubble', name: 'Bubble', width: 109, height: 25 },
     { file: 'textlogo-retool', name: 'Retool', width: 113, height: 22 },
   ],

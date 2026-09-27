@@ -5,6 +5,48 @@ import { marqueeSeconds, TECHNOLOGY_ROWS, type Technology } from '../domain/tech
 import type { CSSProperties } from 'react';
 
 /**
+ * One logo, in one scheme.
+ *
+ * A logo with a dark twin renders both and lets CSS show one, the same way the
+ * scheme toggle picks its icon. It cannot be a `<picture>` with a media query:
+ * that follows the operating system, and this site has a toggle that overrides
+ * it, so the two would disagree the moment anyone used it.
+ *
+ * Only one of the pair is ever displayed, and `display: none` keeps the other
+ * out of the accessibility tree, so both carry the real alt text without
+ * anything being announced twice.
+ */
+function Logo({
+  tech,
+  duplicate,
+  dark = false,
+}: {
+  tech: Technology;
+  duplicate: boolean;
+  dark?: boolean;
+}) {
+  return (
+    /*
+      eslint-disable-next-line @next/next/no-img-element --
+      The rule assumes next/image will optimise this, and here it cannot:
+      output: 'export' turns the optimiser off unless images.unoptimized is set,
+      and next/image does not process SVG in any case. What would be left is the
+      layout hint, which width and height already give.
+    */
+    <img
+      src={`/logos/${dark ? tech.darkFile : tech.file}.svg`}
+      alt={duplicate ? '' : tech.name}
+      width={tech.width}
+      height={tech.height}
+      loading="lazy"
+      decoding="async"
+      className="max-w-none"
+      data-scheme-logo={tech.darkFile ? (dark ? 'dark' : 'light') : undefined}
+    />
+  );
+}
+
+/**
  * One pass of a row. The loop needs the same logos twice so the track can slide
  * a full half-width and land where it started, and the second copy is decorative
  * by definition: `aria-hidden` with empty alts, or every tool is announced twice.
@@ -18,22 +60,8 @@ function Row({ items, duplicate = false }: { items: readonly Technology[]; dupli
     >
       {items.map((tech) => (
         <li key={tech.file} className="shrink-0">
-          {/*
-            eslint-disable-next-line @next/next/no-img-element --
-            The rule assumes next/image will optimise this, and here it cannot:
-            output: 'export' turns the optimiser off unless images.unoptimized is
-            set, and next/image does not process SVG in any case. What would be
-            left is the layout hint, which width and height already give.
-          */}
-          <img
-            src={`/logos/${tech.file}.svg`}
-            alt={duplicate ? '' : tech.name}
-            width={tech.width}
-            height={tech.height}
-            loading="lazy"
-            decoding="async"
-            className="max-w-none"
-          />
+          <Logo tech={tech} duplicate={duplicate} />
+          {tech.darkFile ? <Logo tech={tech} duplicate={duplicate} dark /> : null}
         </li>
       ))}
     </ul>
