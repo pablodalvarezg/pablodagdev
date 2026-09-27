@@ -15,6 +15,20 @@ export interface Technology {
    */
   width: number;
   height: number;
+  /**
+   * A second file drawn for the dark scheme, shown in place of the first.
+   *
+   * Some marks cannot survive the white treatment. A square with its lettering
+   * in black, or a shield with a knocked-out numeral, flattens to a plain white
+   * block once every channel is crushed: the meaning of the mark lives inside
+   * its own outline, and the filter erases exactly that. The twin draws the
+   * shape in white with the lettering black, which is the result the filter was
+   * reaching for and could not produce.
+   *
+   * Both files share an aspect ratio, so swapping one for the other does not
+   * resize the row.
+   */
+  darkFile?: string;
 }
 
 /**
@@ -25,31 +39,37 @@ export interface Technology {
  */
 export const TECHNOLOGY_ROWS: readonly (readonly Technology[])[] = [
   [
-    { file: 'logo-react', name: 'React', width: 44, height: 40 },
-    { file: 'textlogo-nodejs', name: 'Node.js', width: 65, height: 40 },
-    { file: 'textlogo-expressjs', name: 'Express', width: 109, height: 29 },
-    { file: 'textlogo-nextjs', name: 'Next.js', width: 110, height: 22 },
-    { file: 'textlogo-nestjs', name: 'NestJS', width: 110, height: 39 },
-    { file: 'logo-javascript', name: 'JavaScript', width: 40, height: 40 },
-    { file: 'logo-python', name: 'Python', width: 40, height: 40 },
-    { file: 'textlogo-php', name: 'PHP', width: 80, height: 40 },
-    { file: 'logo-html5', name: 'HTML5', width: 40, height: 40 },
-    { file: 'logo-css3', name: 'CSS3', width: 28, height: 40 },
-    { file: 'textlogo-bubble', name: 'Bubble', width: 109, height: 25 },
-    { file: 'textlogo-retool', name: 'Retool', width: 113, height: 22 },
+    { file: 'logo-react', name: 'React', width: 55, height: 50 },
+    { file: 'textlogo-nodejs', name: 'Node.js', width: 81, height: 50 },
+    { file: 'textlogo-expressjs', name: 'Express', width: 136, height: 36 },
+    { file: 'textlogo-nextjs', name: 'Next.js', width: 138, height: 28 },
+    { file: 'textlogo-nestjs', name: 'NestJS', width: 138, height: 49 },
+    {
+      file: 'logo-javascript',
+      name: 'JavaScript',
+      width: 40,
+      height: 40,
+      darkFile: 'logo-javascript-dark',
+    },
+    { file: 'logo-python', name: 'Python', width: 50, height: 50 },
+    { file: 'textlogo-php', name: 'PHP', width: 100, height: 50 },
+    { file: 'logo-html5', name: 'HTML5', width: 50, height: 50, darkFile: 'logo-html5-dark' },
+    { file: 'logo-css3', name: 'CSS3', width: 35, height: 50, darkFile: 'logo-css3-dark' },
+    { file: 'textlogo-bubble', name: 'Bubble', width: 136, height: 31 },
+    { file: 'textlogo-retool', name: 'Retool', width: 141, height: 28 },
   ],
   [
-    { file: 'textlogo-postgresql', name: 'PostgreSQL', width: 87, height: 40 },
-    { file: 'textlogo-mysql', name: 'MySQL', width: 67, height: 40 },
-    { file: 'logo-mssql', name: 'SQL Server', width: 40, height: 40 },
-    { file: 'textlogo-mariadb', name: 'MariaDB', width: 109, height: 31 },
-    { file: 'textlogo-mongodb', name: 'MongoDB', width: 111, height: 28 },
-    { file: 'textlogo-supabase', name: 'Supabase', width: 113, height: 22 },
-    { file: 'textlogo-wordpress', name: 'WordPress', width: 108, height: 22 },
-    { file: 'textlogo-odoo', name: 'Odoo', width: 110, height: 35 },
-    { file: 'textlogo-make', name: 'Make', width: 110, height: 23 },
-    { file: 'textlogo-n8n', name: 'n8n', width: 100, height: 40 },
-    { file: 'textlogo-docker', name: 'Docker', width: 110, height: 25 },
+    { file: 'textlogo-postgresql', name: 'PostgreSQL', width: 109, height: 50 },
+    { file: 'textlogo-mysql', name: 'MySQL', width: 84, height: 50 },
+    { file: 'logo-mssql', name: 'SQL Server', width: 50, height: 50 },
+    { file: 'textlogo-mariadb', name: 'MariaDB', width: 136, height: 39 },
+    { file: 'textlogo-mongodb', name: 'MongoDB', width: 139, height: 35 },
+    { file: 'textlogo-supabase', name: 'Supabase', width: 141, height: 28 },
+    { file: 'textlogo-wordpress', name: 'WordPress', width: 135, height: 28 },
+    { file: 'textlogo-odoo', name: 'Odoo', width: 138, height: 44 },
+    { file: 'textlogo-make', name: 'Make', width: 138, height: 29 },
+    { file: 'textlogo-n8n', name: 'n8n', width: 125, height: 50 },
+    { file: 'textlogo-docker', name: 'Docker', width: 138, height: 31 },
   ],
 ];
 
@@ -59,16 +79,37 @@ const GAP = 40;
 /** How far the band travels per second. Shared, which is the entire point. */
 const PIXELS_PER_SECOND = 22;
 
+/** The band never draws wider than this, so a half only has to cover this much. */
+const MAX_BAND_WIDTH = 1920;
+
+function rowWidth(row: readonly Technology[]): number {
+  return row.reduce((total, tech) => total + tech.width + GAP, 0);
+}
+
 /**
- * Seconds for one full pass of a row.
+ * How many times a row repeats inside one half of the track.
+ *
+ * The loop slides the track by half its width and lands where it started, which
+ * only looks continuous while that half is at least as wide as the band. One
+ * pass of these rows is narrower than a wide screen, so on one the track ran out
+ * mid-animation and left the blank stretch the band was supposed to fill.
+ *
+ * Repeating until a half covers the widest the band can get closes it, and the
+ * repeats are derived rather than fixed: change the logos and the count follows.
+ */
+export function marqueeRepeats(row: readonly Technology[]): number {
+  return Math.ceil(MAX_BAND_WIDTH / rowWidth(row));
+}
+
+/**
+ * Seconds for one full pass of a half of the track.
  *
  * Both rows used to share a duration, which is not the same as sharing a speed:
  * a row holding more logos is wider, and covering more pixels in the same time
  * means moving faster. Deriving the duration from the measured width is what
- * makes the two actually match.
+ * makes the two actually match, and the repeats have to be in it, because the
+ * animation travels a whole half and not a single pass.
  */
 export function marqueeSeconds(row: readonly Technology[]): number {
-  const width = row.reduce((total, tech) => total + tech.width + GAP, 0);
-
-  return Math.round(width / PIXELS_PER_SECOND);
+  return Math.round((rowWidth(row) * marqueeRepeats(row)) / PIXELS_PER_SECOND);
 }

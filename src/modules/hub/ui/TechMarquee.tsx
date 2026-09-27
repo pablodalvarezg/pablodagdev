@@ -1,8 +1,55 @@
 import { Container } from '@shared/ui/Container';
 
-import { marqueeSeconds, TECHNOLOGY_ROWS, type Technology } from '../domain/technologies';
+import {
+  marqueeRepeats,
+  marqueeSeconds,
+  TECHNOLOGY_ROWS,
+  type Technology,
+} from '../domain/technologies';
 
 import type { CSSProperties } from 'react';
+
+/**
+ * One logo, in one scheme.
+ *
+ * A logo with a dark twin renders both and lets CSS show one, the same way the
+ * scheme toggle picks its icon. It cannot be a `<picture>` with a media query:
+ * that follows the operating system, and this site has a toggle that overrides
+ * it, so the two would disagree the moment anyone used it.
+ *
+ * Only one of the pair is ever displayed, and `display: none` keeps the other
+ * out of the accessibility tree, so both carry the real alt text without
+ * anything being announced twice.
+ */
+function Logo({
+  tech,
+  duplicate,
+  dark = false,
+}: {
+  tech: Technology;
+  duplicate: boolean;
+  dark?: boolean;
+}) {
+  return (
+    /*
+      eslint-disable-next-line @next/next/no-img-element --
+      The rule assumes next/image will optimise this, and here it cannot:
+      output: 'export' turns the optimiser off unless images.unoptimized is set,
+      and next/image does not process SVG in any case. What would be left is the
+      layout hint, which width and height already give.
+    */
+    <img
+      src={`/logos/${dark ? tech.darkFile : tech.file}.svg`}
+      alt={duplicate ? '' : tech.name}
+      width={tech.width}
+      height={tech.height}
+      loading="lazy"
+      decoding="async"
+      className="max-w-none"
+      data-scheme-logo={tech.darkFile ? (dark ? 'dark' : 'light') : undefined}
+    />
+  );
+}
 
 /**
  * One pass of a row. The loop needs the same logos twice so the track can slide
@@ -18,22 +65,8 @@ function Row({ items, duplicate = false }: { items: readonly Technology[]; dupli
     >
       {items.map((tech) => (
         <li key={tech.file} className="shrink-0">
-          {/*
-            eslint-disable-next-line @next/next/no-img-element --
-            The rule assumes next/image will optimise this, and here it cannot:
-            output: 'export' turns the optimiser off unless images.unoptimized is
-            set, and next/image does not process SVG in any case. What would be
-            left is the layout hint, which width and height already give.
-          */}
-          <img
-            src={`/logos/${tech.file}.svg`}
-            alt={duplicate ? '' : tech.name}
-            width={tech.width}
-            height={tech.height}
-            loading="lazy"
-            decoding="async"
-            className="max-w-none"
-          />
+          <Logo tech={tech} duplicate={duplicate} />
+          {tech.darkFile ? <Logo tech={tech} duplicate={duplicate} dark /> : null}
         </li>
       ))}
     </ul>
@@ -73,7 +106,7 @@ export function TechMarquee({ eyebrow, title }: { eyebrow: string; title: string
         to match the background, and there are two schemes and a theme per world
         to match. A mask hides the pixels instead, so it is right in all of them.
       */}
-      <div className="marquee border-border flex flex-col gap-8 overflow-hidden border-y py-10">
+      <div className="marquee border-border mx-auto flex max-w-[1920px] flex-col gap-8 overflow-hidden border-y py-10">
         {TECHNOLOGY_ROWS.map((row, index) => (
           <div
             key={index}
@@ -81,8 +114,14 @@ export function TechMarquee({ eyebrow, title }: { eyebrow: string; title: string
             data-direction={index % 2 === 1 ? 'reverse' : undefined}
             style={{ '--marquee-seconds': `${marqueeSeconds(row)}s` } as CSSProperties}
           >
-            <Row items={row} />
-            <Row items={row} duplicate />
+            {/*
+              Two halves, each holding the row as many times as it takes to
+              cover the widest the band can get. The first pass carries the alt
+              text; every copy after it is decoration and says nothing.
+            */}
+            {Array.from({ length: marqueeRepeats(row) * 2 }, (_, copy) => (
+              <Row key={copy} items={row} duplicate={copy > 0} />
+            ))}
           </div>
         ))}
       </div>

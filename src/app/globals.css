@@ -69,12 +69,44 @@
      Written out twice because a filter cannot go through light-dark(): once for
      the explicit toggle, once for the OS preference when nothing overrode it.
   */
-  :root[data-scheme='dark'] .marquee img {
+  /*
+     Logos that ship a dark twin swap files rather than being filtered, so the
+     rule above skips them: their dark file is already white with the lettering
+     black, and running the filter over it would flatten that right back.
+
+     CSS picks the file the same way the scheme toggle picks its icon. Not a
+     <picture> media query, which follows the operating system and would
+     disagree with the toggle the moment anyone used it. Only tagged images take
+     part; a logo with no twin carries no attribute and nothing here touches it.
+  */
+  [data-scheme-logo='dark'] {
+    display: none;
+  }
+
+  :root[data-scheme='dark'] [data-scheme-logo='dark'] {
+    display: block;
+  }
+
+  :root[data-scheme='dark'] [data-scheme-logo='light'] {
+    display: none;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-scheme='light']) [data-scheme-logo='dark'] {
+      display: block;
+    }
+
+    :root:not([data-scheme='light']) [data-scheme-logo='light'] {
+      display: none;
+    }
+  }
+
+  :root[data-scheme='dark'] .marquee img:not([data-scheme-logo]) {
     filter: brightness(0) invert(1);
   }
 
   @media (prefers-color-scheme: dark) {
-    :root:not([data-scheme='light']) .marquee img {
+    :root:not([data-scheme='light']) .marquee img:not([data-scheme-logo]) {
       filter: brightness(0) invert(1);
     }
   }
