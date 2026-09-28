@@ -37,7 +37,9 @@
 | 07/2023 – 10/2024 | Activa Soluciones IT — Consultor Odoo | Implementación funcional y técnica de Odoo (Python, XML, JS); soporte Softland con SQL Server y PostgreSQL |
 | 01/2022 – hoy | Freelance — Web Developer | React, Node/Express, WordPress, Retool |
 
-**Posicionamiento (usar como hilo conductor del copy):** elige la herramienta justa para cada problema, desde código a medida hasta low-code y ERP, y domina la capa de datos.
+**Posicionamiento (usar como hilo conductor del copy):** elige la herramienta justa para cada problema, desde código a medida hasta low-code y ERP, y se hace cargo de los datos: dónde viven, cómo se mueven y que los números cierren.
+
+> **"Capa de datos" no se usa en el copy.** Es vocabulario de arquitectura y no le dice nada a quien contrata. La misma idea se escribe en palabras que cualquiera entiende — datos que viven en algún lado, se mueven entre sistemas y tienen que cerrar. En el código el término sigue siendo válido: `data/` es una capa y así se la nombra.
 
 ---
 

@@ -15,6 +15,11 @@ skills:
 theme: markets
 links:
   demo: https://stm.co
+cover:
+  src: /case-studies/stm/catalog.webp
+  width: 1280
+  height: 800
+  alt: 'El catálogo de STM.co: una barra con las métricas globales del mercado, las tarjetas de capitalización, volumen y cantidad de activos, y el listado debajo.'
 featured: true
 draft: false
 ---
@@ -33,7 +38,7 @@ que realmente lo emite.
 ## Restricciones
 
 - **Cuatro semanas**, de repositorio vacío a un sitio que se pudiera mostrar.
-- **Un solo desarrollador.** Sin equipo de back-end a quien delegar la capa de
+- **Un solo desarrollador.** Sin equipo de back-end a quien pasarle la parte de
   datos, sin diseñador a quien delegar los componentes.
 - **Más de 600 activos de varios emisores**, cada uno publicando una forma
   distinta, así que el catálogo no podía suponer una única fuente.
@@ -44,6 +49,14 @@ Un front end en React sobre una API en Express, los dos en TypeScript, con la
 API como lo único que habla con los emisores. El front end nunca ve la respuesta
 de un emisor: pide un activo y recibe siempre la misma forma, venga de la
 plataforma que venga.
+
+<img
+  src="/case-studies/stm/token.webp"
+  width="1280"
+  height="800"
+  loading="lazy"
+  alt="La ficha de Enegra en STM.co: precio y gráfico a la izquierda; a la derecha capitalización, volumen, rangos, suministro y el enlace al venue donde se compra."
+/>
 
 Ese límite es lo que hizo posibles las cuatro semanas. Normalizar en el servidor
 significó que cada emisor nuevo fuera un adaptador y ningún cambio de
@@ -66,15 +79,23 @@ vista.
   hecha por una sola persona.
 - El sitio está **en beta**: está online y se usa, y no está terminado.
 
+<img
+  src="/case-studies/stm/table.webp"
+  width="1280"
+  height="800"
+  loading="lazy"
+  alt="El listado de activos: filas con el nombre y el símbolo del token, precio, variación en 24 horas, volumen, capitalización y un botón de compra por fila."
+/>
+
 ## Qué mejoraría
 
-La honesta, y la razón por la que Atlas existe en este portfolio: el
-catálogo se renderiza en el navegador. El HTML que llega trae el cascarón de la
-página y los activos aparecen después, que es el canje correcto para salir en
-cuatro semanas y el equivocado para un catálogo cuyo trabajo entero es que lo
-encuentren.
+El catálogo se arma en el navegador, y esa es la razón por la que Atlas está en
+este portfolio. El servidor manda una página vacía y los activos recién
+aparecen cuando el JavaScript termina de pedirlos. Para salir en cuatro semanas
+fue la decisión correcta; para un catálogo que vive de que lo encuentren, no.
 
-Atlas es esa misma decisión tomada al revés — el mismo problema con los datos ya
-adentro del HTML y un presupuesto de performance que rompe el build — así que la
-comparación entre los dos es real y no una afirmación.
+Atlas va a ser la versión mejorada de esto mismo: el mismo catálogo, con los
+datos ya dentro del HTML y un presupuesto de performance que se controla en cada
+build. Cuando esté publicado, acá van el peso del HTML y el LCP de los dos,
+medidos.
 

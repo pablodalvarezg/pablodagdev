@@ -15,6 +15,11 @@ skills:
 theme: markets
 links:
   demo: https://stm.co
+cover:
+  src: /case-studies/stm/catalog.webp
+  width: 1280
+  height: 800
+  alt: 'The STM.co catalogue: a bar of global market metrics, cards for market cap, volume and asset count, and the listing below them.'
 featured: true
 draft: false
 ---
@@ -33,7 +38,7 @@ at the venue that actually issues it.
 ## Constraints
 
 - **Four weeks**, from empty repository to a site that could be shown.
-- **One developer.** No back-end team to hand the data layer to, no designer to
+- **One developer.** No back-end team to hand the data work to, no designer to
   hand the components to.
 - **Over 600 assets from several issuers**, each publishing a different shape,
   which meant the catalogue could not assume a single source.
@@ -44,6 +49,14 @@ A React front end over an Express API, both in TypeScript, with the API as the
 only thing that talks to the issuers. The front end never sees an issuer's
 response: it asks for an asset and receives the same shape every time, whichever
 platform that asset came from.
+
+<img
+  src="/case-studies/stm/token.webp"
+  width="1280"
+  height="800"
+  loading="lazy"
+  alt="Enegra's page on STM.co: price and chart on the left; on the right market cap, volume, ranges, supply and the link to the venue where it trades."
+/>
 
 That boundary is what made four weeks possible. Normalizing on the server meant
 each new issuer was one adapter and no component changes, and it meant the parts
@@ -64,14 +77,23 @@ thing — were solved once instead of in every view.
 - **Four weeks** from start to a live beta, built end to end by one person.
 - The site is **in beta**: it is online and usable, and it is not finished.
 
+<img
+  src="/case-studies/stm/table.webp"
+  width="1280"
+  height="800"
+  loading="lazy"
+  alt="The asset listing: rows with the token name and symbol, price, 24-hour change, volume, market cap, and a buy link on each one."
+/>
+
 ## What I would improve
 
-The honest one, and the reason Atlas exists in this portfolio: the
-catalogue renders in the browser. The HTML that arrives holds the page shell and
-the assets arrive afterwards, which is the right trade for shipping in four weeks
-and the wrong one for a catalogue whose whole job is to be found.
+The catalogue is assembled in the browser, and that is why Atlas is in this
+portfolio. The server sends an empty page and the assets only show up once the
+JavaScript has finished asking for them. For shipping in four weeks that was the
+right call; for a catalogue that lives on being found, it was not.
 
-Atlas is that decision made the other way — the same problem with the data
-already inside the HTML and a performance budget that fails the build — so the
-comparison between the two is a real one rather than a claim.
+Atlas will be the improved version of this same thing: the same catalogue, with
+the data already inside the HTML and a performance budget checked on every
+build. Once it is published, the HTML weight and the LCP of both go here,
+measured.
 

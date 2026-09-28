@@ -21,6 +21,22 @@ export const frontmatterSchema = z.strictObject({
   // rendering the page with no tokens applied and looking merely ugly.
   theme: z.enum(THEME_NAMES),
   links: z.strictObject({ demo: z.url().optional(), repo: z.url().optional() }).default({}),
+  // The shot under the title. Optional: a project with no capture opens with the
+  // facts, which beats a header with a broken image in it. One leading slash
+  // only — '//host/x.png' is another origin, and the page would load it.
+  cover: z
+    .strictObject({
+      src: z.string().regex(/^\/[^/]/, 'must be a root-relative path under public/'),
+      // The file's real pixel size. Without it the browser learns the aspect
+      // ratio only when the file arrives, and the header jumps under whoever is
+      // already reading. Nothing here can infer it, so the frontmatter says it.
+      width: z.number().int().positive(),
+      height: z.number().int().positive(),
+      // Per locale, unlike the rest: it is prose, and it is what a screen reader
+      // gets instead of the screenshot.
+      alt: z.string().min(1),
+    })
+    .optional(),
   featured: z.boolean().default(false),
   draft: z.boolean().default(false),
 });

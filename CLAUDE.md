@@ -216,8 +216,14 @@ Cosas que una review vuelve a marcar si no las lee acá. Si vas a contradecir un
    | `[PAT]` | Parche mínimo: typo, bump de versión, ajuste de una línea |
 
    Formato: `[ADD] theme registry and semantic tokens`. Subject en inglés, imperativo, sin punto final. Reemplaza a Conventional Commits.
-3. **Nada se commitea directo a `main`.** Cada tarea va en su rama (`feat/...`, `chore/...`, `fix/...`) y entra por pull request.
-   - **Creá la rama al empezar la tarea**, no cuando llega el primer commit.
+3. **El agente no commitea ni pushea solo.** Trabajá sobre la rama que ya está
+   activa, dejá los cambios sin commitear y terminá el turno diciendo qué tocaste.
+   Commit, rama, push y PR los decide Pablo, y el agente los ejecuta solo cuando
+   se los pide en esa vuelta. Una tarea terminada es `npm run check && npm run
+   lint && npm test` en verde y el árbol sucio, no un commit.
+
+   Cuando Pablo sí pide commitear, valen las reglas de siempre:
+   - **Nada va directo a `main`:** cada tarea en su rama (`feat/...`, `chore/...`, `fix/...`), y entra por pull request.
    - **Verificá `git branch --show-current` antes de cada commit.** Nunca asumas que seguís en la rama de la tarea anterior: mergear un PR deja el repo local en `main`.
    - **Pusheá con `git push -u origin HEAD`**, nunca con el nombre de la rama escrito a mano. Con el nombre fijo, un commit hecho en la rama equivocada igual devuelve exit 0 y el error pasa desapercibido.
 4. **Three-pass review antes de mergear:** corré `/pr-review` en consola, definido en `.claude/skills/pr-review/SKILL.md`. Encadena las tres pasadas y emite el veredicto. El flujo es: terminás la rama, corrés la review, y si da `GTG` abrís el PR.
