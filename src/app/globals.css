@@ -34,6 +34,13 @@
   --font-mono: var(--font-geist-mono), ui-monospace, 'Cascadia Code', monospace;
 
   --radius-base: 0.25rem;
+
+  /*
+   * Screenshots, and only screenshots. Literal pixels rather than rem, and
+   * deliberately not --radius-base: a world may restyle its buttons and chips,
+   * but every screenshot on the site is cut the same way.
+   */
+  --radius-image: 8px;
 }
 
 @layer base {
@@ -175,6 +182,21 @@
      Nothing pauses it, by request. The one stop left is the reduced-motion rule
      below, which is what carries the accommodation now.
   */
+  /*
+     Every screenshot in a case study, cut the same way wherever it comes from:
+     the layout renders the cover, the MDX body renders the rest.
+
+     CSS and not a utility class, because the two cannot share one: a literal
+     <img> written in MDX is a plain element and never passes through the
+     components map, so a class on the mapping would style the cover and quietly
+     skip the body. Preflight already gives max-width and height:auto.
+  */
+  .case-study img {
+    margin-top: 2rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-image);
+  }
+
   /*
      Both edges fade out, so a wide viewport shows logos entering and leaving
      rather than a hard cut with the loop seam visible beside it.

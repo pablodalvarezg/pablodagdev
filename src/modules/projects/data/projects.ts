@@ -4,7 +4,7 @@ import path from 'node:path';
 import { LOCALES, type Locale } from '@modules/i18n';
 import { isProduction } from '@shared/config/env';
 
-import { parityError } from '../domain/parity';
+import { parityError, type SharedFields } from '../domain/parity';
 import { publishedProjects, sortProjects, type Project } from '../domain/project';
 import { frontmatterSchema } from './schema';
 
@@ -31,10 +31,13 @@ function slugsIn(locale: Locale): string[] {
     .sort();
 }
 
-/** Each slug in a locale with its draft flag, which only the frontmatter knows. */
-async function draftsIn(locale: Locale): Promise<Record<string, boolean>> {
+/** Each slug in a locale with the shared fields, which only the frontmatter knows. */
+async function sharedIn(locale: Locale): Promise<Record<string, SharedFields>> {
   const entries = await Promise.all(
-    slugsIn(locale).map(async (slug) => [slug, (await read(locale, slug)).project.draft] as const),
+    slugsIn(locale).map(async (slug) => {
+      const { draft, cover } = (await read(locale, slug)).project;
+      return [slug, { draft, cover: cover?.src }] as const;
+    }),
   );
 
   return Object.fromEntries(entries);
@@ -47,7 +50,7 @@ async function draftsIn(locale: Locale): Promise<Record<string, boolean>> {
  */
 async function allSlugs(): Promise<string[]> {
   const perLocale = await Promise.all(
-    LOCALES.map(async (locale) => ({ locale, drafts: await draftsIn(locale) })),
+    LOCALES.map(async (locale) => ({ locale, shared: await sharedIn(locale) })),
   );
 
   const error = parityError(perLocale);
@@ -56,7 +59,7 @@ async function allSlugs(): Promise<string[]> {
 
   const [reference] = perLocale;
 
-  return Object.keys(reference.drafts);
+  return Object.keys(reference.shared);
 }
 
 async function read(locale: Locale, slug: string): Promise<CaseStudy> {

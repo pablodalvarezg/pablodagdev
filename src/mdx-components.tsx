@@ -23,6 +23,10 @@ const components: MDXComponents = {
   code: (props) => (
     <code className="bg-border/60 rounded-base px-1.5 py-0.5 font-mono text-[0.9em]" {...props} />
   ),
+  // No `img` here on purpose: a case study writes screenshots as literal <img>
+  // tags, which MDX passes straight through without consulting this map. They
+  // are styled by `.case-study img` in globals.css, which reaches both those and
+  // the cover the layout renders.
   blockquote: (props) => (
     <blockquote
       className="border-accent text-muted mt-6 max-w-prose border-l-2 pl-5 italic"

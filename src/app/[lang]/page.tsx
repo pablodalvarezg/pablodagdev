@@ -83,6 +83,7 @@ export default async function HubPage({ params }: PageProps<'/[lang]'>) {
                 key={project.slug}
                 project={project}
                 href={localeUrl(locale, `projects/${project.slug}`)}
+                cta={t('work.cta')}
               />
             ))}
 

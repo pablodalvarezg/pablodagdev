@@ -25,6 +25,8 @@ export interface Project {
   skills: Skill[];
   theme: ThemeName;
   links: { demo?: string; repo?: string };
+  /** The screenshot under the title. The path is shared; the alt is per locale. */
+  cover?: { src: string; width: number; height: number; alt: string };
   featured: boolean;
   draft: boolean;
 }

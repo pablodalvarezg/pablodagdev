@@ -109,6 +109,37 @@ project's page is its case study.
    because publishing one translation and not the other ships a page in one
    language while the switcher on it points at a 404 in the other.
 
+Screenshots go in `public/case-studies/<slug>/`, as WebP. The one under the
+title is `cover` in the frontmatter, and the layout renders it:
+
+```yaml
+cover:
+  src: /case-studies/stm/catalog.webp
+  width: 1280
+  height: 775
+  alt: 'The STM.co catalogue: …'
+```
+
+Any further shot goes in the body as a plain `<img>`:
+
+```mdx
+<img src="/case-studies/stm/table.webp" width="1280" height="1151" loading="lazy" alt="…" />
+```
+
+Both are styled by `.case-study img` in `globals.css`, not by a utility class:
+a literal `<img>` written in MDX is a plain element and never passes through
+`mdx-components.tsx`, so a class there would style the cover and silently skip
+everything in the body. `loading="lazy"` is written per image because the cover
+is the opposite case — it is the LCP element and loads eagerly.
+
+Either way the `width` and `height` are the file's real pixel size, and they are
+not decoration: without them the browser learns the aspect ratio only once the
+file arrives, and the page shifts under whoever is already reading it.
+
+The alt is written in the language of the file — it is prose, not metadata — but
+the `src` is not: a cover present in one locale and missing in the other fails
+the build, the same way a disagreeing `draft` does.
+
 Never invent a number. An empty result section beats an estimated one, and
 `period` is optional precisely so a missing date does not become a guess.
 
@@ -165,3 +196,7 @@ accent are light, and the pair reads at 1.3:1.
 
 Components read semantic tokens and never a raw color, font or radius, so
 adding a world touches no component.
+
+One token is out of a world's reach on purpose: `--radius-image`, the 8px corner
+every screenshot is cut with. A world restyles its own buttons and chips through
+`--radius-base`; the screenshots stay identical across the site.

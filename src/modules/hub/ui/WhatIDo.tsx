@@ -2,7 +2,7 @@ import { getTranslations, type Locale } from '@modules/i18n';
 import { Section } from '@shared/ui/Section';
 
 // Order of the blocks; the copy itself lives in the dictionary.
-const AREAS = ['fullstack', 'data', 'lowcode', 'erp', 'ai'] as const;
+const AREAS = ['fullstack', 'data', 'lowcode', 'erp', 'ai', 'seo'] as const;
 
 export function WhatIDo({ locale }: { locale: Locale }) {
   const t = getTranslations(locale);

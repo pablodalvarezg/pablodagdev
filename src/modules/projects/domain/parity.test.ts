@@ -6,16 +6,16 @@ describe('parityError', () => {
   it('passes when every locale ships the same set', () => {
     expect(
       parityError([
-        { locale: 'en', drafts: { stm: false, atlas: true } },
-        { locale: 'es', drafts: { stm: false, atlas: true } },
+        { locale: 'en', shared: { stm: { draft: false }, atlas: { draft: true } } },
+        { locale: 'es', shared: { stm: { draft: false }, atlas: { draft: true } } },
       ]),
     ).toBeNull();
   });
 
   it('catches a translation nobody wrote', () => {
     const error = parityError([
-      { locale: 'en', drafts: { stm: false, atlas: false } },
-      { locale: 'es', drafts: { stm: false } },
+      { locale: 'en', shared: { stm: { draft: false }, atlas: { draft: false } } },
+      { locale: 'es', shared: { stm: { draft: false } } },
     ]);
 
     expect(error).toMatch(/must exist in every locale/);
@@ -25,8 +25,8 @@ describe('parityError', () => {
   it('catches a file that exists in one locale only', () => {
     expect(
       parityError([
-        { locale: 'en', drafts: { stm: false } },
-        { locale: 'es', drafts: { stm: false, atlas: false } },
+        { locale: 'en', shared: { stm: { draft: false } } },
+        { locale: 'es', shared: { stm: { draft: false }, atlas: { draft: false } } },
       ]),
     ).toContain('has extra [atlas]');
   });
@@ -35,16 +35,28 @@ describe('parityError', () => {
     // Both files exist, both parse, the build succeeds, and Spanish silently has
     // no page: the failure this whole function exists to prevent.
     const error = parityError([
-      { locale: 'en', drafts: { stm: false } },
-      { locale: 'es', drafts: { stm: true } },
+      { locale: 'en', shared: { stm: { draft: false } } },
+      { locale: 'es', shared: { stm: { draft: true } } },
     ]);
 
-    expect(error).toMatch(/draft in every locale or in none/);
+    expect(error).toMatch(/'draft' describes the project/);
+    expect(error).toContain('stm');
+  });
+
+  it('catches a cover that only one locale has', () => {
+    // Quieter still: both pages ship and one of them just opens without the
+    // screenshot. Nothing in a build log would say so.
+    const error = parityError([
+      { locale: 'en', shared: { stm: { draft: false, cover: '/case-studies/stm/catalog.webp' } } },
+      { locale: 'es', shared: { stm: { draft: false } } },
+    ]);
+
+    expect(error).toMatch(/'cover' describes the project/);
     expect(error).toContain('stm');
   });
 
   it('has nothing to compare with a single locale', () => {
-    expect(parityError([{ locale: 'en', drafts: { stm: true } }])).toBeNull();
+    expect(parityError([{ locale: 'en', shared: { stm: { draft: true } } }])).toBeNull();
     expect(parityError([])).toBeNull();
   });
 });

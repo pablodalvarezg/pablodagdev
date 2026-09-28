@@ -35,7 +35,7 @@ export function CaseStudyLayout({
   ];
 
   return (
-    <article className="flex-1">
+    <article className="case-study flex-1">
       <Container className="py-16">
         <a
           href={backHref}
@@ -49,6 +49,26 @@ export function CaseStudyLayout({
             {project.title}
           </h1>
           <p className="text-muted mt-4 max-w-prose text-lg text-pretty">{project.summary}</p>
+
+          {project.cover ? (
+            /*
+              eslint-disable-next-line @next/next/no-img-element --
+              Same reason as the tech marquee: output: 'export' turns the
+              optimiser off, so next/image would only add the layout hint that
+              width and height already give.
+
+              Eager, unlike the shots in the body: this one is the largest thing
+              above the fold, so it is the LCP element and lazy-loading it would
+              delay exactly the paint being measured.
+            */
+            <img
+              src={project.cover.src}
+              alt={project.cover.alt}
+              width={project.cover.width}
+              height={project.cover.height}
+              decoding="async"
+            />
+          ) : null}
 
           {/*
             The stack belongs in the same list as the other facts. As a heading it

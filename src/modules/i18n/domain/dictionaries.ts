@@ -8,7 +8,7 @@ const en = {
   'hero.role': 'Full-Stack & Low/No-Code Developer',
   'hero.location': 'Buenos Aires, Argentina',
   'hero.tagline':
-    'I pick the right tool for each problem, from custom code to low-code and ERP, and I own the data layer.',
+    'I pick the right tool for each problem, from custom code to low-code and ERP, and I take care of the data behind it: where it lives, how it moves, and whether the numbers add up.',
   'hero.cta.contact': 'Get in touch',
   'hero.cta.work': 'See the work',
 
@@ -20,11 +20,11 @@ const en = {
   'language.en': 'English',
   'language.es': 'Español',
 
-  'services.eyebrow': 'What I do',
-  'services.title': 'Five things, one data layer underneath',
+  'services.eyebrow': 'My Specialties',
+  'services.title': 'What I can own end to end',
   'services.fullstack.title': 'Full-Stack (MERN)',
   'services.fullstack.body':
-    'React front ends over Node and Express APIs, with MongoDB or PostgreSQL behind them.',
+    'React and Next.js interfaces over Node APIs in Express or NestJS, with MongoDB or PostgreSQL behind them.',
   'services.data.title': 'Data & SQL',
   'services.data.body':
     'Modelling, migration and consolidation across SQL Server, PostgreSQL and Supabase, and the pipelines that keep them fed.',
@@ -34,15 +34,16 @@ const en = {
   'services.erp.title': 'ERP (Odoo)',
   'services.erp.body':
     'Functional and technical Odoo work in Python, XML and JavaScript, data migration included.',
-  'services.ai.title': 'Applied AI & Technical SEO',
-  'services.ai.body':
-    'LLM integrations inside production apps, and technical SEO worked against Search Console data.',
+  'services.ai.title': 'Applied AI',
+  'services.ai.body': 'LLM integrations inside apps that are already in production.',
+  'services.seo.title': 'Technical SEO',
+  'services.seo.body': 'Indexing and performance, worked against Search Console data.',
 
   'tech.eyebrow': 'Tech Stack',
   'tech.title': 'Technologies that I work with',
 
   'experience.eyebrow': 'Experience',
-  'experience.title': 'Where the data layer came from',
+  'experience.title': 'Where I learned all this',
   'experience.present': 'present',
   'experience.assisted-living.summary':
     'Promoted to Tech Lead in June 2026, leading the engineering team without leaving the code. Doubled site traffic in three months by improving data quality and generating profiles algorithmically. Builds features from Figma designs, writes the internal tools and scripts that enrich the database for lead generation and targeting, and keeps the live site fast and without downtime.',
@@ -60,6 +61,7 @@ const en = {
 
   'work.eyebrow': 'Work',
   'work.title': 'What I have shipped',
+  'work.cta': 'Read the case study',
 
   'upcoming.label': 'Coming soon',
   'upcoming.atlas.title': 'Atlas',
@@ -93,7 +95,7 @@ const es: Record<TranslationKey, string> = {
   'hero.role': 'Full-Stack & Low/No-Code Developer',
   'hero.location': 'Buenos Aires, Argentina',
   'hero.tagline':
-    'Elijo la herramienta justa para cada problema, desde código a medida hasta low-code y ERP, y domino la capa de datos.',
+    'Elijo la herramienta justa para cada problema, desde código a medida hasta low-code y ERP, pensando siempre en los datos que sostienen cada proyecto: dónde viven, cómo se mueven y que los números cierren.',
   'hero.cta.contact': 'Escribime',
   'hero.cta.work': 'Ver el recorrido',
 
@@ -105,11 +107,11 @@ const es: Record<TranslationKey, string> = {
   'language.en': 'English',
   'language.es': 'Español',
 
-  'services.eyebrow': 'Qué hago',
-  'services.title': 'Cinco cosas, con la capa de datos abajo de todas',
+  'services.eyebrow': 'Mi especialidad',
+  'services.title': 'Lo que puedo ejecutar de la A a la Z',
   'services.fullstack.title': 'Full-Stack (MERN)',
   'services.fullstack.body':
-    'Front ends en React sobre APIs de Node y Express, con MongoDB o PostgreSQL detrás.',
+    'Interfaces en React y Next.js sobre APIs de Node con Express o NestJS, y MongoDB o PostgreSQL detrás.',
   'services.data.title': 'Data & SQL',
   'services.data.body':
     'Modelado, migración y consolidación entre SQL Server, PostgreSQL y Supabase, y los pipelines que los alimentan.',
@@ -119,15 +121,17 @@ const es: Record<TranslationKey, string> = {
   'services.erp.title': 'ERP (Odoo)',
   'services.erp.body':
     'Implementación funcional y técnica de Odoo en Python, XML y JavaScript, migración de datos incluida.',
-  'services.ai.title': 'IA aplicada y SEO técnico',
-  'services.ai.body':
-    'Integración de LLMs en apps en producción, y SEO técnico trabajado contra datos de Search Console.',
+  'services.ai.title': 'IA aplicada',
+  'services.ai.body': 'Integración de LLMs en apps que ya están en producción.',
+  'services.seo.title': 'SEO técnico',
+  'services.seo.body':
+    'Indexación y rendimiento, trabajados contra los datos de Search Console.',
 
   'tech.eyebrow': 'Tech Stack',
   'tech.title': 'Tecnologías con las que trabajo',
 
   'experience.eyebrow': 'Experiencia',
-  'experience.title': 'De dónde salió la capa de datos',
+  'experience.title': 'Dónde aprendí todo esto',
   'experience.present': 'hoy',
   'experience.assisted-living.summary':
     'Ascendido a Tech Lead en junio de 2026, liderando el equipo de ingeniería sin soltar el código. Duplicó el tráfico del sitio en tres meses mejorando la calidad de los datos y generando perfiles de forma algorítmica. Construye features a partir de diseños de Figma, escribe las herramientas internas y los scripts que enriquecen la base para generación de leads, y sostiene el sitio en vivo sin caídas.',
@@ -141,10 +145,11 @@ const es: Record<TranslationKey, string> = {
   'about.eyebrow': 'Sobre mí',
   'about.title': 'Quién está atrás de esto',
   'about.body':
-    'Desarrollador full-stack en Buenos Aires. Me formé en Coderhouse y trabajo en inglés a nivel C1. Lejos del teclado juego al pádel y colecciono juegos de mesa, y me interesan hace años la estética japonesa, la cyberpunk y los autos deportivos, de donde sale casi todo lo que termina siendo un side project.',
+    'Desarrollador full-stack en Buenos Aires. Me formé en Coderhouse y trabajo en inglés a nivel C1. Lejos del teclado juego al pádel y colecciono juegos de mesa, y me interesan hace años la estética japonesa, la cyberpunk y los autos deportivos, así que no te sorprendas si alguna de estas cosas aparece en mis side projects.',
 
   'work.eyebrow': 'Trabajo',
   'work.title': 'Lo que llevo construido',
+  'work.cta': 'Leer el case study',
 
   'upcoming.label': 'Próximamente',
   'upcoming.atlas.title': 'Atlas',
