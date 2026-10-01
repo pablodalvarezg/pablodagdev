@@ -20,24 +20,42 @@ const en = {
   'language.en': 'English',
   'language.es': 'Español',
 
-  'services.eyebrow': 'My Specialties',
-  'services.title': 'What I can own end to end',
-  'services.fullstack.title': 'Full-Stack (MERN)',
-  'services.fullstack.body':
+  'specialties.eyebrow': 'My Specialties',
+  'specialties.title': 'What I can own end to end',
+  'specialties.fullstack.title': 'Full-Stack (MERN)',
+  'specialties.fullstack.body':
     'React and Next.js interfaces over Node APIs in Express or NestJS, with MongoDB or PostgreSQL behind them.',
-  'services.data.title': 'Data & SQL',
-  'services.data.body':
+  'specialties.data.title': 'Data & SQL',
+  'specialties.data.body':
     'Modelling, migration and consolidation across SQL Server, PostgreSQL and Supabase, and the pipelines that keep them fed.',
-  'services.lowcode.title': 'Low/No-Code & Automation',
-  'services.lowcode.body':
+  'specialties.lowcode.title': 'Low/No-Code & Automation',
+  'specialties.lowcode.body':
     'Internal tools and automations built in Bubble, Retool, Make and n8n, wired to real APIs.',
-  'services.erp.title': 'ERP (Odoo)',
-  'services.erp.body':
+  'specialties.erp.title': 'ERP (Odoo)',
+  'specialties.erp.body':
     'Functional and technical Odoo work in Python, XML and JavaScript, data migration included.',
-  'services.ai.title': 'Applied AI',
-  'services.ai.body': 'LLM integrations inside apps that are already in production.',
-  'services.seo.title': 'Technical SEO',
-  'services.seo.body': 'Indexing and performance, worked against Search Console data.',
+  'specialties.ai.title': 'Applied AI',
+  'specialties.ai.body': 'LLM integrations inside apps that are already in production.',
+  'specialties.seo.title': 'Technical SEO',
+  'specialties.seo.body': 'Indexing and performance, worked against Search Console data.',
+  'specialties.cta': 'See what I offer',
+
+  'services.eyebrow': 'Services',
+  'services.title': 'What I offer',
+  'services.web.title': 'Websites',
+  'services.web.body':
+    'Marketing sites and web applications, from the Figma file to the deploy. React and Next.js where the product is the interface; WordPress or PHP where the content came first.',
+  'services.internal.title': 'Internal tools',
+  'services.internal.body':
+    'The screens a team actually runs on: dashboards, admin panels and back-office flows. Custom-built, or in Retool when low-code gets there sooner and the difference does not matter.',
+  'services.automation.title': 'Automation',
+  'services.automation.body':
+    'The manual step between two systems, removed: scheduled jobs, integrations between APIs, and data pipelines that keep a report current without anyone pasting into a spreadsheet.',
+  'services.consulting.title': 'Consulting',
+  'services.consulting.body':
+    'A second opinion on something that already exists: technical SEO and performance audits, a data model that stopped scaling, or choosing between custom code, low-code and ERP before the budget is spent.',
+  'meta.services.description':
+    'Websites, internal tools, automation and technical consulting, built end to end by one developer in Buenos Aires.',
 
   'tech.eyebrow': 'Tech Stack',
   'tech.title': 'Technologies that I work with',
@@ -64,19 +82,19 @@ const en = {
   'work.cta': 'Read the case study',
 
   'upcoming.label': 'Coming soon',
-  'upcoming.atlas.title': 'Atlas',
-  'upcoming.atlas.summary':
-    'A token catalogue built against a performance budget, where the HTML arrives with the data already in it instead of a skeleton that fetches everything.',
   'upcoming.type-matrix.title': 'Type Matrix',
   'upcoming.type-matrix.summary':
     'A game room over creature data: team building, a daily puzzle and a combat calculator, with every answer checked on the server so the client never holds it.',
+  'upcoming.bandeja.title': 'Bandeja',
+  'upcoming.bandeja.summary':
+    'A runner for americano padel tournaments: automatic pairing rotation, results entered from a phone and an ELO-style ranking, with the live scoreboard synced across devices and an offline queue behind it.',
 
   'project.role': 'Role',
   'project.period': 'Period',
   'project.client': 'Client',
   'project.stack': 'Stack',
   'project.visit': 'Visit the site',
-  'project.back': 'Back to the hub',
+  'nav.back': 'Back to the hub',
 
   'contact.eyebrow': 'Contact',
   'contact.title': 'Tell me what you need',
@@ -107,25 +125,43 @@ const es: Record<TranslationKey, string> = {
   'language.en': 'English',
   'language.es': 'Español',
 
-  'services.eyebrow': 'Mi especialidad',
-  'services.title': 'Lo que puedo ejecutar de la A a la Z',
-  'services.fullstack.title': 'Full-Stack (MERN)',
-  'services.fullstack.body':
+  'specialties.eyebrow': 'Mi especialidad',
+  'specialties.title': 'Lo que puedo ejecutar de la A a la Z',
+  'specialties.fullstack.title': 'Full-Stack (MERN)',
+  'specialties.fullstack.body':
     'Interfaces en React y Next.js sobre APIs de Node con Express o NestJS, y MongoDB o PostgreSQL detrás.',
-  'services.data.title': 'Data & SQL',
-  'services.data.body':
+  'specialties.data.title': 'Data & SQL',
+  'specialties.data.body':
     'Modelado, migración y consolidación entre SQL Server, PostgreSQL y Supabase, y los pipelines que los alimentan.',
-  'services.lowcode.title': 'Low/No-Code y automatización',
-  'services.lowcode.body':
+  'specialties.lowcode.title': 'Low/No-Code y automatización',
+  'specialties.lowcode.body':
     'Herramientas internas y automatizaciones en Bubble, Retool, Make y n8n, conectadas a APIs reales.',
-  'services.erp.title': 'ERP (Odoo)',
-  'services.erp.body':
+  'specialties.erp.title': 'ERP (Odoo)',
+  'specialties.erp.body':
     'Implementación funcional y técnica de Odoo en Python, XML y JavaScript, migración de datos incluida.',
-  'services.ai.title': 'IA aplicada',
-  'services.ai.body': 'Integración de LLMs en apps que ya están en producción.',
-  'services.seo.title': 'SEO técnico',
-  'services.seo.body':
+  'specialties.ai.title': 'IA aplicada',
+  'specialties.ai.body': 'Integración de LLMs en apps que ya están en producción.',
+  'specialties.seo.title': 'SEO técnico',
+  'specialties.seo.body':
     'Indexación y rendimiento, trabajados contra los datos de Search Console.',
+  'specialties.cta': 'Ver qué ofrezco',
+
+  'services.eyebrow': 'Servicios',
+  'services.title': 'Qué ofrezco',
+  'services.web.title': 'Páginas web',
+  'services.web.body':
+    'Sitios y aplicaciones web, del archivo de Figma al deploy. React y Next.js cuando el producto es la interfaz; WordPress o PHP cuando primero está el contenido.',
+  'services.internal.title': 'Herramientas internas',
+  'services.internal.body':
+    'Las pantallas con las que un equipo realmente trabaja: dashboards, paneles de administración y flujos de back-office. A medida, o en Retool cuando el low-code llega antes y la diferencia no importa.',
+  'services.automation.title': 'Automatizaciones',
+  'services.automation.body':
+    'El paso manual entre dos sistemas, eliminado: tareas programadas, integraciones entre APIs y pipelines de datos que mantienen un reporte al día sin que nadie copie y pegue en una planilla.',
+  'services.consulting.title': 'Consulting',
+  'services.consulting.body':
+    'Una segunda opinión sobre algo que ya existe: auditorías de SEO técnico y performance, un modelo de datos que dejó de escalar, o elegir entre código a medida, low-code y ERP antes de gastar el presupuesto.',
+  'meta.services.description':
+    'Páginas web, herramientas internas, automatizaciones y consultoría técnica, construidas de punta a punta por un desarrollador en Buenos Aires.',
 
   'tech.eyebrow': 'Tech Stack',
   'tech.title': 'Tecnologías con las que trabajo',
@@ -152,19 +188,19 @@ const es: Record<TranslationKey, string> = {
   'work.cta': 'Leer el case study',
 
   'upcoming.label': 'Próximamente',
-  'upcoming.atlas.title': 'Atlas',
-  'upcoming.atlas.summary':
-    'Un catálogo de tokens con presupuesto de performance, donde el HTML llega con los datos adentro en vez de un esqueleto que pide todo por fetch.',
   'upcoming.type-matrix.title': 'Type Matrix',
   'upcoming.type-matrix.summary':
     'Una sala de juegos sobre datos de criaturas: armado de equipos, puzzle diario y calculadora de combate, con toda respuesta validada en el servidor para que el cliente nunca la tenga.',
+  'upcoming.bandeja.title': 'Bandeja',
+  'upcoming.bandeja.summary':
+    'Un organizador de torneos americanos de pádel: rotación automática de parejas, resultados cargados desde el celular y ranking tipo ELO, con el marcador en vivo sincronizado entre dispositivos y una cola offline atrás.',
 
   'project.role': 'Rol',
   'project.period': 'Período',
   'project.client': 'Cliente',
   'project.stack': 'Stack',
   'project.visit': 'Ver el sitio',
-  'project.back': 'Volver al hub',
+  'nav.back': 'Volver al hub',
 
   'contact.eyebrow': 'Contacto',
   'contact.title': 'Contame qué necesitás',

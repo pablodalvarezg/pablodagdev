@@ -22,6 +22,10 @@ export function ProjectCard({
   href: string;
   cta: string;
 }) {
+  // Client work names the client; a side project names its subject. One slot,
+  // because both answer "what is this" and no project carries both.
+  const eyebrow = project.client ?? project.category;
+
   return (
     <li className="rise border-border hover:border-accent group relative flex h-full flex-col gap-3 border p-6 transition-colors">
       <div className="flex items-baseline justify-between gap-4">
@@ -33,10 +37,8 @@ export function ProjectCard({
         ) : null}
       </div>
 
-      {project.client ? (
-        <p className="text-accent font-mono text-xs tracking-[0.15em] uppercase">
-          {project.client}
-        </p>
+      {eyebrow ? (
+        <p className="text-accent font-mono text-xs tracking-[0.15em] uppercase">{eyebrow}</p>
       ) : null}
 
       <p className="text-muted text-pretty">{project.summary}</p>
@@ -49,7 +51,11 @@ export function ProjectCard({
         ))}
       </ul>
 
-      <Button href={href} variant="outline" className="mt-2 self-start after:absolute after:inset-0">
+      <Button
+        href={href}
+        variant="outline"
+        className="mt-2 self-start after:absolute after:inset-0"
+      >
         {cta}
         <span className="sr-only">: {project.title}</span>
       </Button>

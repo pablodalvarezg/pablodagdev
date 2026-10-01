@@ -1,0 +1,163 @@
+---
+title: Atlas
+summary: A public token catalogue where the HTML arrives with the data already inside it, under a performance budget that fails the build when it is exceeded.
+role: Sole developer, end to end
+category: Crypto Market
+stack:
+  - Next.js
+  - React
+  - TypeScript
+  - Tailwind
+  - Zod
+  - Vercel
+skills:
+  - fullstack
+  - data
+theme: markets
+links:
+  demo: https://atlascryptomarket.vercel.app
+cover:
+  src: /case-studies/atlas/catalog.webp
+  width: 1280
+  height: 800
+  alt: 'The Atlas catalogue: cards for market cap, 24-hour volume and the top gainers and losers, and below them the token listing with price and change over 1h, 24h, 7d and 30d.'
+featured: false
+draft: false
+---
+
+## The problem
+
+A catalogue lives on being found. Someone looking for a token arrives from a
+search engine, on a phone, on a slow connection, and what they need is the
+price, what the token is, and where to buy it — in that order, immediately.
+
+The usual way to build one sends an empty page and lets the browser fetch
+everything. It is faster to write and it works, right up to the point where the
+thing being built is a catalogue: the crawler gets a skeleton, and the first
+paint waits on a round trip that the reader did not ask for.
+
+## Constraints
+
+- **A free data plan, and it is the real design input.** CoinGecko's free tier
+  allows 10,000 call credits a month — about 333 a day. That ceiling decides how
+  often the catalogue can refresh, how many token pages a build can prerender,
+  and how often "where to buy" can be checked, and it had to be spent on purpose
+  rather than discovered.
+- **No database, on purpose.** A catalogue that reads from an upstream API does
+  not need one, and adding one would have added a schema, a migration story and a
+  second thing to keep in sync for no reader-visible gain.
+- **A budget that fails CI from the first commit.** Not a check bolted on at the
+  end — the byte budget was in the test suite before the features were, so every
+  commit since has had to fit inside it.
+
+## The solution
+
+Next.js on the App Router, with server components as the default and the data
+fetched during the render. The browser receives HTML with the price, the market
+cap, the supply and the venues already in it. Search, filtering and sorting are
+URL parameters answered by the server, so they work with JavaScript turned off —
+a catalogue that needs JavaScript to sort itself is the thing this project exists
+not to build.
+
+<img
+  src="/case-studies/atlas/token.webp"
+  width="1280"
+  height="800"
+  loading="lazy"
+  alt="Bitcoin's page on Atlas: price, market capitalisation, volume, ranges, supply and the list of venues on the left; on the right the 30-day price chart and the currency converter."
+/>
+
+Prices go stale, so the pages are not a static export: they are prerendered and
+revalidated on a schedule per route, which keeps the data inside the HTML and
+gives it an expiry date. The interactive parts — the price chart, the currency
+converter — are added beside the server-rendered figures, never in place of them.
+Four files in the project run on the client, and **none of them fetch**: the
+rates and the price series arrive with the page, already sliced by the server, so
+switching currency or chart range is arithmetic rather than a request.
+
+## Stack
+
+- **Next.js with ISR**, rather than a static export. A catalogue of prices needs
+  fresh data without a manual rebuild, and incremental regeneration is what keeps
+  the data prerendered and still current.
+- **A module boundary that a linter enforces.** `domain` is pure TypeScript with
+  no framework in it, `data` is the only layer that performs I/O, `ui` takes
+  props. The direction is checked by `eslint-plugin-boundaries`, so a violation
+  fails the build rather than a review.
+- **Zod at the edge of the system.** Every upstream response is validated and
+  mapped onto domain types before it enters the application, so a renamed field
+  fails in one file instead of arriving as `undefined` in a component.
+
+## Result
+
+- **The price is in the HTML**, verified on every commit by a test that greps it
+  out of the file the build wrote.
+- **~8,600 bytes** of gzipped HTML on a token page, inside the 10,000 the build
+  enforces.
+- **Search, filters and sorting work with JavaScript off**, because they are URL
+  parameters the server answers.
+- **Every interactive part reads data the page already carried.** The four client
+  files add the chart, the converter and the range switch without a single
+  request of their own.
+
+## The budget
+
+{/*
+  A literal table, and not a markdown one: remark-gfm is not in the MDX pipeline,
+  so pipe syntax would render as a paragraph full of pipes and nothing would
+  catch it. Literal HTML passes straight through, the same way the screenshots
+  do. The border colour is set once on the table — preflight gives cells
+  `border-color: inherit`, so the rows do not repeat it.
+*/}
+
+<table className="border-border mt-5 w-full max-w-prose border-t text-left text-sm">
+  <thead>
+    <tr className="text-muted border-b font-mono text-xs tracking-[0.15em] uppercase">
+      <th className="py-2.5 pr-4 font-normal">Metric</th>
+      <th className="py-2.5 pr-4 font-normal">Budget</th>
+      <th className="py-2.5 font-normal">Measured</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr className="border-b">
+      <td className="py-2.5 pr-4">HTML of a token page</td>
+      <td className="py-2.5 pr-4">10,000 gzipped</td>
+      <td className="py-2.5">~8,600</td>
+    </tr>
+    <tr className="border-b">
+      <td className="py-2.5 pr-4">JavaScript on a token page</td>
+      <td className="py-2.5 pr-4">290,000 gzipped</td>
+      <td className="py-2.5">~281,000</td>
+    </tr>
+  </tbody>
+</table>
+
+Bytes are deterministic, so they need no browser and can gate every commit, and
+this budget has been in the test suite since before the features were. It has
+moved twice, and the second move is the one worth reporting: it came **back
+down**. Slicing and rounding the price ranges on the server, rather than shipping
+thirty days of raw hourly points for the browser to narrow, took about 8,000
+bytes off a token page — **47% of its HTML** — and the budget tightened to match.
+A budget that can go down is one the project is still steering.
+
+## What's next
+
+{/*
+  TODO(pablo): the LCP and CLS figures. The deploy exists now, so what is left is
+  a Lighthouse run against it. When those numbers arrive they go in the second
+  paragraph below, and into STM's closing paragraph, which already links here and
+  is still owed the side-by-side comparison.
+
+  Also parked here rather than on the page, by request to keep this section to
+  what has been achieved: the venue list is ordered by self-reported volume,
+  because the free plan does not return the trust rating that would correct it.
+*/}
+
+The SEO surface a catalogue earns its traffic with — sitemap, JSON-LD, Open Graph
+— is the next thing in, and after it a side-by-side comparator for reading two
+tokens at once.
+
+Then the rest of the measurements. The byte numbers above come straight from the
+build, which is why they can be true on every commit; LCP and CLS get the same
+treatment as soon as there is a Lighthouse run to take them from, and they land
+here and on STM's page together.

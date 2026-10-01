@@ -9,4 +9,4 @@
  *
  * An entry leaves this list when its case study arrives, not before.
  */
-export const UPCOMING_PROJECTS = ['atlas', 'type-matrix'] as const;
+export const UPCOMING_PROJECTS = ['type-matrix', 'bandeja'] as const;

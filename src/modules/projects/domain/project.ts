@@ -21,6 +21,8 @@ export interface Project {
    * separate `type` field to keep in sync with it.
    */
   client?: string;
+  /** What the project is about, when there is no client. Never both at once. */
+  category?: string;
   stack: string[];
   skills: Skill[];
   theme: ThemeName;

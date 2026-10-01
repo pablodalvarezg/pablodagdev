@@ -52,12 +52,16 @@ src/
 ├─ app/                    Routing and composition only.
 │  └─ [lang]/              The locale is the first segment, so this layout
 │     ├─ layout.tsx        is the root layout and owns <html lang>.
-│     └─ page.tsx          The hub.
+│     ├─ page.tsx          The hub.
+│     ├─ projects/[slug]/  One page per case study, per locale.
+│     └─ services/         What you can hire him for.
 ├─ modules/                One per domain, each with a public API in index.ts.
 │  ├─ experience/          domain · data · ui — the work timeline
 │  ├─ hub/                 The neutral sections: hero, what I do, about, contact
 │  ├─ i18n/                Locales, dictionaries, localized paths
 │  ├─ projects/            domain · data · ui — case studies and the work grid
+│  ├─ seo/                 Open Graph and JSON-LD
+│  ├─ services/            The offerings list behind /[lang]/services
 │  └─ theming/             Theme registry, the worlds, the light/dark toggle
 ├─ content/projects/       The case studies as MDX, one folder per locale
 ├─ shared/                 ui primitives and config. Never imports a module.
@@ -142,6 +146,13 @@ the build, the same way a disagreeing `draft` does.
 
 Never invent a number. An empty result section beats an estimated one, and
 `period` is optional precisely so a missing date does not become a guess.
+
+`client` and `category` share one slot — the eyebrow on the hub card — and a
+project carries one or the other, never both. `client` is for professional work
+there is permission to name, and its absence is what makes a project a side
+project; there is no separate `type` field to keep in sync with it. `category`
+says what a side project is about instead, the way Atlas says `Crypto Market`.
+Setting both is not rejected by the schema today, and `client` wins.
 
 One constraint that only shows up at the edge: `output: 'export'` requires every
 dynamic route to generate at least one page, so the build fails outright if every
