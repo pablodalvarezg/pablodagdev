@@ -15,6 +15,10 @@ export const frontmatterSchema = z.strictObject({
   // Optional: a project with no public period is better than an invented one.
   period: z.string().min(1).optional(),
   client: z.string().min(1).optional(),
+  // What the project is about, for a side project that has no client to name.
+  // Shares the card's eyebrow with `client` because they answer the same
+  // question; a project that had both would be claiming two things in one slot.
+  category: z.string().min(1).optional(),
   stack: z.array(z.string().min(1)).min(1),
   skills: z.array(z.enum(SKILLS)).min(1),
   // Reads the theming registry, so an unregistered world fails here rather than

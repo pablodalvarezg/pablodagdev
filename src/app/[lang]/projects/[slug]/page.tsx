@@ -84,7 +84,7 @@ export default async function CaseStudyPage({ params }: PageProps<'/[lang]/proje
             client: t('project.client'),
             stack: t('project.stack'),
             visit: t('project.visit'),
-            back: t('project.back'),
+            back: t('nav.back'),
           }}
         >
           <Body />

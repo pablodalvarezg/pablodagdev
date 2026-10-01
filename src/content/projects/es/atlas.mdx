@@ -1,0 +1,163 @@
+---
+title: Atlas
+summary: Un catálogo público de tokens donde el HTML llega con los datos ya adentro, con un presupuesto de performance que rompe el build cuando se pasa.
+role: Único desarrollador, de punta a punta
+category: Crypto Market
+stack:
+  - Next.js
+  - React
+  - TypeScript
+  - Tailwind
+  - Zod
+  - Vercel
+skills:
+  - fullstack
+  - data
+theme: markets
+links:
+  demo: https://atlascryptomarket.vercel.app
+cover:
+  src: /case-studies/atlas/catalog.webp
+  width: 1280
+  height: 800
+  alt: 'El catálogo de Atlas: tarjetas de capitalización, volumen en 24 horas y los que más subieron y bajaron, y debajo el listado de tokens con precio y variación a 1h, 24h, 7d y 30d.'
+featured: false
+draft: false
+---
+
+## El problema
+
+Un catálogo vive de que lo encuentren. Quien busca un token llega desde un
+buscador, en un teléfono, con una conexión lenta, y lo que necesita es el precio,
+qué es el token y dónde comprarlo — en ese orden, y ya.
+
+La forma habitual de construir uno manda una página vacía y deja que el navegador
+pida todo. Se escribe más rápido y funciona, hasta que lo que se está
+construyendo es justamente un catálogo: el crawler recibe un esqueleto, y el
+primer pintado espera un viaje de ida y vuelta que el lector nunca pidió.
+
+## Restricciones
+
+- **Un plan de datos gratuito, y es el verdadero insumo de diseño.** El plan
+  gratuito de CoinGecko da 10.000 créditos de llamada por mes, unos 333 por día.
+  Ese techo decide cada cuánto se refresca el catálogo, cuántas fichas
+  prerenderiza un build y cada cuánto se revisa dónde comprar, y había que
+  gastarlo a propósito en lugar de descubrirlo.
+- **Sin base de datos, a propósito.** Un catálogo que lee de una API no la
+  necesita, y agregarla habría sumado un esquema, migraciones y una segunda cosa
+  que mantener sincronizada sin que el lector viera nada a cambio.
+- **Un presupuesto que rompe CI desde el primer commit.** No un control pegado al
+  final: el presupuesto de bytes estaba en los tests antes que las features, así
+  que cada commit desde entonces tuvo que entrar ahí adentro.
+
+## La solución
+
+Next.js con App Router, server components por defecto y los datos traídos durante
+el render. El navegador recibe HTML con el precio, la capitalización, el
+suministro y los venues ya adentro. La búsqueda, los filtros y el orden son
+parámetros en la URL que responde el servidor, así que andan con JavaScript
+apagado — un catálogo que necesita JavaScript para ordenarse es exactamente lo
+que este proyecto existe para no construir.
+
+<img
+  src="/case-studies/atlas/token.webp"
+  width="1280"
+  height="800"
+  loading="lazy"
+  alt="La ficha de Bitcoin en Atlas: precio, capitalización, volumen, rangos, suministro y la lista de venues a la izquierda; a la derecha el gráfico de precios a 30 días y el convertidor de monedas."
+/>
+
+Los precios se vencen, así que las páginas no son un export estático: se
+prerenderizan y se revalidan por ruta, lo que mantiene los datos dentro del HTML
+y les pone fecha de vencimiento. Las partes interactivas — el gráfico de precios,
+el convertidor de monedas — se agregan al lado de los números renderizados en el
+servidor, nunca en su lugar. Hay cuatro archivos que corren en el cliente y
+**ninguno trae datos**: las tasas y las series llegan con la página, ya recortadas
+en el servidor, así que cambiar de moneda o de rango es aritmética y no un pedido.
+
+## Stack
+
+- **Next.js con ISR**, en lugar de un export estático. Un catálogo de precios
+  necesita datos frescos sin rebuild manual, y la regeneración incremental es lo
+  que mantiene los datos prerenderizados y al día al mismo tiempo.
+- **Un límite entre módulos que controla el linter.** `domain` es TypeScript puro
+  sin framework adentro, `data` es la única capa con I/O, `ui` recibe props. La
+  dirección la verifica `eslint-plugin-boundaries`, así que una violación rompe el
+  build y no una review.
+- **Zod en el borde del sistema.** Toda respuesta de la API se valida y se mapea a
+  tipos del dominio antes de entrar, así que un campo que cambia de nombre falla
+  en un solo archivo en vez de llegar como `undefined` a un componente.
+
+## Resultado
+
+- **El precio está en el HTML**, verificado en cada commit por un test que lo
+  busca dentro del archivo que escribió el build.
+- **~8.600 bytes** de HTML comprimido en una ficha, dentro de los 10.000 que el
+  build hace cumplir.
+- **Búsqueda, filtros y orden andan con JavaScript apagado**, porque son
+  parámetros en la URL que responde el servidor.
+- **Todo lo interactivo lee datos que la página ya traía.** Los cuatro archivos
+  de cliente suman el gráfico, el convertidor y el cambio de rango sin un solo
+  pedido propio.
+
+## El presupuesto
+
+{/*
+  Una tabla literal, y no una de markdown: remark-gfm no está en el pipeline de
+  MDX, así que la sintaxis con pipes renderizaría un párrafo lleno de pipes y no
+  lo agarraría nada. El HTML literal pasa derecho, igual que las capturas. El
+  color del borde se define una vez en la tabla — preflight le da a las celdas
+  `border-color: inherit`, así que las filas no lo repiten.
+*/}
+
+<table className="border-border mt-5 w-full max-w-prose border-t text-left text-sm">
+  <thead>
+    <tr className="text-muted border-b font-mono text-xs tracking-[0.15em] uppercase">
+      <th className="py-2.5 pr-4 font-normal">Métrica</th>
+      <th className="py-2.5 pr-4 font-normal">Presupuesto</th>
+      <th className="py-2.5 font-normal">Medido</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr className="border-b">
+      <td className="py-2.5 pr-4">HTML de una ficha</td>
+      <td className="py-2.5 pr-4">10.000 comprimido</td>
+      <td className="py-2.5">~8.600</td>
+    </tr>
+    <tr className="border-b">
+      <td className="py-2.5 pr-4">JavaScript de una ficha</td>
+      <td className="py-2.5 pr-4">290.000 comprimido</td>
+      <td className="py-2.5">~281.000</td>
+    </tr>
+  </tbody>
+</table>
+
+Los bytes son deterministas, así que no necesitan navegador y pueden controlar
+cada commit, y este presupuesto está en los tests desde antes que las features.
+Se movió dos veces, y la segunda es la que vale contar: **bajó**. Recortar y
+redondear los rangos de precios en el servidor, en lugar de mandar treinta días
+de puntos horarios crudos para que los acote el navegador, sacó unos 8.000 bytes
+de una ficha — el **47% de su HTML** — y el presupuesto se ajustó atrás. Un
+presupuesto que puede bajar es uno que el proyecto todavía maneja.
+
+## Lo que viene
+
+{/*
+  TODO(pablo): los valores de LCP y CLS. El deploy ya existe, así que lo que falta
+  es una corrida de Lighthouse contra él. Cuando estén esos números van en el
+  segundo párrafo de abajo, y en el párrafo final de STM, que ya linkea acá y
+  todavía debe la comparación lado a lado.
+
+  Acá queda también, fuera de la página y a pedido, para que la sección cuente
+  solo lo logrado: la lista de venues está ordenada por volumen autoinformado,
+  porque el plan gratuito no devuelve el rating que lo corregiría.
+*/}
+
+El trabajo de SEO con el que un catálogo se gana el tráfico — sitemap, JSON-LD,
+Open Graph — es lo próximo que entra, y después un comparador lado a lado para
+leer dos tokens al mismo tiempo.
+
+Después, el resto de las mediciones. Los números de bytes de arriba salen
+directo del build, que es por qué pueden ser ciertos en cada commit; el LCP y el
+CLS reciben el mismo tratamiento apenas haya una corrida de Lighthouse de dónde
+sacarlos, y van a aparecer acá y en la página de STM al mismo tiempo.
