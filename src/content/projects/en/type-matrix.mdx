@@ -1,6 +1,6 @@
 ---
 title: Type Matrix
-summary: A game room built on creature data — a damage calculator, a team builder and three guessing games — where the browser never holds the answer.
+summary: A game room built on creature data — a damage calculator, a team builder, two guessing games and a daily puzzle — where the browser never holds the answer.
 role: Sole developer, end to end
 category: Game Room
 stack:
@@ -17,7 +17,6 @@ skills:
 theme: base
 links:
   demo: https://typematrix.vercel.app
-  repo: https://github.com/pablodalvarezg/type-matrix
 cover:
   src: /case-studies/type-matrix/home.webp
   width: 1280
@@ -27,41 +26,24 @@ featured: false
 draft: false
 ---
 
-## The problem
+## What it is
 
-Guessing games over a public dataset have a trick they rarely admit to: the
-answer is already in the browser. It arrives with the page and is hidden by
-the interface, so anyone who opens the developer tools has finished the game.
-For a daily puzzle with a leaderboard, that is not a curiosity — it is the
-leaderboard being meaningless.
+A game room built on creature data, and not an encyclopedia: nobody comes to
+look up an entry, they come to play or to calculate. Five modes:
 
-Calculators in this space fail in a quieter way. The damage formula is a chain
-of multipliers, and the games round at every step of it, some steps down and
-some half-down. A calculator that rounds once at the end, or uses a plain
-`Math.round`, shows a number that looks complete and is off by a point or two —
-exactly the margin a player is using it to decide.
+- **Battle calculator.** Attacker, defender, move, level, IVs, EVs and nature
+  in; the sixteen-roll damage range and the share of the defender's HP out.
+- **Team builder.** Up to six species, with their shared weaknesses, STAB
+  coverage and the gaps against real dual-type defenders.
+- **Hangman.** A species name, letter by letter, six misses allowed.
+- **Stats & types.** Guess a species from feedback on its types and an arrow
+  per base stat, in eight guesses.
+- **Daily puzzle.** One round of each game a day, the same for everyone, each
+  with its own streak and leaderboard.
 
-## Constraints
-
-- **Free plans, every one of them.** Vercel Hobby for the app and Neon for the
-  database, which means no cron worth the name and a Postgres that sleeps.
-- **A public repository.** Anything that decides tomorrow's puzzle has to be
-  something the code alone cannot reproduce.
-- **No login.** A player should be able to play the moment the page loads, and
-  still keep a streak.
-- **No official art.** No sprites, no logos and no franchise name as the
-  product's brand. It is why there is no silhouette mode: it would need the
-  art. Stats & types replaced it — you guess from the numbers, not the shape.
-
-## The solution
-
-Five modes, and none of them is an encyclopedia: nobody comes to look up an
-entry, they come to play or to calculate. A **battle calculator** returns the
-sixteen-roll damage range for any matchup; a **team builder** takes up to six
-species and shows shared weaknesses, STAB coverage and the gaps against real
-dual-type defenders; **Hangman** and **Stats & types** are the two games; and
-the **daily puzzle** is one round of each, the same for everyone, each with its
-own streak and leaderboard.
+There is no silhouette mode, on purpose: it would need official art, and the
+project uses none. Stats & types took its place — you guess from the numbers,
+not the shape.
 
 <img
   src="/case-studies/type-matrix/stats-and-types.webp"
@@ -71,11 +53,30 @@ own streak and leaderboard.
   alt="A Stats & types game three guesses in: each row shows the guessed species, a tick or a cross per type, and an arrow beside each base stat saying whether the answer's is higher or lower, with five guesses left and the input for the next one."
 />
 
+## Ground rules
+
+- **Free plans, every one of them.** Vercel Hobby for the app and Neon for the
+  database, which means no cron worth the name and a Postgres that sleeps.
+- **A public repository.** Anything that decides tomorrow's puzzle has to be
+  something the code alone cannot reproduce.
+- **No login.** A player should be able to play the moment the page loads, and
+  still keep a streak.
+- **No official art.** No sprites, no logos and no franchise name as the
+  product's brand.
+
+## What it sets out to prove
+
+Two claims. The interface is the vehicle for both.
+
 ### The client never knows the answer
 
-A game is a database row. The browser holds only its id, and every guess is a
-`POST` the server validates and answers with feedback. The answer leaves the
-server once, in the response that ends the game.
+Guessing games over a public dataset usually send the answer to the browser and
+let the interface hide it, so anyone who opens the developer tools has finished
+the game — and a daily leaderboard on top of that measures nothing.
+
+Here a game is a database row. The browser holds only its id, and every guess
+is a `POST` the server validates and answers with feedback. The answer leaves
+the server once, in the response that ends the game.
 
 The trap specific to Next.js is that any prop a Server Component hands a Client
 Component is serialised into the page's payload — so a hidden answer passed as
@@ -99,10 +100,15 @@ cases fail.
   alt="The battle calculator after a calculation: natures and the move picked above, and the result below — Garchomp's Dragon Claw against Dragonite, 228 to 270 of 323 HP, 70.5% to 83.5% of its HP, super effective with STAB, and all sixteen damage rolls listed."
 />
 
-Stats, damage and the type chart follow the games' rounding at each step of the
-modifier chain. The test vectors came from a reference calculator,
-`@smogon/calc`, run outside the repository as an oracle — never a dependency —
-and copied in by hand, so they were not generated by the code they test.
+The damage formula is a chain of multipliers, and the games round at every
+step of it. A calculator that rounds once at the end, or uses a plain
+`Math.round`, shows a number that looks complete and is off by a point or two —
+exactly the margin a player is using it to decide.
+
+Stats, damage and the type chart here follow the games' rounding at each step.
+The test vectors came from a reference calculator, `@smogon/calc`, run outside
+the repository as an oracle — never a dependency — and copied in by hand, so
+they were not generated by the code they test.
 
 The lesson worth keeping: the oracle, not the written spec, settled which step
 uses `floor` and which uses the games' half-down rounding. The bug those
@@ -171,7 +177,7 @@ number that looks complete.
   alt="The team builder with six species entered and analysed: a summary of two shared weaknesses and three dual-type gaps, each member's types, and the table of attacking types with how many members are weak, resist or are immune, Ghost flagged as a shared weakness."
 />
 
-## Result
+## By the numbers
 
 Built in a week, from 2026-10-03 to 2026-10-09, across ten pull requests.
 
@@ -222,11 +228,10 @@ Built in a week, from 2026-10-03 to 2026-10-09, across ten pull requests.
   then no performance figure goes on this page.
 */}
 
-Each thing left out of the calculator — abilities, held items, weather,
-terrain, Terastallization, doubles — is one more modifier in the damage chain,
-and each one slots in where the chain already has a place for it. Before them,
-the short list of moves with rules of their own, which the calculator already
-warns about. Then the measurements: the Lighthouse run against the live deploy.
+Each modifier the calculator leaves out is one more step in the damage chain,
+and the chain already has a place for every one of them. Before those, the
+short list of moves with rules of their own, which the calculator already warns
+about. Then the measurements: a Lighthouse run against the live deploy.
 
 _Unofficial fan project. Not affiliated with Nintendo, Game Freak or The Pokémon
 Company. Species data from PokéAPI. Not monetised._
