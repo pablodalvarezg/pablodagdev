@@ -1,0 +1,248 @@
+---
+title: Type Matrix
+summary: Una sala de juegos sobre datos de criaturas — una calculadora de daño, un armador de equipos, dos juegos de adivinar y un puzzle diario — donde el navegador nunca tiene la respuesta.
+role: Único desarrollador, de punta a punta
+category: Sala de juegos
+stack:
+  - Next.js
+  - React
+  - TypeScript
+  - PostgreSQL
+  - Tailwind
+  - Zod
+  - Vercel
+skills:
+  - fullstack
+  - data
+theme: base
+links:
+  demo: https://typematrix.vercel.app
+cover:
+  src: /case-studies/type-matrix/home.webp
+  width: 1280
+  height: 800
+  alt: 'La portada de Type Matrix con su estética verde oscura y monoespaciada: una tarjeta por modo — calculadora de combate, armador de equipos, Ahorcado, Stats & types y el puzzle diario con la cuenta regresiva al próximo — y debajo el aviso de proyecto de fans.'
+featured: false
+draft: false
+---
+
+## Qué es
+
+Una sala de juegos sobre datos de criaturas, y no una enciclopedia: nadie viene
+a consultar una ficha, viene a jugar o a calcular. Cinco modos:
+
+- **Calculadora de combate.** Entran atacante, defensor, movimiento, nivel, IVs,
+  EVs y naturaleza; sale el rango de daño de dieciséis tiradas y qué parte del HP
+  del defensor se lleva.
+- **Armador de equipos.** Hasta seis especies, con sus debilidades compartidas,
+  la cobertura STAB y los huecos contra defensores reales de doble tipo.
+- **Ahorcado.** El nombre de una especie, letra por letra, con seis errores
+  permitidos.
+- **Stats & types.** Adivinar una especie a partir de pistas sobre sus tipos y
+  una flecha por estadística base, en ocho intentos.
+- **Puzzle diario.** Una ronda de cada juego por día, igual para todos, cada una
+  con su racha y su ranking.
+
+No hay modo silueta, a propósito: necesitaría arte oficial, y el proyecto no usa
+nada. Stats & types ocupó su lugar — se adivina por los números, no por la
+forma.
+
+<img
+  src="/case-studies/type-matrix/stats-and-types.webp"
+  width="1280"
+  height="800"
+  loading="lazy"
+  alt="Una partida de Stats & types con tres intentos: cada fila muestra la especie arriesgada, una tilde o una cruz por tipo y una flecha junto a cada estadística base que dice si la de la respuesta es mayor o menor, con cinco intentos restantes y el campo para el próximo."
+/>
+
+## Reglas del juego
+
+- **Planes gratuitos, todos.** Vercel Hobby para la app y Neon para la base, lo
+  que significa nada de cron que valga la pena y un Postgres que se duerme.
+- **Un repositorio público.** Lo que decide el puzzle de mañana tiene que ser
+  algo que el código solo no pueda reproducir.
+- **Sin login.** Hay que poder jugar apenas carga la página, y aun así conservar
+  la racha.
+- **Sin arte oficial.** Ni sprites, ni logos, ni el nombre de la franquicia como
+  marca del producto.
+
+## Qué busca demostrar
+
+Dos cosas. La interfaz es el vehículo de las dos.
+
+### El cliente nunca conoce la respuesta
+
+Los juegos de adivinar sobre un dataset público suelen mandar la respuesta al
+navegador y dejar que la interfaz la esconda, así que cualquiera que abra las
+herramientas de desarrollo terminó el juego — y un ranking diario encima de eso
+no mide nada.
+
+Acá una partida es una fila en la base. El navegador tiene solo su id, y cada
+intento es un `POST` que el servidor valida y responde con pistas. La respuesta
+sale del servidor una sola vez, en la respuesta que termina la partida.
+
+La trampa propia de Next.js es que toda prop que un Server Component le pasa a
+un Client Component se serializa en el payload de la página — así que una
+respuesta escondida pasada como prop no está escondida en absoluto. Acá la
+respuesta nunca es una prop, y el módulo que carga los datos de especies está
+marcado `server-only`, así que importarlo desde el cliente rompe el build en vez
+de filtrar.
+
+La prueba es un test que juega partidas completas a través de la API, en todos
+los modos, puzzle diario y rendición incluidos, y verifica que ninguna respuesta
+anterior a la última contenga la respuesta — ni su id, ni su nombre, ni su línea
+de estadísticas. Se comprobó contra una filtración a propósito: con la respuesta
+dejada en la vista, sus casos fallan.
+
+### Las fórmulas son exactas
+
+<img
+  src="/case-studies/type-matrix/calculator.webp"
+  width="1280"
+  height="800"
+  loading="lazy"
+  alt="La calculadora de combate después de un cálculo: arriba las naturalezas y el movimiento elegido, y abajo el resultado — Dragon Claw de Garchomp contra Dragonite, de 228 a 270 de 323 HP, entre 70,5% y 83,5% de su HP, súper efectivo y con STAB, y las dieciséis tiradas de daño listadas."
+/>
+
+La fórmula de daño es una cadena de multiplicadores, y los juegos redondean en
+cada paso. Una calculadora que redondea una sola vez al final, o que usa un
+`Math.round` común, muestra un número que parece completo y está corrido por uno
+o dos puntos — justo el margen con el que el jugador está decidiendo.
+
+Acá las estadísticas, el daño y la tabla de tipos siguen el redondeo de los
+juegos en cada paso. Los vectores de prueba salieron de una calculadora de
+referencia, `@smogon/calc`, corrida fuera del repositorio como oráculo — nunca
+como dependencia — y copiados a mano, así que no los generó el código que
+prueban.
+
+La lección que vale guardar: el oráculo, y no la especificación escrita, fue el
+que decidió qué paso usa `floor` y cuál el redondeo a la mitad hacia abajo de
+los juegos. El bug que esos vectores existen para atrapar es un `Math.round`
+común.
+
+Lo que la calculadora no modela — habilidades, objetos equipados, clima,
+terreno, Teracristalización, combates dobles — lo dice arriba del formulario, en
+lugar de mostrar un número que parece completo.
+
+## El puzzle diario
+
+<img
+  src="/case-studies/type-matrix/hangman.webp"
+  width="1280"
+  height="800"
+  loading="lazy"
+  alt="Una partida de Ahorcado en curso: parte de un nombre de dos palabras descubierta, la horca con cabeza y cuerpo dibujados por dos errores, el mensaje de que la N está en el nombre con cuatro errores restantes, y el teclado de letras con las ya jugadas atenuadas."
+/>
+
+- **Determinista, y aun así imposible de adivinar.** La respuesta de cada día es
+  el pool mezclado una sola vez con un HMAC de un secreto del servidor, indexado
+  por el número de puzzle. No hay nada programado ni guardado de antemano: el
+  puzzle se calcula, no se publica. Una semilla tomada solo de la fecha le
+  permitiría a cualquiera con el repo público calcular la respuesta de mañana; el
+  secreto es lo que lo impide. Mezclar una sola vez significa que no hay
+  repeticiones hasta que el pool da la vuelta, y el Ahorcado sale de un orden
+  aparte, así que las dos rondas nunca comparten la especie del día.
+- **Husos horarios sin confiar en el cliente.** El navegador manda su fecha
+  local, y el servidor la acepta solo si esa fecha es "hoy" en algún lugar del
+  planeta, de UTC−12 a UTC+14. Un puzzle se cierra cuando su fecha ya no es hoy
+  en ningún lado, y una partida sin terminar cuenta entonces como perdida — así
+  una respuesta vista en otro lado no puede ganarla tarde.
+- **Las rachas se derivan, nunca se guardan.** Cuentan números de puzzle
+  consecutivos, no días de calendario, y salen de los resultados mismos en vez de
+  un contador que puede desfasarse.
+- **Un ranking que mide la base.** Primero menos intentos o errores, después el
+  tiempo entre la creación de la partida y el intento ganador — los dos con el
+  reloj de la base. Al reloj del cliente no se le pregunta.
+
+## Stack
+
+- **Next.js con servidor**, a diferencia del export estático de este portfolio:
+  cada intento es un request, y la respuesta vive detrás.
+- **SQL plano sobre Neon Postgres, sin ORM.** Dos intentos mandados a la vez no
+  pueden contar los dos, y una rendición no puede caer junto con un intento; lo
+  resuelven chequeos optimistas en las queries, y una clave única hace que la
+  base imponga una partida diaria por jugador y puzzle. No se sumó ninguna
+  librería de estado, HTTP ni acceso a datos.
+- **Identidad sin login.** Una cookie `httpOnly` firmada se emite en el primer
+  guardado, no en la primera visita, así que los bots y quien solo mira no dejan
+  filas. Las rutas que solo aceptan JSON impiden que un formulario de otro sitio
+  cambie la cookie, y las que crean filas tienen un límite por IP y por hora,
+  contado en Postgres: 10 apodos y 60 partidas nuevas.
+- **Un snapshot de datos en el repositorio.** Los datos de especies nunca se
+  piden en runtime. Una ingesta manual desde PokéAPI escribe un archivo JSON que
+  se commitea, así que una reingesta llega como un diff que alguien puede
+  revisar.
+- **Límites que controla el linter — y un test que controla al linter.** Un
+  módulo por dominio, un `index.ts` público por módulo, dependencias en un solo
+  sentido verificadas por `eslint-plugin-boundaries`. Las reglas alguna vez
+  pasaron en verde sin comprobar nada, cuando un script de instalación quedó
+  bloqueado y un import dejó de resolver, así que ahora un test demuestra que
+  atrapan una violación real.
+
+<img
+  src="/case-studies/type-matrix/team.webp"
+  width="1280"
+  height="800"
+  loading="lazy"
+  alt="El armador de equipos con seis especies cargadas y analizadas: un resumen de dos debilidades compartidas y tres huecos de doble tipo, los tipos de cada integrante, y la tabla de tipos atacantes con cuántos integrantes son débiles, resisten o son inmunes, con Ghost marcado como debilidad compartida."
+/>
+
+## En números
+
+Construido en una semana, del 2026-10-03 al 2026-10-09, en diez pull requests.
+
+<table className="border-border mt-5 w-full max-w-prose border-t text-left text-sm">
+  <thead>
+    <tr className="text-muted border-b font-mono text-xs tracking-[0.15em] uppercase">
+      <th className="py-2.5 pr-4 font-normal">Qué</th>
+      <th className="py-2.5 font-normal">Cantidad</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr className="border-b">
+      <td className="py-2.5 pr-4">Especies, formas por defecto</td>
+      <td className="py-2.5">1.025</td>
+    </tr>
+    <tr className="border-b">
+      <td className="py-2.5 pr-4">Tabla de tipos</td>
+      <td className="py-2.5">18 × 18</td>
+    </tr>
+    <tr className="border-b">
+      <td className="py-2.5 pr-4">Tests unitarios</td>
+      <td className="py-2.5">279, en 26 archivos</td>
+    </tr>
+    <tr className="border-b">
+      <td className="py-2.5 pr-4">Smoke tests end-to-end, a 360 px</td>
+      <td className="py-2.5">7</td>
+    </tr>
+    <tr className="border-b">
+      <td className="py-2.5 pr-4">Registros de decisiones de arquitectura</td>
+      <td className="py-2.5">8</td>
+    </tr>
+    <tr className="border-b">
+      <td className="py-2.5 pr-4">Migraciones SQL</td>
+      <td className="py-2.5">9</td>
+    </tr>
+    <tr className="border-b">
+      <td className="py-2.5 pr-4">Librerías sumadas de estado, HTTP u ORM</td>
+      <td className="py-2.5">0</td>
+    </tr>
+  </tbody>
+</table>
+
+## Lo que viene
+
+{/*
+  TODO(pablo): los puntajes de Lighthouse mobile (objetivo ≥ 90), el peso de
+  página y el tamaño del bundle. El deploy ya existe, así que lo que falta es una
+  corrida contra él. Hasta entonces no va ningún número de performance en esta
+  página.
+*/}
+
+Cada modificador que la calculadora deja afuera es un paso más en la cadena de
+daño, y la cadena ya tiene lugar para cada uno. Antes que ellos, la lista corta
+de movimientos con reglas propias, sobre los que la calculadora ya avisa.
+Después, las mediciones: una corrida de Lighthouse contra el deploy en vivo.
+
+_Proyecto de fans no oficial. Sin afiliación con Nintendo, Game Freak ni The
+Pokémon Company. Datos de especies de PokéAPI. Sin fines de lucro._
