@@ -82,9 +82,6 @@ const en = {
   'work.cta': 'Read the case study',
 
   'upcoming.label': 'Coming soon',
-  'upcoming.type-matrix.title': 'Type Matrix',
-  'upcoming.type-matrix.summary':
-    'A game room over creature data: team building, a daily puzzle and a combat calculator, with every answer checked on the server so the client never holds it.',
   'upcoming.bandeja.title': 'Bandeja',
   'upcoming.bandeja.summary':
     'A runner for americano padel tournaments: automatic pairing rotation, results entered from a phone and an ELO-style ranking, with the live scoreboard synced across devices and an offline queue behind it.',
@@ -188,9 +185,6 @@ const es: Record<TranslationKey, string> = {
   'work.cta': 'Leer el case study',
 
   'upcoming.label': 'Próximamente',
-  'upcoming.type-matrix.title': 'Type Matrix',
-  'upcoming.type-matrix.summary':
-    'Una sala de juegos sobre datos de criaturas: armado de equipos, puzzle diario y calculadora de combate, con toda respuesta validada en el servidor para que el cliente nunca la tenga.',
   'upcoming.bandeja.title': 'Bandeja',
   'upcoming.bandeja.summary':
     'Un organizador de torneos americanos de pádel: rotación automática de parejas, resultados cargados desde el celular y ranking tipo ELO, con el marcador en vivo sincronizado entre dispositivos y una cola offline atrás.',
