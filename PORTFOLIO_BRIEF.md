@@ -134,8 +134,9 @@ draft: boolean
 2. **Qué hago** — 5 bloques: Full-Stack (MERN) · Data & SQL · Low/No-Code & Automatización · ERP (Odoo) · IA aplicada y SEO técnico.
 3. **Experiencia** — línea de tiempo con la tabla de la sección 1.
 4. **Trabajo** — una sola grilla. Arriba lo que ya existe y tiene case study, empezando por STM; después los mundos de la sección 5, cada uno en "Próximamente" hasta que el proyecto exista.
-5. **Sobre mí** — breve, con intereses personales.
-6. **Contacto** — email, LinkedIn y GitHub. **Sin CV descargable:** el portfolio cumple esa función, y un PDF aparte es una copia más que se desactualiza.
+5. **Actividad** — el gráfico de contribuciones de GitHub de `pablodalvarezg`, leído en el build y refrescado por un rebuild diario.
+6. **Sobre mí** — breve, con intereses personales.
+7. **Contacto** — email, LinkedIn y GitHub. **Sin CV descargable:** el portfolio cumple esa función, y un PDF aparte es una copia más que se desactualiza.
 
 No hay dos grillas separadas: un case study es el artículo sobre un proyecto, no una categoría aparte.
 
@@ -202,7 +203,9 @@ Esta sección es solo de side projects. El trabajo profesional no tiene backlog:
 > 3. **Variedad entre vecinos.** Dos proyectos consecutivos no pueden parecerse: perf/datos → juego → lógica de negocio → relacional/low-code → ops → tiempo real → IA.
 > 4. **Las dependencias reales mandan.** Game Night Agent sugiere juegos desde Meeple Log y llama a las APIs de los otros, así que va último por obligación, no por gusto.
 >
-> Los dos cambios grandes contra el orden anterior: **Vigil bajó de primero a quinto** —es el que más infra pide y el que menos tiene para mostrar al principio, porque un monitor con tres días de datos se ve vacío; en el puesto 5 ya tiene el portfolio y cuatro proyectos para vigilar— y **Atlas subió a primero**, porque STM ya resolvió ese problema y arranca con ventaja.
+> **Orden revisado (2026-10-13).** Pablo sumó Bank Extract Tool en el tercer puesto, seguido de Umbral, Meeple Log y Bandeja. Vigil baja del quinto al séptimo; Game Night Agent sigue último por la dependencia con Meeple Log. La numeración de abajo ya refleja este orden.
+>
+> Los dos cambios grandes del orden del 2026-09-26: **Vigil bajó de primero a quinto** —es el que más infra pide y el que menos tiene para mostrar al principio, porque un monitor con tres días de datos se ve vacío; en el puesto 5 ya tiene el portfolio y cuatro proyectos para vigilar— y **Atlas subió a primero**, porque STM ya resolvió ese problema y arranca con ventaja.
 
 ### 1. 🧭 Atlas — catálogo de tokens enfocado en performance
 
@@ -222,7 +225,18 @@ Esta sección es solo de side projects. El trabajo profesional no tiene backlog:
 - **Restricción, a resolver a propósito:** el modo de silueta necesita arte oficial, que el brief prohíbe. Tres salidas, de menos a más riesgo: siluetas generadas con formas propias; adivinar por **estadísticas y tipos** en vez de por imagen, que además es más difícil e interesante; o asumir fan project con aviso visible de no oficial y sin monetizar. `TODO(pablo):` elegir una antes de empezar.
 - **Estética:** handheld retro reinterpretada, sobria; grilla de píxeles sutil; paleta de 4 tonos; tipografía mono.
 
-### 3. 💰 Umbral — gastos, límites y pronóstico
+### 3. 🧾 Bank Extract Tool — del resumen bancario al asiento contable
+
+> Nombre provisorio. Entró el 2026-10-13, a pedido de Pablo, directo al tercer puesto.
+
+- Toma un resumen bancario y lo convierte en un asiento contable: cada movimiento asignado a una cuenta del plan de cuentas, con debe y haber que cierran.
+- **Stack:** `TODO(pablo):`
+- **Lo difícil** (propuesta, sin confirmar): normalizar resúmenes de bancos distintos —CSV, XLSX o PDF, cada uno con su formato— a un modelo común; **reglas movimiento → cuenta** explicables, y si entra IA, que sugiera y una persona confirme; el invariante **debe = haber** con decimales exactos, testeado; **importación idempotente**: subir el mismo resumen dos veces no duplica asientos; exportar en un formato que Odoo pueda importar.
+- **Por qué pesa:** recupera con trabajo propio la parte "ERP (Odoo)" de *Qué hago*, que quedó sin respaldo al sacar el módulo de Odoo para clubes.
+- **Vecino a vigilar:** Umbral también ingiere movimientos bancarios y los categoriza. Si van uno detrás del otro, el parser de resúmenes de este puede ser la entrada de aquel en vez de escribirse dos veces.
+- **Estética:** `TODO(pablo):`
+
+### 4. 💰 Umbral — gastos, límites y pronóstico
 
 - Carga de gastos con categoría y porcentajes sobre el total; **límites por categoría en monto fijo o en porcentaje del ingreso**; aviso al cargar, antes de guardar, cuando el gasto excede el límite; pronóstico de ingresos y ahorro por prorrateo de los últimos seis meses; detección automática de gastos recurrentes; comparación mes contra mes.
 - **Stack:** TypeScript, PostgreSQL, decimales de precisión arbitraria.
@@ -230,7 +244,7 @@ Esta sección es solo de side projects. El trabajo profesional no tiene backlog:
 - **Detalle local:** en Argentina un presupuesto en monto fijo queda viejo en dos meses. Los límites porcentuales no son una feature más: son la única forma de que sobreviva a la inflación.
 - **Estética:** sobria y numérica, cercana a Atlas pero con su propia paleta.
 
-### 4. 🎲 Meeple Log — ludoteca y análisis de partidas
+### 5. 🎲 Meeple Log — ludoteca y análisis de partidas
 
 - Importación de la colección desde BoardGameGeek, registro de partidas, estadísticas por jugador/juego/cantidad de jugadores, recomendador "qué jugamos hoy".
 - **Stack:** PostgreSQL con modelado relacional y consultas analíticas, API XML de BoardGameGeek.
@@ -238,13 +252,6 @@ Esta sección es solo de side projects. El trabajo profesional no tiene backlog:
 - **Wow:** "Wrapped" anual de partidas.
 - **Capítulo low-code:** acá vive la comparación contra una versión del mismo producto armada en Retool —tiempo de desarrollo, costos y límites—. Sin el módulo de Odoo, es lo único que respalda con trabajo propio la parte low-code de *Qué hago*, así que no es un extra opcional.
 - **Estética:** cálida y táctil; tonos cartón/crema; iconografía propia.
-
-### 5. 🛰️ Vigil — monitor de uptime y SEO técnico
-
-- Sondas HTTP con timeout, reintentos y percentiles de latencia (p50, p95, p99); Core Web Vitals por URL; estado de indexación desde Search Console; diff de `robots.txt` y meta robots entre corridas; alertas con silenciamiento y escalamiento; página de estado pública.
-- **Stack:** Node o Python, jobs programados, series temporales con rollups, APIs de Google.
-- **Lo difícil:** un scheduler que no derive con el tiempo; **deduplicación de alertas** (un sitio caído treinta minutos manda una alerta, no seis); retención por resolución; concurrencia con backpressure.
-- **Estética:** oscuro sobrio, mono para los números, color semántico —verde, ámbar, rojo— reservado al estado. **Sin glitch ni efectos:** un monitor que parece un videojuego no lo mira nadie en serio.
 
 ### 6. 🎾 Bandeja — americanos y rankings de pádel
 
@@ -255,7 +262,14 @@ Esta sección es solo de side projects. El trabajo profesional no tiene backlog:
 - **Wow:** marcador en vivo sincronizado entre dispositivos.
 - **Estética:** deportiva y limpia; verde cancha; tipografía condensada; números grandes estilo marcador.
 
-### 7. 🤖 Game Night Agent — asistente con IA
+### 7. 🛰️ Vigil — monitor de uptime y SEO técnico
+
+- Sondas HTTP con timeout, reintentos y percentiles de latencia (p50, p95, p99); Core Web Vitals por URL; estado de indexación desde Search Console; diff de `robots.txt` y meta robots entre corridas; alertas con silenciamiento y escalamiento; página de estado pública.
+- **Stack:** Node o Python, jobs programados, series temporales con rollups, APIs de Google.
+- **Lo difícil:** un scheduler que no derive con el tiempo; **deduplicación de alertas** (un sitio caído treinta minutos manda una alerta, no seis); retención por resolución; concurrencia con backpressure.
+- **Estética:** oscuro sobrio, mono para los números, color semántico —verde, ámbar, rojo— reservado al estado. **Sin glitch ni efectos:** un monitor que parece un videojuego no lo mira nadie en serio.
+
+### 8. 🤖 Game Night Agent — asistente con IA
 
 - Bot de Telegram que organiza una noche de juegos: consulta disponibilidad del grupo, propone fecha por mayor solapamiento, sugiere juego desde Meeple Log y crea el evento.
 - **Stack:** LLM con function calling, webhooks, integración con las APIs de los otros proyectos.
@@ -275,11 +289,12 @@ Esta sección es solo de side projects. El trabajo profesional no tiene backlog:
 |---|:-:|:-:|:-:|:-:|:-:|
 | 1. Atlas | ●● | ●●● | | ●●● | ●● |
 | 2. Type Matrix | ●●● | ●● | | ● | ●● |
-| 3. Umbral | ●●● | ●●● | | ● | ●● |
-| 4. Meeple Log | ●● | ●●● | ●● | ● | ●● |
-| 5. Vigil | ●● | ●●● | | ●●● | ●● |
+| 3. Bank Extract Tool | ●● | ●●● | ●● | | ● |
+| 4. Umbral | ●●● | ●●● | | ● | ●● |
+| 5. Meeple Log | ●● | ●●● | ●● | ● | ●● |
 | 6. Bandeja | ●●● | ●● | | ● | ●● |
-| 7. Game Night Agent | ●● | ● | ●●● | | ●● |
+| 7. Vigil | ●● | ●●● | | ●●● | ●● |
+| 8. Game Night Agent | ●● | ● | ●●● | | ●● |
 
 ## 6. Roadmap
 
@@ -288,11 +303,12 @@ Esta sección es solo de side projects. El trabajo profesional no tiene backlog:
 | 1 | 1–2 | Hub completo + el case study de STM publicado |
 | 2 | 3–5 | Atlas |
 | 3 | 6–8 | Type Matrix |
-| 4 | 9–11 | Umbral |
-| 5 | 12–15 | Meeple Log + el capítulo low-code en Retool |
-| 6 | 16–19 | Vigil |
-| 7 | 20–23 | Bandeja |
-| 8 | 24–25 | Game Night Agent |
+| 4 | 9–11 | Bank Extract Tool |
+| 5 | 12–14 | Umbral |
+| 6 | 15–18 | Meeple Log + el capítulo low-code en Retool |
+| 7 | 19–22 | Bandeja |
+| 8 | 23–26 | Vigil |
+| 9 | 27–28 | Game Night Agent |
 
 Las semanas son estimaciones y el orden es lo que importa: si una fase se estira, la siguiente se corre, pero no se adelanta.
 

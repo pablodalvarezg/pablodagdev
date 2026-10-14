@@ -81,7 +81,23 @@ const en = {
   'work.title': 'What I have shipped',
   'work.cta': 'Read the case study',
 
+  'activity.eyebrow': 'Activity',
+  'activity.title': 'The last month on GitHub',
+  'activity.total.one': 'contribution in the last 30 days',
+  'activity.total.other': 'contributions in the last 30 days',
+  'activity.contribution.one': 'contribution',
+  'activity.contribution.other': 'contributions',
+  'activity.legend': 'Contributions per day',
+  'activity.graph': 'Contributions per day over the last 30 days',
+  'activity.profile': 'See the profile on GitHub',
+
   'upcoming.label': 'Coming soon',
+  'upcoming.bank-extract-tool.title': 'Bank Extract Tool',
+  'upcoming.bank-extract-tool.summary':
+    'Turns a bank statement into an accounting entry that balances: every transaction on the statement mapped to an account, ready to load into the books.',
+  'upcoming.umbral.title': 'Umbral',
+  'upcoming.umbral.summary':
+    'An expense tracker with limits per category, set as a fixed amount or as a share of income, a warning before an expense that breaks one is saved, and a savings forecast built from the last six months.',
   'upcoming.bandeja.title': 'Bandeja',
   'upcoming.bandeja.summary':
     'A runner for americano padel tournaments: automatic pairing rotation, results entered from a phone and an ELO-style ranking, with the live scoreboard synced across devices and an offline queue behind it.',
@@ -184,7 +200,23 @@ const es: Record<TranslationKey, string> = {
   'work.title': 'Lo que llevo construido',
   'work.cta': 'Leer el case study',
 
+  'activity.eyebrow': 'Actividad',
+  'activity.title': 'El último mes en GitHub',
+  'activity.total.one': 'contribución en los últimos 30 días',
+  'activity.total.other': 'contribuciones en los últimos 30 días',
+  'activity.contribution.one': 'contribución',
+  'activity.contribution.other': 'contribuciones',
+  'activity.legend': 'Contribuciones por día',
+  'activity.graph': 'Contribuciones por día en los últimos 30 días',
+  'activity.profile': 'Ver el perfil en GitHub',
+
   'upcoming.label': 'Próximamente',
+  'upcoming.bank-extract-tool.title': 'Bank Extract Tool',
+  'upcoming.bank-extract-tool.summary':
+    'Convierte un resumen bancario en un asiento contable que cuadra: cada movimiento del resumen asignado a una cuenta, listo para cargar en la contabilidad.',
+  'upcoming.umbral.title': 'Umbral',
+  'upcoming.umbral.summary':
+    'Un registro de gastos con límites por categoría, en monto fijo o en porcentaje del ingreso, un aviso antes de guardar el gasto que rompe uno, y un pronóstico de ahorro armado con los últimos seis meses.',
   'upcoming.bandeja.title': 'Bandeja',
   'upcoming.bandeja.summary':
     'Un organizador de torneos americanos de pádel: rotación automática de parejas, resultados cargados desde el celular y ranking tipo ELO, con el marcador en vivo sincronizado entre dispositivos y una cola offline atrás.',

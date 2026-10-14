@@ -1,3 +1,4 @@
+import { ContributionGraph, getContributions } from '@modules/activity';
 import { currentMonth, getRoles, Timeline } from '@modules/experience';
 import { About, Contact, Hero, SiteHeader, TechMarquee, WhatIDo } from '@modules/hub';
 import { assertLocale, getTranslations, localeUrl } from '@modules/i18n';
@@ -26,7 +27,7 @@ export default async function HubPage({ params }: PageProps<'/[lang]'>) {
   const locale = assertLocale((await params).lang);
   const t = getTranslations(locale);
 
-  const projects = await getProjects(locale);
+  const [projects, contributions] = await Promise.all([getProjects(locale), getContributions()]);
   const roles = getRoles();
   const today = currentMonth();
   const summaries = Object.fromEntries(
@@ -97,6 +98,12 @@ export default async function HubPage({ params }: PageProps<'/[lang]'>) {
             ))}
           </ul>
         </Section>
+
+        {contributions ? (
+          <Section id="activity" eyebrow={t('activity.eyebrow')} title={t('activity.title')}>
+            <ContributionGraph days={contributions} locale={locale} />
+          </Section>
+        ) : null}
 
         <About locale={locale} />
         <Contact locale={locale} />

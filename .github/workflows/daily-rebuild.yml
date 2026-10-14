@@ -1,0 +1,21 @@
+# The site is a static export, so the contribution graph is as old as the last
+# deploy. This redeploys once a day through a Vercel deploy hook; Vercel's own
+# cron cannot, because it calls functions rather than starting builds.
+#
+# Late evening in Buenos Aires, so the day the graph ends on is nearly over:
+# a run at night would end it on a day only a few hours old, near-empty for the
+# next 24 hours. An hour of slack before midnight absorbs GitHub's cron delays.
+name: Daily rebuild
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # 23:00 in Buenos Aires
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl --fail --silent --show-error -X POST "$DEPLOY_HOOK"
+        env:
+          DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
